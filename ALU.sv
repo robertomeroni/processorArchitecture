@@ -1,3 +1,5 @@
+`include "constants.v"
+
 typedef enum logic [2:0] {
       Add = 3'b000,
       Sub = 3'b001,
@@ -7,10 +9,10 @@ typedef enum logic [2:0] {
       } e_ALUControl;
 
 module ALU (
-	    input [31:0] srcAE,
-	    input [31:0] srcBE,
+	    input [WORD_SIZE-1:0] srcAE,
+	    input [WORD_SIZE-1:0] srcBE,
 	    input [2:0] ALUControlE,
-	    output reg [31:0] out
+	    output reg [WORD_SIZE-1:0] out
 	    );
 
 
@@ -28,11 +30,11 @@ endmodule
 
 module tb;
 
-   reg [31:0] A;
-   reg [31:0] B;
+   reg [WORD_SIZE-1:0] A;
+   reg [WORD_SIZE-1:0] B;
    e_ALUControl ALUControl;
 
-   wire [31:0] out;
+   wire [WORD_SIZE-1:0] out;
 
    ALU alu ( .srcAE (A),
 	     .srcBE (B),
