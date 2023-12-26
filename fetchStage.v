@@ -4,15 +4,15 @@
 `include "instructionMemory.v"
 `include "PCAdder.v"
 
-module fetchStage(clk, rst, InstrD, PCD, PCPlus4D, PCTargetE, PCSrcE);
-
-    // Input and output ports.
-    input clk, rst;
-    input [WORD_SIZE-1:0] InstrD;
-    input [WORD_SIZE-1:0] PCD;
-    input [WORD_SIZE-1:0] PCPlus4D;
-    output [WORD_SIZE-1:0] PCTargetE;
-    output PCSrcE;
+module fetchStage(
+    input clk,
+    input rst,
+    input PCSrcE,
+    input [WORD_SIZE-1:0] PCTargetE,
+    output [WORD_SIZE-1:0] InstrD,
+    output [WORD_SIZE-1:0] PCD,
+    output [WORD_SIZE-1:0] PCPlus4D
+    );
 
     // Internal signals.
     wire [WORD_SIZE-1:0] PCNext, PCF, PCPlus4F;
