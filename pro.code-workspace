@@ -2,9 +2,6 @@
     "folders": [
         {
             "path": "."
-        },
-        {
-            "path": "../steal/RISCV_Pipeline_Core/src"
         }
     ]
 }
