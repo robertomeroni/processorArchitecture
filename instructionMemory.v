@@ -1,10 +1,10 @@
 `include "constants.v"
 
-module instructionMemory(rst, PC, Instr);
-
-    input rst;
-    input [`WORD_SIZE-1:0] PC;
-    output [`WORD_SIZE-1:0] Instr;
+module instructionMemory(
+    input rst,
+    input [`WORD_SIZE-1:0] PC,
+    output [`WORD_SIZE-1:0] Instr
+    );
 
     reg [`WORD_SIZE-1:0] memory_reg [`INSTR_MEM_SIZE-1:0];
 

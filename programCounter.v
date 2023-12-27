@@ -1,10 +1,11 @@
 `include "constants.v"
 
-module programCounter(clk, rst, PCNext, PC)
-
-    input clk, rst;
-    input [`WORD_SIZE-1:0] PCNext;
-    output [`WORD_SIZE-1:0] PC;
+module programCounter(
+    input clk,
+    input rst,
+    input [`WORD_SIZE-1:0] PCNext,
+    output [`WORD_SIZE-1:0] PC
+    );
 
     reg [`WORD_SIZE-1:0] PC_reg;
 

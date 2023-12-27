@@ -55,11 +55,12 @@ module fetchStage(
         assign PCF <= `PC_INITIAL;
     end
 
-
     // Behavior.
     always @(posedge clk or negedge rst) begin
         if(rst) begin
-            assign PCF <= `PC_INITIAL;
+            PCF_reg <= 0;
+            PCPlus4F_reg <= 0
+            InstrF_reg <= 0;
         end else begin
             InstrF_reg <= InstrF;
             PCF_reg <= PCF;
@@ -68,10 +69,9 @@ module fetchStage(
     end
 
     // Trasmitting the values to the output ports.
-    assign InstrD = (rst) ? 0 : InstrF_reg;
-    assign PCD = (rst) ? 0 : PCF_reg;
-    assign PCPlus4D = (rst) ? 0 : PCPlus4F_reg;
-
+    assign InstrD = InstrF_reg;
+    assign PCD = PCF_reg;
+    assign PCPlus4D = PCPlus4F_reg;
 endmodule
 
 

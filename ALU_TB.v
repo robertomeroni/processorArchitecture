@@ -1,34 +1,6 @@
 `include "constants.v"
 
-typedef enum logic [2:0] {
-      Add = 3'b000,
-      Sub = 3'b001,
-      And = 3'b010,
-      Or = 3'b011,
-      Mul  = 3'b100
-      } e_ALUControl;
-
-module ALU (
-	    input [WORD_SIZE-1:0] srcAE,
-	    input [WORD_SIZE-1:0] srcBE,
-	    input [2:0] ALUControlE,
-	    output reg [WORD_SIZE-1:0] out
-	    );
-
-
-   always_comb begin
-      case (ALUControlE)
-	Add:             out = srcAE + srcBE;
-	Sub:             out = srcAE - srcBE;
-	Mul:             out = srcAE * srcBE;
-	And:             out = srcAE & srcBE;
-	Or:              out = srcAE | srcBE;
-	default:         out = '0;
-      endcase
-   end
-endmodule
-
-module tb;
+module ALU_TB;
 
    reg [WORD_SIZE-1:0] A;
    reg [WORD_SIZE-1:0] B;
@@ -46,7 +18,7 @@ module tb;
       begin
 	 A <= 32'b00000000000000000000000000000001;
 	 B <= 32'b00000000000000000000000000000001;
-	 ALUControl <= Add;
+	 ALUControl <= ADD_OP;
       end
    endtask // test_1
 
@@ -54,7 +26,7 @@ module tb;
       begin
 	 A <= 32'b00000000000000000000000000000001;
 	 B <= 32'b00000000000000000000000000000001;
-	 ALUControl <= Mul;
+	 ALUControl <= MUL_OP;
       end
    endtask // test_1
 
@@ -62,7 +34,7 @@ module tb;
       begin
 	 A <= 32'b01000000000000000000000000000001;
 	 B <= 32'b00000000000000000000000000000001;
-	 ALUControl <= Mul;
+	 ALUControl <= MUL_OP;
       end
    endtask // test_1
 
