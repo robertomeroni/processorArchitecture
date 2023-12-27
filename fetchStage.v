@@ -2,7 +2,7 @@
 `include "mux.v"
 `include "programCounter.v"
 `include "instructionMemory.v"
-`include "PCAdder.v"
+`include "adder.v"
 
 module fetchStage(
     input clk,
@@ -22,6 +22,7 @@ module fetchStage(
     reg [`WORD_SIZE-1:0] InstrF_reg;
     reg [`WORD_SIZE-1:0] PCF_reg, PCPlus4F_reg;
 
+    // Modules.
     // PC multiplexer.
     mux_2to1 PC_mux (.a(PCPlus4F),
                     .b(PCTargetE),
@@ -45,20 +46,21 @@ module fetchStage(
                     );
 
     // Go to next instruction.
-    PCAdder PC_Adder (
+    adder PC_Adder (
                     .a(PCF),
                     .b(32'h00000004),
                     .out(PCPlus4F)
                     );
 
+    // Assiing 
     initial begin
-        assign PCF <= `PC_INITIAL;
+        assign PCF_reg <= `PC_INITIAL;
     end
 
     // Behavior.
     always @(posedge clk or negedge rst) begin
         if(rst) begin
-            PCF_reg <= 0;
+            PCF_reg <= `PC_INITIAL;
             PCPlus4F_reg <= 0
             InstrF_reg <= 0;
         end else begin

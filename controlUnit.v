@@ -4,15 +4,10 @@ module controlUnit (
     input [6:0] Op,
     input [2:0] funct3,
     input funct7,
-    output RegWrite,
-    output [1:0] ResultSrc,
-    output MemWrite,
-    output Jump,
-    output Branch,
-    output [2:0] ALUControl,
-    output ALUSrc,
-    output [1:0] ImmSrc,
-    );
+    output RegWrite, MemWrite, Jump, Branch, ALUSrc,
+    output [1:0] ResultSrc, ImmSrc,
+    output [2:0] ALUControl
+);
 
 // TODO: Complete this module.
     

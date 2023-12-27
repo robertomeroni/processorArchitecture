@@ -5,6 +5,7 @@
 `define WORD_SIZE 32
 `define INSTR_MEM_SIZE 64
 `define REGISTER_FILE_SIZE 32
+`define DATA_MEM_SIZE 512
 
 // Initial values.
 `define PC_INITIAL   32'h00001000

@@ -1,6 +1,6 @@
 `include "constants.v"
 
-module extend(
+module extender(
     input [1:0] ImmSrc,
     input [24:0] inp,
     output [31:0] out,

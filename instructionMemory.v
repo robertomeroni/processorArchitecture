@@ -13,8 +13,7 @@ module instructionMemory(
     $readmemh("instructions.txt", memory_reg);
     end
 
-    assign Instr = memory_reg[PC];
-
+    assign Instr = (rst) ? 0 : memory_reg[PC];
 endmodule
 
      

@@ -1,42 +1,23 @@
 module decodeStage (
-    input clk,
-    input rst,
-    input [WORD_SIZE-1:0] InstrD,
-    input [WORD_SIZE-1:0] PCD,
-    input [WORD_SIZE-1:0] PCPlus4D,
-    input [WORD_SIZE-1:0] ResultW,
+    input clk, rst,
+    input [WORD_SIZE-1:0] InstrD, PCD, PCPlus4D, ResultW,
     input RegWriteW,
     input [4:0] RdW,
 
-    output [WORD_SIZE-1:0] RD1E,
-    output [WORD_SIZE-1:0] RD2E,
-    output [WORD_SIZE-1:0] PCE,
-    output [4:0] Rs1_E,
-    output [4:0] Rs2_E,
-    output [4:0] RdE,
-    output [WORD_SIZE-1:0] ImmExtE,
-    output [WORD_SIZE-1:0] PCPlus4E,
+    output [WORD_SIZE-1:0] RD1E, RD2E, PCE,
+    output [4:0] Rs1E, Rs2E, RdE,
+    output [WORD_SIZE-1:0] ImmExtE, PCPlus4E,
 
     // Control Unit ports.
-    output RegWriteE,
+    output RegWriteE, MemWriteE, JumpE, BranchE, ALUSrcE,
     output [1:0] ResultSrcE,
-    output MemWriteE,
-    output JumpE,
-    output BranchE,
-    output [2:0] ALUControlE,
-    output ALUSrcE,
+    output [2:0] ALUControlE
+    );
 
-    // // Hazard Unit signals.
-    // input // TODO: add hazard unit signals
-    // output stallD,
-    // output flushD
-    // );
-
-    // Internal signals.
+    // Internal wires and registers.
     wire [WORD_SIZE-1:0] RD1, RD2;
     wire [WORD_SIZE-1:0] ImmExtD;
 
-     // Registers.
     reg [WORD_SIZE-1:0] RD1D_reg, RD2D_reg;
     reg [WORD_SIZE-1:0] PCD_reg, PCPlus4D_reg;
     reg [4:0] Rs1D_reg, Rs2D_reg, RdD_reg;
@@ -63,11 +44,11 @@ module decodeStage (
         .RD1(RD1),
         .RD2(RD2),
         .WE3(RegWriteW),
-        .WD3(ResultW),
+        .WD3(ResultW)
     );
 
     // Sign Extension.
-    extend Extend(
+    extender Extender(
         .inp(InstrD[31:7]),
         .out(ImmExtD),
         .ImmSrc(ImmSrcD)
@@ -129,8 +110,8 @@ module decodeStage (
     assign RD2E = RD2D_reg;
     assign PCE = PCD_reg;
     assign PCPlus4E = PCPlus4D_reg;
-    assign Rs1_E = Rs1D_reg;
-    assign Rs2_E = Rs2D_reg;
+    assign Rs1E = Rs1D_reg;
+    assign Rs2E = Rs2D_reg;
     assign RdE = RdD_reg;
     assign ImmExtE = ImmExtD_reg;
     assign RegWriteE = RegWriteD_reg;

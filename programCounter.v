@@ -9,7 +9,7 @@ module programCounter(
 
     reg [`WORD_SIZE-1:0] PC_reg;
 
-    always @(posedge clk)
+    always @(posedge clk or negedge rst)
     begin
         if (rst)
             PC_reg <= 0;
@@ -17,6 +17,5 @@ module programCounter(
             PC_reg <= PCNext;
     end
 
-    assign PC = PC_reg;
-    
+    assign PC = PC_reg;   
 endmodule
