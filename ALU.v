@@ -1,13 +1,6 @@
 `include "constants.v"
 `include "flipFlop.v"
     
-RisingEdge_DFlipFlop f1;
-    RisingEdge_DFlipFlop f2;
-    RisingEdge_DFlipFlop f3;
-    
-      // TODO: add Zero flag
->>>>>>> 6ee281a (work on alu)
-
 module ALU (
    input clk,
    input rst,
@@ -25,6 +18,10 @@ module ALU (
 			     .clk(clk),
 			     .Q()
 			     );
+
+    RisingEdge_DFlipFlop f1;
+    RisingEdge_DFlipFlop f2;
+    RisingEdge_DFlipFlop f3;
 
    always @(posedge clk or negedge rst) begin
       case (ALUControlE)
