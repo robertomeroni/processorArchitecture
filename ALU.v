@@ -1,20 +1,20 @@
+module ALU (clk, rst, srcAE, srcBE, ALUControlE, out);
 `include "constants.v"
+   input clk;
+   input  rst;
+   input  [WORD_SIZE-1:0]      srcAE;
+   input  [WORD_SIZE-1:0]      srcBE;
+   input [2:0] 		      ALUControlE;
+   output reg [WORD_SIZE-1:0] out;
+      // TODO: add Zero flag
 
-module ALU (
-    input [WORD_SIZE-1:0] a,
-    input [WORD_SIZE-1:0] b,
-    input [2:0] control,
-    output reg [WORD_SIZE-1:0] out
-);
-// TODO: add Zero flag
-
-   always_comb begin
-      case (control)
-        `ADD_OP: out = a + b;
-        `SUB_OP: out = a - b;
-        `MUL_OP: out = a * b;
-        `AND_OP: out = a & b;
-        `OR_OP:  out = a | b;
+    always @(posedge clk or negedge rst)begin
+      case (ALUControlE)
+	ADD_FUNCT3: out <= srcAE + srcBE;
+        SUB_FUNCT3: out <= srcAE - srcBE;
+        MUL_FUNCT3: out <= srcAE * srcBE;
+        AND_FUNCT3: out <= srcAE & srcBE;
+        OR_FUNCT3:  out <= srcAE | srcBE;
         default: out = '0;
       endcase
    end
