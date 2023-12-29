@@ -22,30 +22,30 @@ module processor (
     // Connect pipeline stages.
     // Fetch inputs.
     wire PCSrcE;
-    wire [WORD_SIZE-1:0] PCTargetE;
+    wire [`WORD_SIZE-1:0] PCTargetE;
 
     // Decode inputs.
-    wire [WORD_SIZE-1:0] InstrD, PCPlus4D, PCD;
+    wire [`WORD_SIZE-1:0] InstrD, PCPlus4D, PCD;
     wire [4:0] RdW;
     wire RegWriteW;
-    wire [WORD_SIZE-1:0] ResultW;
+    wire [`WORD_SIZE-1:0] ResultW;
 
     // Execute inputs.
-    wire [WORD_SIZE-1:0] RD1E, RD2E, PCE;
+    wire [`WORD_SIZE-1:0] RD1E, RD2E, PCE;
     wire [4:0] Rs1E, Rs2E, RDE;
-    wire [WORD_SIZE-1:0] ImmExtE, PCPlus4E;
+    wire [`WORD_SIZE-1:0] ImmExtE, PCPlus4E;
     wire RegWriteE, ALUSrcE, MemWriteE, JumpE, BranchE, AluSrcE;
     wire [1:0] ResultSrcE;
     wire [2:0] ALUControlE;
 
     // Memory inputs.
-    wire [WORD_SIZE-1:0] ALUResultM, WriteDataM, PCPlus4M;
+    wire [`WORD_SIZE-1:0] ALUResultM, WriteDataM, PCPlus4M;
     wire [4:0] RdM;
     wire RegWriteM, MemWriteM;
     wire [1:0] ResultSrcM;
 
     // Writeback inputs.
-    wire [WORD_SIZE-1:0] ALUResultW, ReadDataW, PCPlus4W;
+    wire [`WORD_SIZE-1:0] ALUResultW, ReadDataW, PCPlus4W;
     wire [1:0] ResultSrcW;
 
 
@@ -79,7 +79,7 @@ module processor (
         .RD2E(RD2E),
         .PCE(PCE),
         .RS1E(Rs1E),
-        .RS2E(Rs2E)
+        .RS2E(Rs2E),
         .RDE(RDE),
         .ImmExtE(ImmExtE),
         .PCPlus4E(PCPlus4E),
@@ -91,7 +91,7 @@ module processor (
         .BranchE(BranchE),
         .ALUSrcE(ALUSrcE),
         .ResultSrcE(ResultSrcE),
-        .ALUControlE(ALUControlE),
+        .ALUControlE(ALUControlE)
     );
 
     // Execute Stage.
