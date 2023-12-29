@@ -19,8 +19,8 @@ module registerFile(
 
     // Assigning the initial value 0 to the 0th register.
     initial begin
-        r[0] = 0;
-        rm[0] = `PC_EXCEPTION;
+        r[0] <= 0;
+        rm[0] <= `PC_EXCEPTION;
     end
 
     // Register Logic.
@@ -35,6 +35,5 @@ module registerFile(
 
 
     // TODO: implementation of special registers 
-
-end module
+endmodule
 

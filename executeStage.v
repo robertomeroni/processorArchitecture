@@ -2,11 +2,11 @@
 
 module executeStage (
     input clk, rst,
-    input [WORD_SIZE-1:0] RD1E, RD2E, PCE,
+    input [`WORD_SIZE-1:0] RD1E, RD2E, PCE,
     input [4:0] Rs1E, Rs2E, RDE,
-    input [WORD_SIZE-1:0] ImmExtE, PCPlus4E,
-    input [WORD_SIZE-1:0] ResultW,
-    output [WORD_SIZE-1:0] ALUResultM, WriteDataM, PCPlus4M, PCTargetE,
+    input [`WORD_SIZE-1:0] ImmExtE, PCPlus4E,
+    input [`WORD_SIZE-1:0] ResultW,
+    output [`WORD_SIZE-1:0] ALUResultM, WriteDataM, PCPlus4M, PCTargetE,
     output [4:0] RdM,
 
     // Control ports.
@@ -19,9 +19,9 @@ module executeStage (
     );
 
     // Internal wires and registers.
-    wire [WORD_SIZE-1:0] SrcAE, SrcBE, SrcBE_mux, ALUResultE;
+    wire [`WORD_SIZE-1:0] SrcAE, SrcBE, WriteDataE, ALUResultE;
 
-    reg [WORD_SIZE-1:0] ALUResultE_reg, WriteDataE_reg, PCPlus4E_reg;
+    reg [`WORD_SIZE-1:0] ALUResultE_reg, WriteDataE_reg, PCPlus4E_reg;
     reg [4:0] RdE_reg;
 
     // Control signals and registers.
@@ -46,12 +46,12 @@ module executeStage (
         .b(ResultW),
         .c(ALUResultM),
         .sel(ForwardBE),
-        .out(SrcBE_mux)
+        .out(WriteDataE)
     );
 
     // Mux 2 to 1 for source B.
     mux_2to1 SrcB_mux2 (
-        .a(SrcBE_mux),
+        .a(WriteDataE),
         .b(ImmExtE),
         .sel(ALUSrcE),
         .out(SrcBE)

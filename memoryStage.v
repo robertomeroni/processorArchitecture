@@ -1,8 +1,10 @@
+`include "constants.v"
+
 module memoryStage (
     input clk, rst,
-    input [WORD_SIZE-1:0] ALUResultM, WriteDataM, PCPlus4M,
+    input [`WORD_SIZE-1:0] ALUResultM, WriteDataM, PCPlus4M,
     input [4:0] RdM,
-    output [WORD_SIZE-1:0] ALUResultW, ReadDataW, PCPlus4W,
+    output [`WORD_SIZE-1:0] ALUResultW, ReadDataW, PCPlus4W,
     output [4:0] RdW,
 
     // Control ports.
@@ -13,9 +15,9 @@ module memoryStage (
     );
 
     // Internal wires and registers.
-    wire [WORD_SIZE-1:0] ReadDataM;
+    wire [`WORD_SIZE-1:0] ReadDataM;
 
-    reg [WORD_SIZE-1:0] ALUResultM_reg, ReadDataM_reg, PCPlus4M_reg;
+    reg [`WORD_SIZE-1:0] ALUResultM_reg, ReadDataM_reg, PCPlus4M_reg;
     reg [4:0] RdM_reg;
 
     // Control signals and registers.

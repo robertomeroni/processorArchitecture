@@ -1,12 +1,14 @@
+`include "constants.v"
+
 module decodeStage (
     input clk, rst,
-    input [WORD_SIZE-1:0] InstrD, PCD, PCPlus4D, ResultW,
+    input [`WORD_SIZE-1:0] InstrD, PCD, PCPlus4D, ResultW,
     input RegWriteW,
     input [4:0] RdW,
 
-    output [WORD_SIZE-1:0] RD1E, RD2E, PCE,
+    output [`WORD_SIZE-1:0] RD1E, RD2E, PCE,
     output [4:0] Rs1E, Rs2E, RdE,
-    output [WORD_SIZE-1:0] ImmExtE, PCPlus4E,
+    output [`WORD_SIZE-1:0] ImmExtE, PCPlus4E,
 
     // Control Unit ports.
     output RegWriteE, MemWriteE, JumpE, BranchE, ALUSrcE,
@@ -15,13 +17,13 @@ module decodeStage (
     );
 
     // Internal wires and registers.
-    wire [WORD_SIZE-1:0] RD1, RD2;
-    wire [WORD_SIZE-1:0] ImmExtD;
+    wire [`WORD_SIZE-1:0] RD1, RD2;
+    wire [`WORD_SIZE-1:0] ImmExtD;
 
-    reg [WORD_SIZE-1:0] RD1D_reg, RD2D_reg;
-    reg [WORD_SIZE-1:0] PCD_reg, PCPlus4D_reg;
+    reg [`WORD_SIZE-1:0] RD1D_reg, RD2D_reg;
+    reg [`WORD_SIZE-1:0] PCD_reg, PCPlus4D_reg;
     reg [4:0] Rs1D_reg, Rs2D_reg, RdD_reg;
-    reg [WORD_SIZE-1:0] ImmExtD_reg;
+    reg [`WORD_SIZE-1:0] ImmExtD_reg;
 
     // Control Unit signals and registers.
     wire RegWriteD, MemWriteD, JumpD, BranchD, ALUSrcD;

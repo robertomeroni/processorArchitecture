@@ -1,22 +1,18 @@
 `include "constants.v"
-`include "mux.v"
-`include "programCounter.v"
-`include "instructionMemory.v"
-`include "adder.v"
 
 module fetchStage(
     input clk,
     input rst,
     input PCSrcE,
-    input [WORD_SIZE-1:0] PCTargetE,
-    output [WORD_SIZE-1:0] InstrD,
-    output [WORD_SIZE-1:0] PCD,
-    output [WORD_SIZE-1:0] PCPlus4D
+    input [`WORD_SIZE-1:0] PCTargetE,
+    output [`WORD_SIZE-1:0] InstrD,
+    output [`WORD_SIZE-1:0] PCD,
+    output [`WORD_SIZE-1:0] PCPlus4D
     );
 
     // Internal signals.
-    wire [WORD_SIZE-1:0] PCNext, PCF, PCPlus4F;
-    wire [WORD_SIZE-1:0] InstrF;
+    wire [`WORD_SIZE-1:0] PCNext, PCF, PCPlus4F;
+    wire [`WORD_SIZE-1:0] InstrF;
 
     // Registers.
     reg [`WORD_SIZE-1:0] InstrF_reg;
@@ -52,16 +48,16 @@ module fetchStage(
                     .out(PCPlus4F)
                     );
 
-    // Assiing 
+    // Assigning initial PC value. 
     initial begin
-        assign PCF_reg <= `PC_INITIAL;
+        PCF_reg <= `PC_INITIAL;
     end
 
     // Behavior.
     always @(posedge clk or negedge rst) begin
         if(rst) begin
             PCF_reg <= `PC_INITIAL;
-            PCPlus4F_reg <= 0
+            PCPlus4F_reg <= 0;
             InstrF_reg <= 0;
         end else begin
             InstrF_reg <= InstrF;

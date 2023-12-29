@@ -1,10 +1,12 @@
+`include "constants.v"
+
 module writeBackStage (
     input clk, rst,
-    input [WORD_SIZE-1:0] ALUResultW, ReadDataW, PCPlus4W,
-    output [WORD_SIZE-1:0] ResultW,
+    input [`WORD_SIZE-1:0] ALUResultW, ReadDataW, PCPlus4W,
+    output [`WORD_SIZE-1:0] ResultW,
 
     // Control ports.
-    input [1:0] ResultSrcW,
+    input [1:0] ResultSrcW
     );
     
     // Modules.
