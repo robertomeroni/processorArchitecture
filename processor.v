@@ -17,7 +17,7 @@
 
 module processor (
     input clk, rst
-)
+);
 
     // Connect pipeline stages.
     // Fetch inputs.

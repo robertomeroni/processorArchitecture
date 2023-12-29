@@ -3,17 +3,17 @@
 
 module ALU_TB;
 
-   reg [WORD_SIZE-1:0] A;
-   reg [WORD_SIZE-1:0] B;
+   reg [`WORD_SIZE-1:0] A;
+   reg [`WORD_SIZE-1:0] B;
    reg [2:0] control;
 
    reg   clk;
    reg   rst;
 
-   wire [WORD_SIZE-1:0] out;
+   wire [`WORD_SIZE-1:0] out;
 
-   ALU alu ( .srcAE (A),
-	     .srcBE (B),
+   ALU alu ( .a (A),
+	     .b (B),
 	     .ALUControlE (control),
 	     .clk (clk),
 	     .out (out),
@@ -25,7 +25,7 @@ module ALU_TB;
 	 clk = 1'b0;
 	 A = 32'b00000000000000000000000000000001;
 	 B = 32'b00000000000000000000000000000001;
-	  control = ADD_FUNCT3;
+	  control = `ADD_FUNCT3;
 	 clk = 1'b1;
 	 // $display("A=%32b, B=%32b\nout=%32b\n", A, B, out);
       end
@@ -36,7 +36,7 @@ module ALU_TB;
 	 clk = 1'b0;
 	 A = 32'b00000000000000000000000000000001;
 	 B = 32'b00000000000000000000000000000001;
-	  control = MUL_FUNCT3;
+	  control = `MUL_FUNCT3;
 	 clk = 1'b1;
 	 // $display("A=%32b, B=%32b\nout=%32b\n", A, B, out);
       end
@@ -47,7 +47,7 @@ module ALU_TB;
 	 clk = 1'b0;
 	 A = 32'b01000000000000000000000000000001;
 	 B = 32'b00000000000000000000000000000001;
-	  control = OR_FUNCT3;
+	  control = `OR_FUNCT3;
 	 clk = 1'b1;
 	 // $display("A=%32b, B=%32b\nout=%32b\n", A, B, out);
       end
