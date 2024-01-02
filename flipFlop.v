@@ -2,12 +2,12 @@
 // fpga4student.com
 // Verilog code for D Flip FLop
 // Verilog code for rising edge D flip flop 
-module RisingEdge_DFlipFlop(D,clk,Q);
-   input D; // Data input 
+module DFlipFlop(in,clk, out);
+   input [`WORD_SIZE-1:0] in; // Data input 
    input clk; // clock input 
-   output Q; // output Q 
-    always @(posedge clk) 
-      begin
-	  Q <= D; 
-      end 
+   output reg[`WORD_SIZE-1:0]  out; // output Q 
+   always @(posedge clk) 
+     begin
+	out <= in; 
+     end 
 endmodule 
