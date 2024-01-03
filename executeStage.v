@@ -74,7 +74,7 @@ module executeStage (
     );
 
     // Behavior.
-    always @(posedge clk or negedge rst) begin
+    always @(posedge clk or posedge rst) begin
         if(rst) begin
             ALUResultE_reg <= 0;
             WriteDataE_reg <= 0;

@@ -10,7 +10,7 @@ module ALU (
 );
    // TODO: add Zero flag
 
-   always @(posedge clk or negedge rst) begin
+   always @(posedge clk or posedge rst) begin
       case (ALUControlE)
          `ADD_FUNCT3: out <= a + b;
          `SUB_FUNCT3: out <= a - b;

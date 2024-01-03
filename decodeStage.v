@@ -71,7 +71,7 @@ module decodeStage (
         );
 
     // Behavior.
-    always @(posedge clk or negedge rst) begin
+    always @(posedge clk or posedge rst) begin
         if (rst) begin
             RD1D_reg <= 0;
             RD2D_reg <= 0;

@@ -35,7 +35,7 @@ module memoryStage (
     );
 
     // Behavior.
-    always @(posedge clk or negedge rst) begin
+    always @(posedge clk or posedge rst) begin
         if (rst) begin
             ALUResultM_reg <= 0;
             ReadDataM_reg <= 0;

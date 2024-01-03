@@ -9,7 +9,7 @@ module dataMemory (
 
     reg [`WORD_SIZE-1:0] mem [`DATA_MEM_SIZE-1:0];
 
-    always @(posedge clk or negedge rst) begin
+    always @(posedge clk or posedge rst) begin
         if (rst)
             RD <= 0; 
         else begin

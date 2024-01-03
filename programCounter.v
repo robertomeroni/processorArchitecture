@@ -9,7 +9,7 @@ module programCounter(
 
     reg [`WORD_SIZE-1:0] PC_reg;
 
-    always @(posedge clk or negedge rst)
+    always @(posedge clk or posedge rst)
     begin
         if (rst)
             PC_reg <= 0;
