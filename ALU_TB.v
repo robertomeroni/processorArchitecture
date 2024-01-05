@@ -24,70 +24,93 @@ module ALU_TB;
 		 .zeroE (zeroE)
 		 );
 
-   task test_Add;
-      begin
-	 $display("testing add");
-	 clk = 1'b0;
-	 A = 32'b00000000000000000000000000000001;
-	 B = 32'b00000000000000000000000000000001;
-	 control = `ADD_FUNCT3;
-	 clk = 1'b1;
+   initial begin
+      clk = 0; #5;
+      for (i = 0; i < 15; i = i + 1) begin
+	 clk = 1; #5 clk = 0; #5;
       end
+   end
+   
+
+   task test_Add;
+      @(posedge clk) 
+	begin
+	   $display("testing add");
+	   #1 A = 32'b00000000000000000000000000000001;
+	   B = 32'b00000000000000000000000000000001;
+	   control = `ADD_FUNCT3;
+	 end
+      @(negedge clk)
+	begin
+	   #10; // wait one clock
+	   if (out != 32'b00000000000000000000000000000010) begin
+	      $display("error in add");
+	   end 
+	end
    endtask // test_1
 
    task test_Mul;
-      begin
-	 $display("testing mul with 5 cycles");
-	 clk = 1'b0;
-	 A = 32'b00000000000000000000000000000100;
-	 B = 32'b00000000000000000000000000000010;
-	 control = `MUL_FUNCT3;
-	 for (i = 0; i < 10; i = i+1) begin
-	    #10 clk = ~clk;
-	 end
-	 // clk = 1'b1;
-      end
+      @(posedge clk) 
+	begin
+	   $display("testing mul");
+	   #1 A = 32'b00000000000000000000000000000100;
+	   B = 32'b00000000000000000000000000000010;
+	   control = `MUL_FUNCT3;
+	end
+      @(negedge clk)
+	begin
+	   #50; // check output on falling edge after 5 cycles
+	   if (out != 32'b00000000000000000000000000001000) begin
+	      $display("error in mul");
+	   end
+	end
    endtask // test_1
 
    task test_Or;
-      begin
-	 $display("testing or");
-	 clk = 1'b0;
-	 A = 32'b01000000000000000000000000000001;
-	 B = 32'b00000000000000000000000000000001;
-	 control = `OR_FUNCT3;
-	 clk = 1'b1;
-      end
+      @(posedge clk) 
+	begin
+	   $display("testing or");
+	   #1 A = 32'b01000000000000000000000000000001;
+	   B = 32'b00000000000000000000000000000001;
+	   control = `OR_FUNCT3;
+	end
+      @(negedge clk)
+	begin
+	   #10 // wait one clock
+	   if (out != 32'b01000000000000000000000000000001) begin
+	      $display("error in or");
+	   end
+	end
    endtask // test_1
 
    task test_ZeroE;
-      begin
-	 $display("testing zero flag");
-	 A = 32'b00000000000000000000000000000000;
-	 B = 32'b00000000000000000000000000000000;
-	 control = `MUL_FUNCT3;
-	 for (i = 0; i < 10; i = i+1) begin
-	    #10 clk = ~clk;
-	 end
-
-	 #10 clk = 1'b0;
-	 A = 32'b00000000000000000000000000000001;
-	 B = 32'b00000000000000000000000000000001;
-	 control = `SUB_FUNCT3;
-	 clk = 1'b1;
-      end
+      @(posedge clk) 
+	begin
+	   $display("testing zero flag");
+	   #1 A = 32'b00000000000000000000000000000001;
+	   B = 32'b00000000000000000000000000000001;
+	   control = `SUB_FUNCT3;
+	end
+      @(negedge clk)
+	begin
+	   #10; // wait one clock
+	   if (zeroE != 1'b1) begin
+	      $display("error in zero flag");
+	   end
+	end
    endtask // test_ZeroE
    
 
    initial begin
       $dumpfile("test.vcd");
       $dumpvars(0, ALU_TB);
-      $monitor("A=  %32b\nB=  %32b\nout=%32b\nzeroE=%1b\n", A, B, out, zeroE);
+      // $monitor("A=  %32b\nB=  %32b\nout=%32b\nzeroE=%1b\n", A, B, out, zeroE);
+      $monitor("clk = %1b\tout = %32b\tzeroE = %1b", clk, out, zeroE);
       #10 rst = 1'b0;
-      #10 test_Add();
-      #10 test_Or();
-      #10 test_Mul();
-      #10 test_ZeroE();
+      test_Add();
+      test_Or();
+      test_Mul();
+      test_ZeroE();
       #10 rst = 1'b1;
    end
 endmodule // tb
