@@ -15,17 +15,18 @@ module ALU_TB;
 
    integer i;
 
-   ALU alu ( .clk (clk),
-	     .rst (rst),
-	     .a (A),
-	     .b (B),
-	     .ALUControlE (control),
-	     .out (out),
-	     .zeroE (zeroE)
-	     );
+   ALU alu_dut ( .clk (clk),
+		 .rst (rst),
+		 .a (A),
+		 .b (B),
+		 .ALUControlE (control),
+		 .out (out),
+		 .zeroE (zeroE)
+		 );
 
-   task test_Add();
+   task test_Add;
       begin
+	 $display("testing add");
 	 clk = 1'b0;
 	 A = 32'b00000000000000000000000000000001;
 	 B = 32'b00000000000000000000000000000001;
@@ -34,8 +35,9 @@ module ALU_TB;
       end
    endtask // test_1
 
-   task test_Mul();
+   task test_Mul;
       begin
+	 $display("testing mul with 5 cycles");
 	 clk = 1'b0;
 	 A = 32'b00000000000000000000000000000100;
 	 B = 32'b00000000000000000000000000000010;
@@ -47,8 +49,9 @@ module ALU_TB;
       end
    endtask // test_1
 
-   task test_Or();
+   task test_Or;
       begin
+	 $display("testing or");
 	 clk = 1'b0;
 	 A = 32'b01000000000000000000000000000001;
 	 B = 32'b00000000000000000000000000000001;
@@ -57,8 +60,9 @@ module ALU_TB;
       end
    endtask // test_1
 
-   task test_ZeroE();
+   task test_ZeroE;
       begin
+	 $display("testing zero flag");
 	 A = 32'b00000000000000000000000000000000;
 	 B = 32'b00000000000000000000000000000000;
 	 control = `MUL_FUNCT3;
@@ -66,7 +70,7 @@ module ALU_TB;
 	    #10 clk = ~clk;
 	 end
 
-	 clk = 1'b0;
+	 #10 clk = 1'b0;
 	 A = 32'b00000000000000000000000000000001;
 	 B = 32'b00000000000000000000000000000001;
 	 control = `SUB_FUNCT3;
@@ -78,12 +82,12 @@ module ALU_TB;
    initial begin
       $dumpfile("test.vcd");
       $dumpvars(0, ALU_TB);
-      $monitor("out=%32b\nzeroE=%32b\n", out, zeroE);
-      #1 rst = 1'b0;
-      #1 test_Add();
-      #1 test_Or();
-      #1 test_Mul();
-      #1 test_ZeroE();
-      #1 rst = 1'b1;
+      $monitor("A=  %32b\nB=  %32b\nout=%32b\nzeroE=%1b\n", A, B, out, zeroE);
+      #10 rst = 1'b0;
+      #10 test_Add();
+      #10 test_Or();
+      #10 test_Mul();
+      #10 test_ZeroE();
+      #10 rst = 1'b1;
    end
 endmodule // tb
