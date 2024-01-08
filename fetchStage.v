@@ -1,4 +1,8 @@
 `include "constants.v"
+`include "instructionMemory.v"
+`include "programCounter.v"
+`include "mux.v"
+`include "adder.v"
 
 module fetchStage(
     input clk,
