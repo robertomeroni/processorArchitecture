@@ -6,11 +6,11 @@ module instructionMemory(
     output [`WORD_SIZE-1:0] Instr
     );
 
-    reg [`WORD_SIZE-1:0] memory_reg [`INSTR_MEM_SIZE-1:0];
+    reg [`WORD_SIZE-1:0] memory_reg [0:`INSTR_MEM_SIZE-1];
 
     // Load instructions into memory.
     initial begin
-    $readmemh("instructions.txt", memory_reg);
+    $readmemb("instructions.txt", memory_reg);
     end
 
     assign Instr = (rst) ? 0 : memory_reg[PC];
