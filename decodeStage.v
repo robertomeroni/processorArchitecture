@@ -1,4 +1,7 @@
 `include "constants.v"
+`include "controlUnit.v"
+`include "extender.v"
+`include "registerFile.v"
 
 module decodeStage (
     input clk, rst,

@@ -1,4 +1,6 @@
 `include "constants.v"
+`include "ALUDecoder.v"
+`include "mainDecoder.v"
 
 module controlUnit (
     input [6:0] Op,
