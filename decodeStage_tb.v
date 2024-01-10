@@ -30,7 +30,7 @@ module tb_decodeStage;
 
    initial begin
       clk = 0; #5;
-      for (i = 0; i < 15; i = i + 1) begin
+      for (i = 0; i < 12; i = i + 1) begin
 	 clk = 1; #5 clk = 0; #5;
       end
    end
@@ -40,6 +40,10 @@ module tb_decodeStage;
       $dumpvars(0, tb_decodeStage);
       $monitor("clk = %1b, RD1 = %32b, RD2 = %32b", clk, RD1E, RD2E);
 
+      rst = 1;
+      #10;
+      
+      rst = 0;
       InstrD = 32'b00000000000100010000001000110011;
       rst = 0;
       PCD = 0;

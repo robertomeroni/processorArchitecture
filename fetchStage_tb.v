@@ -26,7 +26,7 @@ module tb_fetchStage;
 
    initial begin
       clk = 0; #5;
-      for (i = 0; i < 3; i = i + 1) begin
+      for (i = 0; i < 10; i = i + 1) begin
 	 clk = 1; #5 clk = 0; #5;
       end
    end
@@ -37,9 +37,13 @@ module tb_fetchStage;
 
       $monitor("clk = %1b, InstrD = %32b, PCD = %32b, PCPlus4D = %32b", clk, InstrD, PCD, PCPlus4D);
 
+      rst = 1;
+      #10;
+
+      rst = 0;
+
       PCSrcE = 0;
       rst = 0;
-      #10;
       
    end
 

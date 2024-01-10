@@ -1,4 +1,7 @@
 `include "constants.v"
+`include "mux.v"
+`include "adder.v"
+`include "ALU.v"
 
 module executeStage (
     input clk, rst,
@@ -10,9 +13,9 @@ module executeStage (
     output [4:0] RdM,
 
     // Control ports.
-    input RegWriteE, ALUSrcE, MemWriteE, JumpE, BranchE, AluSrcE, 
-    input [1:0] ResultSrcE,
-    input [2:0] ALUControlE,
+    input RegWriteE, ALUSrcE, MemWriteE, JumpE, BranchE,
+    input [1:0] ResultSrcE, ForwardAE, ForwardBE,
+    input [2:0] ALUControlE, 
     output RegWriteM, MemWriteM,
     output PCSrcE, 
     output [1:0] ResultSrcM
@@ -66,15 +69,18 @@ module executeStage (
 
     // ALU.
     ALU ALU_Unit (
+        .clk(clk),
+	.rst(rst),
         .a(SrcAE),
         .b(SrcBE),
         .out(ALUResultE),
-        .zero(ZeroE),
-        .control(ALUControlE)
+        .zeroE(ZeroE),
+        .ALUControlE(ALUControlE)
     );
 
     // Behavior.
     always @(posedge clk or posedge rst) begin
+       $display("RD1E =       %32b\nResultW =    %32b\nALUResultE = %32b\nALUResultM = %32b\nSrcAE =      %32b\nSrcBE =      %32b\n", RD1E, ResultW, ALUResultE, ALUResultM, SrcAE, SrcBE);
         if(rst) begin
             ALUResultE_reg <= 0;
             WriteDataE_reg <= 0;

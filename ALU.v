@@ -1,5 +1,4 @@
 `include "constants.v"
-`include "flipFlop.v"
 
 module ALU (
 	    input clk,
@@ -11,16 +10,7 @@ module ALU (
 	    output reg zeroE
 	    );
    
-   reg [`WORD_SIZE-1:0] inputToF0;
-   wire [`WORD_SIZE-1:0] F0toF1;
-   wire [`WORD_SIZE-1:0] F1toF2;
-   wire [`WORD_SIZE-1:0] F2toF3;
-   wire [`WORD_SIZE-1:0] F3toOutput;
-
-   DFlipFlop f0 (.in(inputToF0), .clk(clk), .out(F0toF1));
-   DFlipFlop f1 (.in(F0toF1), .clk(clk), .out(F1toF2));
-   DFlipFlop f2 (.in(F1toF2), .clk(clk), .out(F2toF3));
-   DFlipFlop f3 (.in(F2toF3), .clk(clk), .out(F3toOutput));
+   reg   [`WORD_SIZE-1:0] F0, F1, F2, F3;
 
    always @(posedge clk or posedge rst) begin
       case (ALUControlE)
@@ -29,8 +19,11 @@ module ALU (
         `AND_FUNCT3: out = a & b;
         `OR_FUNCT3:  out = a | b;
 	`MUL_FUNCT3: begin
-	   inputToF0 = a * b;
-	   out = F3toOutput;
+	   F0 <= a * b;
+	   F1 <= F0;
+	   F2 <= F1;
+	   F3 <= F2;
+	   out <= F3;
 	end
       endcase // case (ALUControlE)
       if (out==32'b00000000000000000000000000000000) begin
