@@ -110,8 +110,11 @@ module decodeStage
          ALUControlD_reg <= ALUControlD;
       end
       #2;
+      $display("--- DECODE STAGE ---");
       $display("RD1E = %32b", RD1E);
       $display("RD2E = %32b", RD2E);
+      // $display("ResultSrcE = %32b", ResultSrcE);
+      // $display("MemWriteE = %32b", MemWriteE);
    end
 
    // Outputs.

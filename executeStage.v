@@ -102,9 +102,15 @@ module executeStage
          MemWriteE_reg <= MemWriteE;
          ResultSrcE_reg <= ResultSrcE;
       end
-      // $display("RD1E =       %32b\nResultW =    %32b\nALUResultE = %32b\nALUResultM = %32b\nSrcAE =      %32b\nSrcBE =      %32b\n", RD1E, ResultW, ALUResultE, ALUResultM, SrcAE, SrcBE);
       #3;
+      $display("--- EXECUTE STAGE ---");
+      //$display("RD1E =       %32b\nResultW =    %32b\nALUResultM = %32b\nALUResultE = %32b\nSrcAE =      %32b\nSrcBE =      %32b\n", RD1E, ResultW, ALUResultM, ALUResultE, SrcAE, SrcBE);
+      // $display("RD1E = %32b\nRD2E = %32b", RD1E, RD2E);
+      $display("ForwardAE = %2b\nForwardBE = %2b", ForwardAE, ForwardBE);
+      $display("ALUControlE = %3b", ALUControlE);
       $display("ALUResultM = %32b", ALUResultM);
+      // $display("ResultSrcM = %32b", ResultSrcM);
+      // $display("MemWriteM = %32b", MemWriteM);
    end
 
    // Outputs.

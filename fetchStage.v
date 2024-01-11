@@ -71,6 +71,7 @@ module fetchStage
          PCPlus4F_reg <= PCPlus4F;
       end
       #1;
+      $display("--- FETCH STAGE ---");
       $display("InstrD = %32b", InstrD);
    end
 

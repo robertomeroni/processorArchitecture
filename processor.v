@@ -25,7 +25,7 @@ module processor (
    wire [4:0] Rs1E, Rs2E, RdE;
    wire [`WORD_SIZE-1:0] ImmExtE, PCPlus4E;
    wire RegWriteE, ALUSrcE, MemWriteE, JumpE, BranchE, AluSrcE;
-   wire [1:0] ResultSrcE;
+   wire [1:0] ResultSrcE, ForwardAE, ForwardBE;
    wire [2:0] ALUControlE;
 
    // Memory inputs.
@@ -112,6 +112,8 @@ module processor (
 			 .JumpE(JumpE),
 			 .BranchE(BranchE),
 			 .ResultSrcE(ResultSrcE),
+			 .ForwardAE(ForwardAE),
+			 .ForwardBE(ForwardBE),
 			 .ALUControlE(ALUControlE),
 			 // control outputs
 			 .RegWriteM(RegWriteM),
@@ -160,6 +162,8 @@ module processor (
 			     );
 
    // TODO: Hazard Detection Unit.
+   assign ForwardAE = 0;
+   assign ForwardBE = 0;
 
 endmodule
 

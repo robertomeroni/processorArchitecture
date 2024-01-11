@@ -53,7 +53,11 @@ module memoryStage (
          ResultSrcM_reg <= ResultSrcM;
       end
       #4;
-      $display("ReadDataW = %32b", ReadDataW);
+      // $display("ALUResultM = %32b", ALUResultM);
+      // $display("ReadDataW = %32b", ReadDataW);
+      $display("--- MEMORY STAGE ---");
+      $display("MemWriteM = %1b", MemWriteM);
+      // $display("ResultSrcW = %32b", ResultSrcW);
    end
 
    // Outputs.
