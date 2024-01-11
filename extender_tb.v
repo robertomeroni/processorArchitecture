@@ -2,9 +2,9 @@
 
 module tb_extender;
 
-   reg    [1:0]  ImmSrc;
-   reg    [24:0] inp;
-   wire   [31:0] out;
+   reg    [1:0]     ImmSrc    ;
+   reg    [24:0]    inp       ;
+   wire   [31:0]    out       ;
 
    extender extender_dut (
 			  .ImmSrc    (    ImmSrc    ),

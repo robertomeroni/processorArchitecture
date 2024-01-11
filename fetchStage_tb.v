@@ -14,15 +14,15 @@ module tb_fetchStage;
    integer i;
    
 
-   fetchStage fetchStage_dut  (
-			       .clk          (    clk          ),
-			       .rst          (    rst          ),
-			       .PCSrcE       (    PCSrcE       ),
-			       .PCTargetE    (    PCTargetE    ),
-			       .InstrD       (    InstrD       ),
-			       .PCD          (    PCD          ),
-			       .PCPlus4D     (    PCPlus4D     )
-			       );
+   fetchStage fetchStage_dut (
+			      .clk          (    clk          ),
+			      .rst          (    rst          ),
+			      .PCSrcE       (    PCSrcE       ),
+			      .PCTargetE    (    PCTargetE    ),
+			      .InstrD       (    InstrD       ),
+			      .PCD          (    PCD          ),
+			      .PCPlus4D     (    PCPlus4D     )
+			      );
 
    initial begin
       clk = 0; #5;

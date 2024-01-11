@@ -2,29 +2,33 @@
 
 module mux_tb;
 
-   reg [`WORD_SIZE-1:0] a0;
-   reg [`WORD_SIZE-1:0] b0;
-   reg sel0;
-   wire [`WORD_SIZE-1:0] out0;
+   reg     [`WORD_SIZE-1:0]    a0;
+   reg     [`WORD_SIZE-1:0]    b0;
+   reg                         sel0;
+   wire    [`WORD_SIZE-1:0]    out0;
 
-   reg [`WORD_SIZE-1:0] a1;
-   reg [`WORD_SIZE-1:0] b1;
-   reg [`WORD_SIZE-1:0] c1;
-   reg   [1:0] sel1;
-   wire [`WORD_SIZE-1:0] out1;
+   reg     [`WORD_SIZE-1:0]    a1;
+   reg     [`WORD_SIZE-1:0]    b1;
+   reg     [`WORD_SIZE-1:0]    c1;
+   reg     [1:0]               sel1;
+   wire    [`WORD_SIZE-1:0]    out1;
 
    // make separate wires for testing the two muxes
 
-   mux_2to1 mux_2to1_dut (.a (a0),
-			  .b (b0),
-			  .sel(sel0),
-			  .out(out0));
+   mux_2to1 mux_2to1_dut ( 
+			   .a     (    a0     ),
+			   .b     (    b0     ),
+			   .sel   (    sel0   ),
+			   .out   (    out0   )
+			   );
 
-   mux_3to1 mux_3to1_dut (.a (a1),
-			  .b (b1),
-			  .c (c1),
-			  .sel(sel1),
-			  .out(out1));
+   mux_3to1 mux_3to1_dut (
+			  .a     (    a1     ),
+			  .b     (    b1     ),
+			  .c     (    c1     ),
+			  .sel   (    sel1   ),
+			  .out   (    out1   )
+			  );
 
    task test_2to1;
       begin

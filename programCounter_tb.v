@@ -6,7 +6,7 @@ module tb_programCounter;
    reg                        clk       ;
    reg                        rst       ;
    reg    [`WORD_SIZE-1:0]    PCNext    ;
-   wire   [`WORD_SIZE-1:0]    PC;
+   wire   [`WORD_SIZE-1:0]    PC        ;
 
    integer i;
 
@@ -14,7 +14,7 @@ module tb_programCounter;
 				      .clk       (    clk       ),
 				      .rst       (    rst       ),
 				      .PCNext    (    PCNext    ),
-				      .PC (PC)
+				      .PC        (    PC        )
 				      );
 
    initial begin

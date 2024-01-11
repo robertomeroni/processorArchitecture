@@ -3,10 +3,10 @@
 
 module tb_instructionMemory;
 
-   reg                        rst    ;
-   reg    [`WORD_SIZE-1:0]    PC     ;
+   reg                        rst      ;
+   reg    [`WORD_SIZE-1:0]    PC       ;
 
-   wire   [`WORD_SIZE-1:0] Instr;
+   wire   [`WORD_SIZE-1:0]    Instr    ;
 
    instructionMemory instructionMemory_dut (
 					    .rst    (    rst    ),
