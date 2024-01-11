@@ -70,6 +70,8 @@ module fetchStage
          PCF_reg <= PCF;
          PCPlus4F_reg <= PCPlus4F;
       end
+      #1;
+      $display("InstrD = %32b", InstrD);
    end
 
    // Trasmitting the values to the output ports.

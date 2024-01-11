@@ -1,5 +1,7 @@
 `include "constants.v"
-`include "mux.v"
+`ifndef INCLUDE_MUX
+ `include "mux.v"
+`endif
 
 module writeBackStage (
 		       input clk, rst,
@@ -19,4 +21,10 @@ module writeBackStage (
 			.sel(ResultSrcW),
 			.out(ResultW)
 			);
+
+   always @ ( posedge clk or posedge rst ) begin
+      #5;
+      $display("ResultW = %32b", ResultW);
+   end
+   
 endmodule

@@ -52,6 +52,8 @@ module memoryStage (
          RegWriteM_reg <= RegWriteM;
          ResultSrcM_reg <= ResultSrcM;
       end
+      #4;
+      $display("ReadDataW = %32b", ReadDataW);
    end
 
    // Outputs.

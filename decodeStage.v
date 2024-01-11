@@ -109,6 +109,9 @@ module decodeStage
          ResultSrcD_reg <= ResultSrcD;
          ALUControlD_reg <= ALUControlD;
       end
+      #2;
+      $display("RD1E = %32b", RD1E);
+      $display("RD2E = %32b", RD2E);
    end
 
    // Outputs.

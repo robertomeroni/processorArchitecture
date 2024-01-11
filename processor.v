@@ -3,17 +3,7 @@
 `include "decodeStage.v"
 `include "executeStage.v"
 `include "memoryStage.v"
-`include "writebackStage.v"
-`include "adder.v"
-`include "ALU.v"
-`include "controlUnit.v"
-`include "dataMemory.v"
-`include "extender.v"
-`include "instructionMemory.v"
-`include "instructions.txt"
-`include "mux.v"
-`include "programCounter.v"
-`include "registerFile.v"
+`include "writeBackStage.v"
 
 module processor (
 		  input clk, rst
@@ -32,7 +22,7 @@ module processor (
 
    // Execute inputs.
    wire [`WORD_SIZE-1:0] RD1E, RD2E, PCE;
-   wire [4:0] Rs1E, Rs2E, RDE;
+   wire [4:0] Rs1E, Rs2E, RdE;
    wire [`WORD_SIZE-1:0] ImmExtE, PCPlus4E;
    wire RegWriteE, ALUSrcE, MemWriteE, JumpE, BranchE, AluSrcE;
    wire [1:0] ResultSrcE;
@@ -78,9 +68,9 @@ module processor (
 		       .RD1E(RD1E),
 		       .RD2E(RD2E),
 		       .PCE(PCE),
-		       .RS1E(Rs1E),
-		       .RS2E(Rs2E),
-		       .RDE(RDE),
+		       .Rs1E(Rs1E),
+		       .Rs2E(Rs2E),
+		       .RdE(RdE),
 		       .ImmExtE(ImmExtE),
 		       .PCPlus4E(PCPlus4E),
 
@@ -104,7 +94,7 @@ module processor (
 			 .PCE(PCE),
 			 .Rs1E(Rs1E),
 			 .Rs2E(Rs2E),
-			 .RDE(RDE),
+			 .RdE(RdE),
 			 .ImmExtE(ImmExtE),
 			 .PCPlus4E(PCPlus4E),
 			 .ResultW(ResultW),
@@ -121,7 +111,6 @@ module processor (
 			 .MemWriteE(MemWriteE),
 			 .JumpE(JumpE),
 			 .BranchE(BranchE),
-			 .AluSrcE(AluSrcE),
 			 .ResultSrcE(ResultSrcE),
 			 .ALUControlE(ALUControlE),
 			 // control outputs
@@ -156,7 +145,7 @@ module processor (
 		       );
 
    // Writeback Stage.
-   writebackStage Writeback (
+   writeBackStage Writeback (
 			     // standard inputs
 			     .clk(clk),
 			     .rst(rst),

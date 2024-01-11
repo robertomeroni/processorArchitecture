@@ -1,5 +1,7 @@
 `include "constants.v"
 
+`define INCLUDE_ADDER
+
 module adder (
     input [`WORD_SIZE-1:0] a,
     input [`WORD_SIZE-1:0] b,

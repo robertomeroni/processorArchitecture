@@ -1,5 +1,7 @@
 `include "constants.v"
 
+`define INCLUDE_MUX
+
 module mux_2to1(
     input [`WORD_SIZE-1:0] a,
     input [`WORD_SIZE-1:0] b,

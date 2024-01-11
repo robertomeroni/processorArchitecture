@@ -1,13 +1,17 @@
 `include "constants.v"
-`include "mux.v"
-`include "adder.v"
+`ifndef INCLUDE_MUX
+ `include "mux.v"
+`endif
+`ifndef INCLUDE_ADDER
+ `include "adder.v"
+`endif
 `include "ALU.v"
 
 module executeStage
   (
    input clk, rst,
    input [`WORD_SIZE-1:0] RD1E, RD2E, PCE,
-   input [4:0] Rs1E, Rs2E, RDE,
+   input [4:0] Rs1E, Rs2E, RdE,
    input [`WORD_SIZE-1:0] ImmExtE, PCPlus4E,
    input [`WORD_SIZE-1:0] ResultW,
    output [`WORD_SIZE-1:0] ALUResultM, WriteDataM, PCPlus4M, PCTargetE,
@@ -81,7 +85,6 @@ module executeStage
 
    // Behavior.
    always @(posedge clk or posedge rst) begin
-      $display("RD1E =       %32b\nResultW =    %32b\nALUResultE = %32b\nALUResultM = %32b\nSrcAE =      %32b\nSrcBE =      %32b\n", RD1E, ResultW, ALUResultE, ALUResultM, SrcAE, SrcBE);
       if(rst) begin
          ALUResultE_reg <= 0;
          WriteDataE_reg <= 0;
@@ -94,11 +97,14 @@ module executeStage
          ALUResultE_reg <= ALUResultE;
          WriteDataE_reg <= WriteDataE;
          PCPlus4E_reg <= PCPlus4E;
-         RdE_reg <= RDE;
+         RdE_reg <= RdE;
          RegWriteE_reg <= RegWriteE;
          MemWriteE_reg <= MemWriteE;
          ResultSrcE_reg <= ResultSrcE;
       end
+      // $display("RD1E =       %32b\nResultW =    %32b\nALUResultE = %32b\nALUResultM = %32b\nSrcAE =      %32b\nSrcBE =      %32b\n", RD1E, ResultW, ALUResultE, ALUResultM, SrcAE, SrcBE);
+      #3;
+      $display("ALUResultM = %32b", ALUResultM);
    end
 
    // Outputs.
