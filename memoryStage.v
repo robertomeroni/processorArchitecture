@@ -36,6 +36,7 @@ module memoryStage (
 			   );
 
    // Behavior.
+   // TODO: make memory access take 5 clocks as per the project statement
    always @(posedge clk or posedge rst) begin
       if (rst) begin
          ALUResultM_reg <= 0;
@@ -53,10 +54,11 @@ module memoryStage (
          ResultSrcM_reg <= ResultSrcM;
       end
       #4;
-      // $display("ALUResultM = %32b", ALUResultM);
-      // $display("ReadDataW = %32b", ReadDataW);
       $display("--- MEMORY STAGE ---");
+      // $display("ALUResultM = %32b", ALUResultM);
       $display("MemWriteM = %1b", MemWriteM);
+      $display("ReadDataW = %32b", ReadDataW);
+      $display("RdW = %5b", RdW);
       // $display("ResultSrcW = %32b", ResultSrcW);
    end
 

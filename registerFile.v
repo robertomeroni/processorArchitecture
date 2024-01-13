@@ -25,8 +25,10 @@ module registerFile(
 
    // Register Logic.
    always @ (posedge clk) begin
-      if(WE3 & (A3 != 0)) // cannot write to register 0.
-        r[A3] <= WD3;
+      if(WE3 & (A3 != 5'b00000)) begin // cannot write to register 0.
+         r[A3] <= WD3;
+	 $display("Wrote %32b to r%d", WD3, A3);
+      end
    end
 
    // Assigning the output.

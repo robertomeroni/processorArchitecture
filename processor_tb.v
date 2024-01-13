@@ -6,7 +6,7 @@ module tb_processor;
    reg   clk    ;
    reg   rst    ;
 
-   integer i;
+   integer i, cyc;
 
    processor uut (
 		  .clk    (    clk    ),
@@ -14,17 +14,22 @@ module tb_processor;
 		  );
 
    initial begin
+      cyc = 0;
       clk = 0; #5;
       for (i = 0; i < 12; i = i + 1) begin
-	 clk = 1; #5 clk = 0; #5;
 	 $display("");
+	 clk = 1; 
+	 cyc = cyc + 1;
+	 #5;
+	 clk = 0; 
+	 #5;
       end
    end
 
    initial begin
       $dumpfile("db_tb_processor.vcd");
       $dumpvars(0, tb_processor);
-      $monitor("clk = %1b", clk);
+      $monitor("clk = %1b, cyc = %4d", clk, cyc);
 
       rst = 1;
       #10;

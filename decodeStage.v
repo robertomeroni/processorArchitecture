@@ -99,7 +99,7 @@ module decodeStage
          PCPlus4D_reg <= PCPlus4D;
          Rs1D_reg <= InstrD[19:15];
          Rs2D_reg <= InstrD[24:20];
-         RdD_reg <= RdW;
+         RdD_reg <= InstrD[11:7];
          ImmExtD_reg <= ImmExtD;
          RegWriteD_reg <= RegWriteD;
          MemWriteD_reg <= MemWriteD;
@@ -111,10 +111,14 @@ module decodeStage
       end
       #2;
       $display("--- DECODE STAGE ---");
-      $display("RD1E = %32b", RD1E);
-      $display("RD2E = %32b", RD2E);
+      $display("RegWriteW = %1b", RegWriteW);
+      $display("RdW = %5b", RdW);
+      $display("ResultW = %32b", ResultW);
+      // $display("RD1E = %32b", RD1E);
+      // $display("RD2E = %32b", RD2E);
       // $display("ResultSrcE = %32b", ResultSrcE);
       // $display("MemWriteE = %32b", MemWriteE);
+      $display("ImmExtE = %32b", ImmExtE);
    end
 
    // Outputs.

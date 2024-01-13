@@ -7,8 +7,9 @@ module extender(
 		);
 
    always @ (ImmSrc, inp) begin
+      $display("inp = %25b", inp);
       case (ImmSrc)
-        2'b00: out = {{20{inp[11]}}, inp[11:0]}; // lw
+        2'b00: out = {{20{inp[24]}}, inp[24:13]}; // lw
         2'b01: out = {{20{inp[24]}}, inp[24:18], inp[4:0]}; // sw
         default: out = {{20{inp[11]}}, inp[11:0]}; // TODO: add more cases
       endcase
