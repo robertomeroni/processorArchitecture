@@ -3,7 +3,7 @@
 
 // Sizes.
 `define WORD_SIZE 32
-`define INSTR_MEM_SIZE 64
+`define INSTR_MEM_SIZE 1024
 `define REGISTER_FILE_SIZE 32
 `define DATA_MEM_SIZE 512
 

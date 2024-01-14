@@ -66,12 +66,13 @@ module decodeStage
 			     .funct3(InstrD[14:12]),
 			     .funct7(InstrD[30]),
 			     .RegWrite(RegWriteD),
-			     .ImmSrc(ImmSrcD),
-			     .ALUSrc(ALUSrcD),
-			     .MemWrite(MemWriteD),
 			     .ResultSrc(ResultSrcD),
+			     .MemWrite(MemWriteD),
+			     .Jump(JumpD),
 			     .Branch(BranchD),
-			     .ALUControl(ALUControlD)
+			     .ALUControl(ALUControlD),
+			     .ALUSrc(ALUSrcD),
+			     .ImmSrc(ImmSrcD)
 			     );
 
    // Behavior.

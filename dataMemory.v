@@ -19,7 +19,7 @@ module dataMemory (
       else begin
          if (WE) begin
             mem[A] <= WD;
-	    // $display("Wrote %32b to mem[%d]", WD, A);
+	    $display("Wrote %32b to mem[%d]", WD, A);
          end
          RD <= mem[A];
 	 // $display("read mem[%d] = %32b", A, RD);

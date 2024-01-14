@@ -50,7 +50,7 @@ module fetchStage
    // Go to next instruction.
    adder PC_Adder (
 		   .a(PCF),
-		   .b(32'h00000004),
+		   .b(1),
 		   .out(PCPlus4F)
 		   );
 
@@ -72,6 +72,8 @@ module fetchStage
       end
       #1;
       $display("--- FETCH STAGE ---");
+      $display("PCF = %32b", PCF);
+      // $display("PCSrcE = %32b", PCSrcE);
       $display("InstrD = %32b", InstrD);
    end
 

@@ -112,6 +112,7 @@ module executeStage
       $display("ALUResultM = %32b", ALUResultM);
       // $display("ResultSrcM = %32b", ResultSrcM);
       // $display("MemWriteM = %32b", MemWriteM);
+      $display("JumpE = %1b, BranchE = %1b, ZeroE = %1b, PCSrcE = %1b", JumpE, BranchE, ZeroE, PCSrcE);
    end
 
    // Outputs.
