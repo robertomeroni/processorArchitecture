@@ -10,6 +10,11 @@ module fetchStage
    input rst,
    input PCSrcE,
    input [`WORD_SIZE-1:0] PCTargetE,
+   
+   // hazard inputs
+   input StallF,
+   input StallD,
+   
    output [`WORD_SIZE-1:0] InstrD,
    output [`WORD_SIZE-1:0] PCD,
    output [`WORD_SIZE-1:0] PCPlus4D
@@ -36,8 +41,9 @@ module fetchStage
    programCounter Program_Counter (
 				   .clk(clk),
 				   .rst(rst),
-				   .PC(PCF),
-				   .PCNext(PCNext)
+				   .PCNext(PCNext),
+				   .StallF(StallF),
+				   .PC(PCF)
 				   );
 
    // Instruction memory.
@@ -65,7 +71,7 @@ module fetchStage
          PCF_reg <= `PC_INITIAL;
          PCPlus4F_reg <= 0;
          InstrF_reg <= 0;
-      end else begin
+      end else if (!StallD) begin
          InstrF_reg <= InstrF;
          PCF_reg <= PCF;
          PCPlus4F_reg <= PCPlus4F;

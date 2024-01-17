@@ -8,7 +8,7 @@
 `define DATA_MEM_SIZE 512
 
 // Initial values.
-`define PC_INITIAL   32'h00001000
+`define PC_INITIAL   32'h00000000
 `define PC_EXCEPTION 32'h00002000
 
 // ALU operations.

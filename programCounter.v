@@ -4,6 +4,7 @@ module programCounter(
 		      input clk,
 		      input rst,
 		      input [`WORD_SIZE-1:0] PCNext,
+		      input StallF,
 		      output [`WORD_SIZE-1:0] PC
 		      );
 
@@ -13,9 +14,8 @@ module programCounter(
      begin
         if (rst)
           PC_reg <= 0;
-        else
+	else if (!StallF)
           PC_reg <= PCNext;
      end
-
    assign PC = PC_reg;   
 endmodule

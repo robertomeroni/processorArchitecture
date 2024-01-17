@@ -14,16 +14,22 @@ module executeStage
    input [4:0] Rs1E, Rs2E, RdE,
    input [`WORD_SIZE-1:0] ImmExtE, PCPlus4E,
    input [`WORD_SIZE-1:0] ResultW,
-   output [`WORD_SIZE-1:0] ALUResultM, WriteDataM, PCPlus4M, PCTargetE,
-   output [4:0] RdM,
 
    // Control ports.
    input RegWriteE, ALUSrcE, MemWriteE, JumpE, BranchE,
    input [1:0] ResultSrcE, ForwardAE, ForwardBE,
-   input [2:0] ALUControlE, 
+   input [2:0] ALUControlE,
+
+   output [`WORD_SIZE-1:0] ALUResultM, WriteDataM, PCPlus4M, PCTargetE,
+   output [4:0] RdM,
+   
    output RegWriteM, MemWriteM,
    output PCSrcE, 
-   output [1:0] ResultSrcM
+   output [1:0] ResultSrcM,
+
+   //hazard outputs
+   output [4:0] Rs1EH, Rs2EH, RdEH,
+   output ResultSrcEH
    );
 
    // Internal wires and registers.
@@ -105,17 +111,18 @@ module executeStage
       #3;
       $display("--- EXECUTE STAGE ---");
       //$display("RD1E =       %32b\nResultW =    %32b\nALUResultM = %32b\nALUResultE = %32b\nSrcAE =      %32b\nSrcBE =      %32b\n", RD1E, ResultW, ALUResultM, ALUResultE, SrcAE, SrcBE);
-      $display("RD1E = %32b\nRD2E = %32b", RD1E, RD2E);
-      // $display("ForwardAE = %2b\nForwardBE = %2b", ForwardAE, ForwardBE);
-      $display("ALUSrcE = %1b", ALUSrcE);
-      $display("ALUControlE = %3b", ALUControlE);
-      $display("ALUResultM = %32b", ALUResultM);
+      $display("ForwardAE = %2b\nForwardBE = %2b", ForwardAE, ForwardBE);
       // $display("ResultSrcM = %32b", ResultSrcM);
-      // $display("MemWriteM = %32b", MemWriteM);
-      $display("JumpE = %1b, BranchE = %1b, ZeroE = %1b, PCSrcE = %1b", JumpE, BranchE, ZeroE, PCSrcE);
+      $display("MemWriteM = %1b", MemWriteM);
+      $display("ALUResultM = %32b", ALUResultM);
+      // $display("WriteDataM = %32b", WriteDataM);
    end
 
    // Outputs.
+   assign Rs1EH = Rs1E;
+   assign Rs2EH = Rs2E;
+   assign RdEH = RdE;
+   assign ResultSrcEH = ResultSrcE[0];
    assign ALUResultM = ALUResultE_reg;
    assign WriteDataM = WriteDataE_reg;
    assign RdM = RdE_reg;

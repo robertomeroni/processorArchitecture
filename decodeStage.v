@@ -10,6 +10,9 @@ module decodeStage
    input RegWriteW,
    input [4:0] RdW,
 
+   // hazard input
+   input  FlushE,
+
    output [`WORD_SIZE-1:0] RD1E, RD2E, PCE,
    output [4:0] Rs1E, Rs2E, RdE,
    output [`WORD_SIZE-1:0] ImmExtE, PCPlus4E,
@@ -17,7 +20,10 @@ module decodeStage
    // Control Unit ports.
    output RegWriteE, MemWriteE, JumpE, BranchE, ALUSrcE,
    output [1:0] ResultSrcE,
-   output [2:0] ALUControlE
+   output [2:0] ALUControlE,
+
+   // hazard outputs
+   output [4:0] Rs1DH, Rs2DH
    );
 
    // Internal wires and registers.
@@ -77,7 +83,7 @@ module decodeStage
 
    // Behavior.
    always @(posedge clk or posedge rst) begin
-      if (rst) begin
+      if (rst | FlushE) begin
          RD1D_reg <= 0;
          RD2D_reg <= 0;
          PCD_reg <= 0;
@@ -115,14 +121,20 @@ module decodeStage
       $display("RegWriteW = %1b", RegWriteW);
       $display("RdW = %5b", RdW);
       $display("ResultW = %32b", ResultW);
-      // $display("RD1E = %32b", RD1E);
-      // $display("RD2E = %32b", RD2E);
-      // $display("ResultSrcE = %32b", ResultSrcE);
-      // $display("MemWriteE = %32b", MemWriteE);
+      $display("--- ------ ----- ---");
+      // $display("JumpE = %1b, BranchE = %1b, ZeroE = %1b, PCSrcE = %1b", JumpE, BranchE, ZeroE, PCSrcE);
+      // $display("ALUControlE = %3b", ALUControlE);
+      // $display("ALUSrcE = %1b", ALUSrcE);
+      $display("RD1E = %32b", RD1E);
+      $display("RD2E = %32b", RD2E);
       $display("ImmExtE = %32b", ImmExtE);
+      // $display("InstrD = %32b", InstrD);
+      // $display("MemWriteE = %32b", MemWriteE);
    end
 
    // Outputs.
+   assign Rs1DH = InstrD[19:15];
+   assign Rs2DH = InstrD[24:20];
    assign RD1E = RD1D_reg;
    assign RD2E = RD2D_reg;
    assign PCE = PCD_reg;

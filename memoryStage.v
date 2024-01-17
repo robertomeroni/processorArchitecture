@@ -5,12 +5,15 @@ module memoryStage (
 		    input clk, rst,
 		    input [`WORD_SIZE-1:0] ALUResultM, WriteDataM, PCPlus4M,
 		    input [4:0] RdM,
-		    output [`WORD_SIZE-1:0] ALUResultW, ReadDataW, PCPlus4W,
-		    output [4:0] RdW,
-
 		    // Control ports.
 		    input RegWriteM, MemWriteM,
 		    input [1:0] ResultSrcM,
+
+		    // hazard output
+		    output [4:0] RdMH,
+		    output [0:0] RegWriteMH,
+		    output [`WORD_SIZE-1:0] ALUResultW, ReadDataW, PCPlus4W,
+		    output [4:0] RdW,
 		    output RegWriteW,
 		    output [1:0] ResultSrcW
 		    );
@@ -55,14 +58,14 @@ module memoryStage (
       end
       #4;
       $display("--- MEMORY STAGE ---");
-      // $display("ALUResultM = %32b", ALUResultM);
-      $display("MemWriteM = %1b", MemWriteM);
+      // $display("MemWriteM = %1b", MemWriteM);
+      // $display("--- ------ ----- ---");
       $display("ReadDataW = %32b", ReadDataW);
-      $display("RdW = %5b", RdW);
-      // $display("ResultSrcW = %32b", ResultSrcW);
    end
 
    // Outputs.
+   assign RdMH = RdM;
+   assign RegWriteMH = RegWriteM;
    assign ALUResultW = ALUResultM_reg;
    assign ReadDataW = ReadDataM_reg;
    assign PCPlus4W = PCPlus4M_reg;

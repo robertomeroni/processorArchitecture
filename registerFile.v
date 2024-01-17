@@ -29,7 +29,6 @@ module registerFile(
          r[A3] <= WD3;
 	 $display("Wrote %32b to r%d", WD3, A3);
       end
-      $display("reading r[%d] = %32b, r[%d] = %32b", A1, RD1, A2, RD2);
    end
 
    // Assigning the output.
