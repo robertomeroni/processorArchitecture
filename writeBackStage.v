@@ -11,18 +11,14 @@ module writeBackStage (
 
 		       // inout: pass these values along
 		       input [4:0] RdW,
-		       input RegWriteW,
+		       inout RegWriteW,
 
 		       // hazard output
 		       output [4:0] RdWH,
 		       output RegWriteWH,
 		       
-		       output [4:0] RdWW,
-		       output RegWriteWW,
-		       output [`WORD_SIZE-1:0] ResultWW
+		       output [`WORD_SIZE-1:0] ResultW
 		       );
-
-   wire [`WORD_SIZE-1:0] ResultW;
    
    // Modules.
    // Mux 3 to 1 for result.
@@ -43,11 +39,6 @@ module writeBackStage (
       $display("ResultW = %32b", ResultW);
    end
 
-   assign RdWH = rst ? 0 : RdW;
-   assign RegWriteWH = rst ? 0 : RegWriteW;
-
-   assign RdWW = rst ? 5'b00000 : RdW;
-   assign RegWriteWW = rst ? 5'b00000 : RegWriteW;
-   assign ResultWW = rst ? 5'b00000 : ResultW;
-	
+   assign RdWH = RdW;
+   assign RegWriteWH = RegWriteW;
 endmodule

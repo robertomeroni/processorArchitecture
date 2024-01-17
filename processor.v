@@ -53,10 +53,6 @@ module processor (
    wire [`WORD_SIZE-1:0] ALUResultW, ReadDataW, PCPlus4W;
    wire [1:0] ResultSrcW;
 
-   //writeback outputs
-   wire [`WORD_SIZE-1:0] ResultWW;
-   wire RegWriteWW;
-   wire [4:0] RdWW;
    // writeback hazard outputs
    wire [4:0] RdWH;
    wire RegWriteWH;
@@ -88,9 +84,9 @@ module processor (
 		       .InstrD(InstrD),
 		       .PCD(PCD),
 		       .PCPlus4D(PCPlus4D),
-		       .ResultW(ResultWW),
-		       .RegWriteW(RegWriteWW),
-		       .RdW(RdWW),
+		       .ResultW(ResultW),
+		       .RegWriteW(RegWriteW),
+		       .RdW(RdW),
 		       // hazard inputs
 		       .FlushE(FlushE),
 		       
@@ -129,7 +125,7 @@ module processor (
 			 .RdE(RdE),
 			 .ImmExtE(ImmExtE),
 			 .PCPlus4E(PCPlus4E),
-			 .ResultW(ResultWW),
+			 .ResultW(ResultW),
 			 // control inputs
 			 .RegWriteE(RegWriteE),
 			 .ALUSrcE(ALUSrcE),
@@ -201,9 +197,7 @@ module processor (
 			     .RdW(RdW),
 			     
 			     // standard outputs
-			     .RdWW(RdWW),
-			     .RegWriteWW(RegWriteWW),
-			     .ResultWW(ResultWW),
+			     .ResultW(ResultW),
 			     // hazard outputs
 			     .RdWH(RdWH),
 			     .RegWriteWH(RegWriteWH)
