@@ -10,7 +10,8 @@ module instructionMemory(
 
    // Load instructions into memory.
    initial begin
-      $readmemb("instructions.txt", memory_reg);
+      // $readmemb("instructions.txt", memory_reg);
+      $readmemh("bookTest.hex", memory_reg);
    end
 
    assign Instr = (rst) ? 0 : memory_reg[PC[31:2]];
