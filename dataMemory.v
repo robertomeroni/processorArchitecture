@@ -14,15 +14,13 @@ module dataMemory (
    end
 
    always @(posedge clk or posedge rst) begin
-      if (rst)
-        RD <= 0; 
-      else begin
-         if (WE) begin
-            mem[A] <= WD;
-	    $display("Wrote %32b to mem[%d]", WD, A);
-         end
-         RD <= mem[A];
-	 // $display("read mem[%d] = %32b", A, RD);
+      // $display("mem[8] = %32b", mem[8]);
+      if (WE) begin
+         mem[A] <= WD;
+	 $display("Wrote %32b to mem[%d]", WD, A);
       end
    end
+
+   assign RD = rst ? {32{1'b0}} : mem[A];
+   
 endmodule

@@ -56,7 +56,7 @@ module fetchStage
    // Go to next instruction.
    adder PC_Adder (
 		   .a(PCF),
-		   .b(1),
+		   .b(32'b00000000000000000000000000000100),
 		   .out(PCPlus4F)
 		   );
 

@@ -13,7 +13,7 @@ module instructionMemory(
       $readmemb("instructions.txt", memory_reg);
    end
 
-   assign Instr = (rst) ? 0 : memory_reg[PC];
+   assign Instr = (rst) ? 0 : memory_reg[PC[31:2]];
 endmodule
 
 

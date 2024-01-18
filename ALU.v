@@ -12,25 +12,22 @@ module ALU (
    
    reg   [`WORD_SIZE-1:0] F0, F1, F2, F3;
 
-   always @(posedge clk or posedge rst) begin
-      case (ALUControlE)
-        `ADD_FUNCT3: out = a + b;
-        `SUB_FUNCT3: out = a - b;
-        `AND_FUNCT3: out = a & b;
-        `OR_FUNCT3:  out = a | b;
-	`MUL_FUNCT3: begin
-	   F0 <= a * b;
-	   F1 <= F0;
-	   F2 <= F1;
-	   F3 <= F2;
-	   out <= F3;
-	end
-      endcase // case (ALUControlE)
-      if (out==32'b00000000000000000000000000000000) begin
-	 zeroE = 1;
-      end else begin
-	 zeroE = 0;
+   always @ ( posedge clk ) begin
+      if (ALUControlE == `MUL_FUNCT3) begin
+	 F0 <= a * b;
+	 F1 <= F0;
+	 F2 <= F1;
+	 F3 <= F2;
       end
-   end 
+   end
+
+   
+   assign out = (ALUControlE == `ADD_FUNCT3) ? a + b :
+		(ALUControlE == `SUB_FUNCT3) ? a - b :
+		(ALUControlE == `AND_FUNCT3) ? a & b :
+		(ALUControlE == `OR_FUNCT3)  ? a | b :
+		(ALUControlE == `MUL_FUNCT3) ? F3 : {32{1'b0}};
+
+   assign zeroE = (out == {32{1'b0}}) ? 1'b1 : 1'b0;
 endmodule
 
