@@ -118,10 +118,10 @@ module decodeStage
       end
       #2;
       $display("--- DECODE STAGE ---");
-      $display("RegWriteW = %1b", RegWriteW);
-      $display("RdW = %5b", RdW);
-      $display("ResultW = %32b", ResultW);
-      $display("--- ------ ----- ---");
+      // $display("RegWriteW = %1b", RegWriteW);
+      // $display("RdW = %5b", RdW);
+      // $display("ResultW = %32b", ResultW);
+      // $display("--- ------ ----- ---");
       // $display("JumpE = %1b, BranchE = %1b, ZeroE = %1b, PCSrcE = %1b", JumpE, BranchE, ZeroE, PCSrcE);
       // $display("ALUControlE = %3b", ALUControlE);
       // $display("ALUSrcE = %1b", ALUSrcE);

@@ -111,12 +111,12 @@ module executeStage
       #3;
       $display("--- EXECUTE STAGE ---");
       //$display("RD1E =       %32b\nResultW =    %32b\nALUResultM = %32b\nALUResultE = %32b\nSrcAE =      %32b\nSrcBE =      %32b\n", RD1E, ResultW, ALUResultM, ALUResultE, SrcAE, SrcBE);
-      $display("RD1E = %32b, RD2E = %32b, ImmExtE = %32b", RD1E, RD2E, ImmExtE);
-      $display("ForwardAE = %2b\nForwardBE = %2b", ForwardAE, ForwardBE);
-      $display("ALUSrcE = %1b", ALUSrcE);
-      // $display("ResultSrcM = %32b", ResultSrcM);
-      $display("ResultW = %32b", ResultW);
-      $display("--- ------- ----- ---");
+      // $display("RD1E = %32b, RD2E = %32b, ImmExtE = %32b", RD1E, RD2E, ImmExtE);
+      // $display("ForwardAE = %2b\nForwardBE = %2b", ForwardAE, ForwardBE);
+      // $display("ALUSrcE = %1b", ALUSrcE);
+      // // $display("ResultSrcM = %32b", ResultSrcM);
+      // $display("ResultW = %32b", ResultW);
+      // $display("--- ------- ----- ---");
       $display("MemWriteM = %1b", MemWriteM);
       $display("ALUResultM = %32b", ALUResultM);
       // $display("WriteDataM = %32b", WriteDataM);

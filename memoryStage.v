@@ -59,9 +59,9 @@ module memoryStage (
       #4;
       $display("--- MEMORY STAGE ---");
       //$display("MemWriteM = %1b", MemWriteM);
-      $display("ALUResultM = %32b", ALUResultM);
-      $display("RegWriteM = %1b", RegWriteM);
-      $display("--- ------ ----- ---");
+      // $display("ALUResultM = %32b", ALUResultM);
+      // $display("RegWriteM = %1b", RegWriteM);
+      // $display("--- ------ ----- ---");
       $display("ReadDataW = %32b", ReadDataW);
    end
 
