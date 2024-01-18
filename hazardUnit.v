@@ -10,19 +10,17 @@ module hazard_unit
    input [4:0] Rs1D,
    input [4:0] Rs2D,
    input [4:0] RdE,
+   input PCSrcE, 
    input ResultSrcE0,
    output [1:0] ForwardAE, 
    output [1:0] ForwardBE,
    output StallF, 
    output StallD,
+   output FlushD,
    output FlushE
    );
 
    wire lwStall;
-
-   initial begin
-      $monitor("lwStall = %1b", lwStall);
-   end
 
    // forwarding to solve RAW hazard
    assign ForwardAE = (rst == 1'b1) ? 2'b00 : 
@@ -35,8 +33,9 @@ module hazard_unit
 
    // stall to deal with data hazard
    assign lwStall = (rst == 1'b1) ? 1'b0 :  ResultSrcE0 & ((Rs1D == RdE) | (Rs2D == RdE));
-   assign FlushE  = (rst == 1'b1) ? 1'b0 : lwStall;
    assign StallD  = (rst == 1'b1) ? 1'b0 : lwStall;
    assign StallF  = (rst == 1'b1) ? 1'b0 : lwStall;
-   
+   assign FlushD = PCSrcE;
+   assign FlushE  = (rst == 1'b1) ? 1'b0 : lwStall | PCSrcE;
+      
 endmodule

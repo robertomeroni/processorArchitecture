@@ -15,7 +15,7 @@ module processor (
    wire PCSrcE;
    wire [`WORD_SIZE-1:0] PCTargetE;
    // hazard input
-   wire StallF;
+   wire StallF, StallD, FlushD;
 
    // Decode inputs.
    wire [`WORD_SIZE-1:0] InstrD, PCPlus4D, PCD;
@@ -23,7 +23,7 @@ module processor (
    wire RegWriteW;
    wire [`WORD_SIZE-1:0] ResultW;
    // hazard input
-   wire FlushD;
+   wire FlushE;
    // decode outputs to hazard unit
    wire [4:0] Rs1DH, Rs2DH;
 
@@ -32,10 +32,11 @@ module processor (
    wire [4:0] Rs1E, Rs2E, RdE;
    wire [`WORD_SIZE-1:0] ImmExtE, PCPlus4E;
    wire RegWriteE, ALUSrcE, MemWriteE, JumpE, BranchE, AluSrcE;
-   wire [1:0] ResultSrcE, ForwardAE, ForwardBE;
+   wire [1:0] ResultSrcE;
    wire [2:0] ALUControlE;
-   // hazard input
-   wire FlushE;
+   // hazard inputs
+   wire [1:0] ForwardAE, ForwardBE;
+   
    // hazard outputs
    wire   [4:0] RdEH, Rs1EH, Rs2EH;
    wire   ResultSrcEH;
@@ -69,6 +70,7 @@ module processor (
 		     // hazard inputs
 		     .StallF(StallF),
 		     .StallD(StallD),
+		     .FlushD(FlushD),
 		     
 		     // standard outputs
 		     .InstrD(InstrD),
@@ -216,11 +218,13 @@ module processor (
 		      .Rs1D(Rs1DH),
 		      .Rs2D(Rs2DH),
 		      .RdE(RdEH),
+		      .PCSrcE(PCSrcE),
 		      .ResultSrcE0(ResultSrcEH),
 		      
 		      // standard outputs
 		      .StallF(StallF), 
 		      .StallD(StallD),
+		      .FlushD(FlushD),
 		      .FlushE(FlushE),
 		      .ForwardAE(ForwardAE),
 		      .ForwardBE(ForwardBE)

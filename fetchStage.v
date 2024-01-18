@@ -14,6 +14,7 @@ module fetchStage
    // hazard inputs
    input StallF,
    input StallD,
+   input FlushD,
    
    output [`WORD_SIZE-1:0] InstrD,
    output [`WORD_SIZE-1:0] PCD,
@@ -67,7 +68,7 @@ module fetchStage
 
    // Behavior.
    always @(posedge clk or posedge rst) begin
-      if(rst) begin
+      if(rst | FlushD) begin
          PCF_reg <= `PC_INITIAL;
          PCPlus4F_reg <= 0;
          InstrF_reg <= 0;
