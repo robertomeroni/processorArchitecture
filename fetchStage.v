@@ -70,7 +70,7 @@ module fetchStage
    always @(posedge clk or posedge rst) begin
       if(rst | FlushD) begin
          PCF_reg <= `PC_INITIAL;
-         PCPlus4F_reg <= 0;
+         PCPlus4F_reg <= `PC_INITIAL + 4;
          InstrF_reg <= 0;
       end else if (!StallD) begin
          InstrF_reg <= InstrF;
@@ -81,7 +81,7 @@ module fetchStage
       $display("--- FETCH STAGE ---");
       $display("PCF = %d", PCF);
       // $display("PCSrcE = %32b", PCSrcE);
-      $display("InstrD = %32b", InstrD);
+      $display("InstrD = %8h", InstrD);
    end
 
    // Trasmitting the values to the output ports.

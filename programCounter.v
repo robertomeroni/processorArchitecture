@@ -13,7 +13,7 @@ module programCounter(
    always @(posedge clk or posedge rst)
      begin
         if (rst)
-          PC_reg <= 0;
+          PC_reg <= `PC_INITIAL;
 	else if (!StallF)
           PC_reg <= PCNext;
      end
