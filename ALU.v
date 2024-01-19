@@ -26,6 +26,7 @@ module ALU (
 		(ALUControlE == `SUB_FUNCT3) ? a - b :
 		(ALUControlE == `AND_FUNCT3) ? a & b :
 		(ALUControlE == `OR_FUNCT3)  ? a | b :
+		(ALUControlE == `SLT_FUNCT3) ? a < b :
 		(ALUControlE == `MUL_FUNCT3) ? F3 : {32{1'b0}};
 
    assign zeroE = (out == {32{1'b0}}) ? 1'b1 : 1'b0;
