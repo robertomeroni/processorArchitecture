@@ -27,10 +27,17 @@ module registerFile(
    always @ (A3 or WD3 or WE3) begin
       if(WE3 & (A3 != 5'b00000)) begin // cannot write to register 0.
          r[A3] <= WD3;
-	 $display("Wrote %32b to r%d", WD3, A3);
+	 $display("Wrote %d to r%d", WD3, A3);
       end
    end
 
+
+   // always @ ( * ) begin
+   //    RD1 = r[A1];
+   //    RD2 = r[A2];
+   // end
+   
+   
    // Assigning the output.
    assign RD1 = (rst) ? 0 : r[A1];
    assign RD2 = (rst) ? 0 : r[A2];
