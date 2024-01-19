@@ -21,6 +21,7 @@ module decodeStage
    output RegWriteE, MemWriteE, JumpE, BranchE, ALUSrcE,
    output [1:0] ResultSrcE,
    output [2:0] ALUControlE,
+   output LoadByteE,
 
    // hazard outputs
    output [4:0] Rs1DH, Rs2DH

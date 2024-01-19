@@ -19,6 +19,7 @@ module executeStage
    input RegWriteE, ALUSrcE, MemWriteE, JumpE, BranchE,
    input [1:0] ResultSrcE, ForwardAE, ForwardBE,
    input [2:0] ALUControlE,
+   input LoadByteE,
 
    output [`WORD_SIZE-1:0] ALUResultM, WriteDataM, PCPlus4M, PCTargetE,
    output [4:0] RdM,
@@ -26,6 +27,7 @@ module executeStage
    output RegWriteM, MemWriteM,
    output PCSrcE, 
    output [1:0] ResultSrcM,
+   output LoadByteM,
 
    //hazard outputs
    output [4:0] Rs1EH, Rs2EH, RdEH,
@@ -43,6 +45,8 @@ module executeStage
 
    reg RegWriteE_reg, MemWriteE_reg;
    reg [1:0] ResultSrcE_reg;
+
+   reg LoadByteE_reg;
 
    // Modules.
    // Mux 3 to 1 for source A.
@@ -99,6 +103,7 @@ module executeStage
          RegWriteE_reg <= 0;
          MemWriteE_reg <= 0;
          ResultSrcE_reg <= 0;
+	 LoadByteE_reg <= 0;
       end else begin
          ALUResultE_reg <= ALUResultE;
          WriteDataE_reg <= WriteDataE;
@@ -107,6 +112,7 @@ module executeStage
          RegWriteE_reg <= RegWriteE;
          MemWriteE_reg <= MemWriteE;
          ResultSrcE_reg <= ResultSrcE;
+	 LoadByteE_reg <= LoadByteE;
       end
       #3;
       $display("--- EXECUTE STAGE ---");
@@ -135,4 +141,5 @@ module executeStage
    assign MemWriteM = MemWriteE_reg;
    assign ResultSrcM = ResultSrcE_reg;
    assign PCSrcE = (ZeroE & BranchE) | JumpE;
+   assign LoadByteM = LoadByteE_reg;
 endmodule

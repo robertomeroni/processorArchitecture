@@ -4,6 +4,7 @@ module dataMemory (
 		   input clk, rst,
 		   input WE,
 		   input [`WORD_SIZE-1:0] A, WD,
+		   input LoadByte,
 		   output reg [`WORD_SIZE-1:0] RD
 		   );
 
@@ -21,6 +22,10 @@ module dataMemory (
       end
    end
 
-   assign RD = rst ? {32{1'b0}} : mem[A];
+   assign RD = rst ? {32{1'b0}} :
+	       LoadByte ? {{24{mem[A][31]}}, mem[A][7:0]} :
+	       mem[A];
+
+
    
 endmodule

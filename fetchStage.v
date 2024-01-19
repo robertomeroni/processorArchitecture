@@ -68,10 +68,13 @@ module fetchStage
 
    // Behavior.
    always @(posedge clk or posedge rst) begin
-      if(rst | FlushD) begin
+      if(rst) begin
          PCF_reg <= `PC_INITIAL;
          PCPlus4F_reg <= `PC_INITIAL + 4;
          InstrF_reg <= 0;
+      end else if (FlushD) begin
+	 // send a nop down the pipeline
+         InstrF_reg <= 32'b000000000000_00000_000_00000_00100_11;
       end else if (!StallD) begin
          InstrF_reg <= InstrF;
          PCF_reg <= PCF;

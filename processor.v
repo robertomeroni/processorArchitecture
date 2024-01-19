@@ -34,6 +34,7 @@ module processor (
    wire RegWriteE, ALUSrcE, MemWriteE, JumpE, BranchE, AluSrcE;
    wire [1:0] ResultSrcE;
    wire [2:0] ALUControlE;
+   wire LoadByteE;
    // hazard inputs
    wire [1:0] ForwardAE, ForwardBE;
    
@@ -46,6 +47,7 @@ module processor (
    wire [4:0] RdM;
    wire RegWriteM, MemWriteM;
    wire [1:0] ResultSrcM;
+   wire LoadByteM;
    // memory hazard outputs
    wire   [4:0] RdMH;
    wire  RegWriteMH;
@@ -109,6 +111,7 @@ module processor (
 		       .ALUSrcE(ALUSrcE),
 		       .ResultSrcE(ResultSrcE),
 		       .ALUControlE(ALUControlE),
+		       .LoadByteE(LoadByteE),
 		       // hazard outputs
 		       .Rs1DH(Rs1DH),
 		       .Rs2DH(Rs2DH)
@@ -136,6 +139,7 @@ module processor (
 			 .BranchE(BranchE),
 			 .ResultSrcE(ResultSrcE),
 			 .ALUControlE(ALUControlE),
+			 .LoadByteE(LoadByteE),
 			 //hazard inputs
 			 .ForwardAE(ForwardAE),
 			 .ForwardBE(ForwardBE),
@@ -151,6 +155,7 @@ module processor (
 			 .MemWriteM(MemWriteM),
 			 .ResultSrcM(ResultSrcM),
 			 .PCSrcE(PCSrcE),
+			 .LoadByteM(LoadByteM),
 			 // hazard outputs
 			 .RdEH(RdEH),
 			 .Rs1EH(Rs1EH),
@@ -167,16 +172,17 @@ module processor (
 		       .WriteDataM(WriteDataM),
 		       .PCPlus4M(PCPlus4M),
 		       .RdM(RdM),
+		       // control inputs
+		       .RegWriteM(RegWriteM),
+		       .MemWriteM(MemWriteM),
+		       .ResultSrcM(ResultSrcM),
+		       .LoadByteM(LoadByteM),
+		       
 		       // standard outputs
 		       .ALUResultW(ALUResultW),
 		       .ReadDataW(ReadDataW),
 		       .PCPlus4W(PCPlus4W),
 		       .RdW(RdW),
-
-		       // control inputs
-		       .RegWriteM(RegWriteM),
-		       .MemWriteM(MemWriteM),
-		       .ResultSrcM(ResultSrcM),
 		       // control outputs
 		       .RegWriteW(RegWriteW),
 		       .ResultSrcW(ResultSrcW),
