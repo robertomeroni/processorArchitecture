@@ -6,8 +6,8 @@ module ALU (
 	    input [`WORD_SIZE-1:0] a,
 	    input [`WORD_SIZE-1:0] b,
 	    input [2:0] ALUControlE,
-	    output reg [`WORD_SIZE-1:0] out,
-	    output reg zeroE
+	    output [`WORD_SIZE-1:0] out,
+	    output zeroE
 	    );
    
    reg   [`WORD_SIZE-1:0] F0, F1, F2, F3;
