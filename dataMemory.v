@@ -17,8 +17,13 @@ module dataMemory (
    always @(posedge clk or posedge rst) begin
       // $display("mem[8] = %32b", mem[8]);
       if (WE) begin
-         mem[A] <= WD;
-	 $display("Wrote %d to mem[%d]", WD, A);
+	 if (LoadByte) begin
+	    mem[A][31:23] <= WD[7:0];
+	    $display("Wrote %d to mem[%d]", WD[7:0], A);
+	 end else begin
+            mem[A] <= WD;
+	    $display("Wrote %d to mem[%d]", WD, A);
+	 end
       end
    end
 

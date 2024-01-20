@@ -38,7 +38,7 @@ module controlUnit (
 			   .ALUControl(ALUControl)
 			   );
 
-   assign LoadByte = ((Op == `LOAD_FUNCT7) & (funct3 == 3'b000)) ? 1'b1 : 1'b0;
+   assign LoadByte = (((Op == `LOAD_FUNCT7) | (Op == `STORE_FUNCT7)) & (funct3 == 3'b000)) ? 1'b1 : 1'b0;
 		     
 endmodule
 
