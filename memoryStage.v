@@ -8,7 +8,7 @@ module memoryStage (
 		    // Control ports.
 		    input RegWriteM, MemWriteM,
 		    input [1:0] ResultSrcM,
-		    input LoadByteM,
+		    input ByteAddressM,
 
 		    // hazard output
 		    output [4:0] RdMH,
@@ -36,7 +36,7 @@ module memoryStage (
 			   .WE(MemWriteM),
 			   .WD(WriteDataM),
 			   .A(ALUResultM),
-			   .LoadByte(LoadByteM),
+			   .ByteAddress(ByteAddressM),
 			   .RD(ReadDataM)
 			   );
 

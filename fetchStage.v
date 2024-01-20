@@ -82,7 +82,7 @@ module fetchStage
       end
       #1;
       $display("--- FETCH STAGE ---");
-      $display("PCF = %d", PCF);
+      $display("PCF = %h", PCF);
       // $display("PCSrcE = %32b", PCSrcE);
       $display("InstrD = %8h", InstrD);
    end

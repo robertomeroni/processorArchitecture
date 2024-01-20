@@ -24,6 +24,7 @@ module processor (
    wire [`WORD_SIZE-1:0] ResultW;
    // hazard input
    wire FlushE;
+   wire StallE;
    // decode outputs to hazard unit
    wire [4:0] Rs1DH, Rs2DH;
 
@@ -40,6 +41,7 @@ module processor (
    // hazard outputs
    wire   [4:0] RdEH, Rs1EH, Rs2EH;
    wire   ResultSrcEH;
+   wire   MulH;
    
    // Memory inputs.
    wire [`WORD_SIZE-1:0] ALUResultM, WriteDataM, PCPlus4M;
@@ -90,6 +92,7 @@ module processor (
 		       .RegWriteW(RegWriteW),
 		       .RdW(RdW),
 		       // hazard inputs
+		       .StallE(StallE),
 		       .FlushE(FlushE),
 		       
 		       // standard outputs
@@ -109,7 +112,7 @@ module processor (
 		       .ALUSrcE(ALUSrcE),
 		       .ResultSrcE(ResultSrcE),
 		       .ALUControlE(ALUControlE),
-		       .LoadByteE(LoadByteE),
+		       .ByteAddressE(ByteAddressE),
 		       // hazard outputs
 		       .Rs1DH(Rs1DH),
 		       .Rs2DH(Rs2DH)
@@ -137,7 +140,7 @@ module processor (
 			 .BranchE(BranchE),
 			 .ResultSrcE(ResultSrcE),
 			 .ALUControlE(ALUControlE),
-			 .LoadByteE(LoadByteE),
+			 .ByteAddressE(ByteAddressE),
 			 //hazard inputs
 			 .ForwardAE(ForwardAE),
 			 .ForwardBE(ForwardBE),
@@ -153,12 +156,13 @@ module processor (
 			 .MemWriteM(MemWriteM),
 			 .ResultSrcM(ResultSrcM),
 			 .PCSrcE(PCSrcE),
-			 .LoadByteM(LoadByteM),
+			 .ByteAddressM(ByteAddressM),
 			 // hazard outputs
 			 .RdEH(RdEH),
 			 .Rs1EH(Rs1EH),
 			 .Rs2EH(Rs2EH),
-			 .ResultSrcEH(ResultSrcEH)
+			 .ResultSrcEH(ResultSrcEH),
+			 .MulH(MulH)
 			 );
 
    // Memory Stage.
@@ -174,7 +178,7 @@ module processor (
 		       .RegWriteM(RegWriteM),
 		       .MemWriteM(MemWriteM),
 		       .ResultSrcM(ResultSrcM),
-		       .LoadByteM(LoadByteM),
+		       .ByteAddressM(ByteAddressM),
 		       
 		       // standard outputs
 		       .ALUResultW(ALUResultW),
@@ -224,10 +228,12 @@ module processor (
 		      .RdE(RdEH),
 		      .PCSrcE(PCSrcE),
 		      .ResultSrcE0(ResultSrcEH),
+		      .Mul(MulH),
 		      
 		      // standard outputs
 		      .StallF(StallF), 
 		      .StallD(StallD),
+		      .StallE(StallE),
 		      .FlushD(FlushD),
 		      .FlushE(FlushE),
 		      .ForwardAE(ForwardAE),

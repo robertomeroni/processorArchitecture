@@ -12,10 +12,12 @@ module hazard_unit
    input [4:0] RdE,
    input PCSrcE, 
    input ResultSrcE0,
+   input Mul,
    output [1:0] ForwardAE, 
    output [1:0] ForwardBE,
    output StallF, 
    output StallD,
+   output StallE,
    output FlushD,
    output FlushE
    );
@@ -33,9 +35,10 @@ module hazard_unit
 
    // stall to deal with data hazard
    assign lwStall = (rst == 1'b1) ? 1'b0 :  ResultSrcE0 & ((Rs1D == RdE) | (Rs2D == RdE));
-   assign StallD  = (rst == 1'b1) ? 1'b0 : lwStall;
-   assign StallF  = (rst == 1'b1) ? 1'b0 : lwStall;
-   assign FlushD = PCSrcE;
+   assign StallD  = (rst == 1'b1) ? 1'b0 : lwStall | Mul;
+   assign StallF  = (rst == 1'b1) ? 1'b0 : lwStall | Mul;
+   assign StallE  = (rst == 1'b1) ? 1'b0 : Mul;
+   assign FlushD = (rst == 1'b1) ? 1'b0 : PCSrcE;
    assign FlushE  = (rst == 1'b1) ? 1'b0 : lwStall | PCSrcE;
       
 endmodule

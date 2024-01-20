@@ -4,7 +4,7 @@ module dataMemory (
 		   input clk, rst,
 		   input WE,
 		   input [`WORD_SIZE-1:0] A, WD,
-		   input LoadByte,
+		   input ByteAddress,
 		   output [`WORD_SIZE-1:0] RD
 		   );
 
@@ -17,7 +17,7 @@ module dataMemory (
    always @(posedge clk or posedge rst) begin
       // $display("mem[8] = %32b", mem[8]);
       if (WE) begin
-	 if (LoadByte) begin
+	 if (ByteAddress) begin
 	    mem[A][31:23] <= WD[7:0];
 	    $display("Wrote %d to mem[%d]", WD[7:0], A);
 	 end else begin
@@ -28,6 +28,6 @@ module dataMemory (
    end
 
    assign RD = rst ? {32{1'b0}} :
-	       LoadByte ? {{24{mem[A][31]}}, mem[A][31:24]} :
+	       ByteAddress ? {{24{mem[A][31]}}, mem[A][31:24]} :
 	       mem[A];
 endmodule
