@@ -8,7 +8,7 @@ module memoryStage (
 		    // Control ports.
 		    input RegWriteM, MemWriteM,
 		    input [1:0] ResultSrcM,
-		    input LoadByteM, 
+		    input LoadByteM,
 
 		    // hazard output
 		    output [4:0] RdMH,

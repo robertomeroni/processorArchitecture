@@ -23,9 +23,6 @@ module dataMemory (
    end
 
    assign RD = rst ? {32{1'b0}} :
-	       LoadByte ? {{24{mem[A][31]}}, mem[A][7:0]} :
+	       LoadByte ? {{24{mem[A][31]}}, mem[A][31:24]} :
 	       mem[A];
-
-
-   
 endmodule

@@ -21,9 +21,10 @@ module decodeStage
    output RegWriteE, MemWriteE, JumpE, BranchE, ALUSrcE,
    output [1:0] ResultSrcE,
    output [2:0] ALUControlE,
-   output LoadByteE,
 
-   // hazard outputs
+   output LoadByteE,
+   
+// hazard outputs
    output [4:0] Rs1DH, Rs2DH
    );
 
@@ -44,6 +45,9 @@ module decodeStage
    reg RegWriteD_reg, MemWriteD_reg, JumpD_reg, BranchD_reg, ALUSrcD_reg;
    reg [1:0] ResultSrcD_reg;
    reg [2:0] ALUControlD_reg;
+
+   wire LoadByte;
+   reg LoadByteD_reg;
 
 
    // Modules.
@@ -79,7 +83,8 @@ module decodeStage
 			     .Branch(BranchD),
 			     .ALUControl(ALUControlD),
 			     .ALUSrc(ALUSrcD),
-			     .ImmSrc(ImmSrcD)
+			     .ImmSrc(ImmSrcD),
+			     .LoadByte(LoadByte)
 			     );
 
    // Behavior.
@@ -100,6 +105,7 @@ module decodeStage
          ALUSrcD_reg <= 0;
          ResultSrcD_reg <= 0;
          ALUControlD_reg <= 0;
+	 LoadByteD_reg <= 0;
       end else begin
          RD1D_reg <= RD1;
          RD2D_reg <= RD2;
@@ -116,6 +122,7 @@ module decodeStage
          ALUSrcD_reg <= ALUSrcD;
          ResultSrcD_reg <= ResultSrcD;
          ALUControlD_reg <= ALUControlD;
+	 LoadByteD_reg <= LoadByte;
       end
       #2;
       $display("--- DECODE STAGE ---");
@@ -131,6 +138,7 @@ module decodeStage
       $display("ImmExtE = %32b", ImmExtE);
       // $display("InstrD = %32b", InstrD);
       // $display("MemWriteE = %32b", MemWriteE);
+      // $display("LoadByteE = %32b", LoadByteE);
    end
 
    // Outputs.
@@ -151,5 +159,6 @@ module decodeStage
    assign ALUSrcE = ALUSrcD_reg;
    assign ResultSrcE = ResultSrcD_reg;
    assign ALUControlE = ALUControlD_reg;
+   assign LoadByteE = LoadByteD_reg;
 endmodule
 

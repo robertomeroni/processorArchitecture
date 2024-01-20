@@ -46,7 +46,7 @@ module executeStage
    reg RegWriteE_reg, MemWriteE_reg;
    reg [1:0] ResultSrcE_reg;
 
-   reg LoadByteE_reg;
+   reg [3:0] LoadByteE_reg;
 
    // Modules.
    // Mux 3 to 1 for source A.
@@ -126,6 +126,7 @@ module executeStage
       $display("MemWriteM = %1b", MemWriteM);
       $display("ALUResultM = %32b", ALUResultM);
       // $display("WriteDataM = %32b", WriteDataM);
+      // $display("LoadByteM = %4b", LoadByteM);
    end
 
    // Outputs.

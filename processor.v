@@ -34,22 +34,20 @@ module processor (
    wire RegWriteE, ALUSrcE, MemWriteE, JumpE, BranchE, AluSrcE;
    wire [1:0] ResultSrcE;
    wire [2:0] ALUControlE;
-   wire LoadByteE;
    // hazard inputs
    wire [1:0] ForwardAE, ForwardBE;
    
    // hazard outputs
    wire   [4:0] RdEH, Rs1EH, Rs2EH;
    wire   ResultSrcEH;
-
+   
    // Memory inputs.
    wire [`WORD_SIZE-1:0] ALUResultM, WriteDataM, PCPlus4M;
    wire [4:0] RdM;
    wire RegWriteM, MemWriteM;
    wire [1:0] ResultSrcM;
-   wire LoadByteM;
    // memory hazard outputs
-   wire   [4:0] RdMH;
+   wire [4:0] RdMH;
    wire  RegWriteMH;
 
    // Writeback inputs.
