@@ -28,7 +28,7 @@ module fetchStage
    wire [`WORD_SIZE-1:0] InstrF;
    wire [`WORD_SIZE-1:0] PCMem;
    wire MemRead, MemReady;
-   wire [`ICACHE_LINE_SIZE-1:0] MemLine;
+   wire [`CACHE_LINE_SIZE-1:0] MemLine;
    wire PCStall;
 
    // Registers.
@@ -104,7 +104,7 @@ module fetchStage
       end
       #1;
       $display("--- FETCH STAGE ---");
-      $display("PCF = %h", PCF);
+      $display("PC = %h", PCF_reg);
       // $display("PCSrcE = %32b", PCSrcE);
       $display("InstrD = %8h", InstrD);
    end

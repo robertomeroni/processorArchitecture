@@ -1,5 +1,6 @@
 `include "constants.v"
 `include "dataMemory.v"
+`include "dCache.v"
 
 module memoryStage (
 		    input clk, rst,
@@ -16,11 +17,18 @@ module memoryStage (
 		    output [`WORD_SIZE-1:0] ALUResultW, ReadDataW, PCPlus4W,
 		    output [4:0] RdW,
 		    output RegWriteW,
-		    output [1:0] ResultSrcW
+		    output [1:0] ResultSrcW,
+          output CacheStall
 		    );
 
    // Internal wires and registers.
    wire [`WORD_SIZE-1:0] ReadDataM;
+   wire Ready;
+   wire [`CACHE_LINE_SIZE-1:0] MemLine;
+   wire MemRead;
+   wire CacheStall;
+   wire [`WORD_SIZE-1:0] AMem;
+
 
    reg [`WORD_SIZE-1:0] ALUResultM_reg, ReadDataM_reg, PCPlus4M_reg;
    reg [4:0] RdM_reg;
@@ -37,8 +45,22 @@ module memoryStage (
 			   .WD(WriteDataM),
 			   .A(ALUResultM),
 			   .ByteAddress(ByteAddressM),
-			   .RD(ReadDataM)
+            .Ready(Ready),
+            .Line(MemLine),
+            .Read(MemRead)
 			   );
+
+   dCache Data_Cache (
+            .clk(clk),
+            .rst(rst),
+            .A(ALUResultM),
+            .AMem(AMem),
+            .MemLine(MemLine),
+            .MemReady(Ready),
+            .MemRead(MemRead),
+            .Value(ReadDataM),
+            .CacheStall(CacheStall)
+            );
 
    // Behavior.
    // TODO: make memory access take 5 clocks as per the project statement
@@ -60,10 +82,10 @@ module memoryStage (
       end
       #4;
       $display("--- MEMORY STAGE ---");
-      //$display("MemWriteM = %1b", MemWriteM);
-      // $display("ALUResultM = %32b", ALUResultM);
-      // $display("RegWriteM = %1b", RegWriteM);
-      // $display("--- ------ ----- ---");
+      $display("MemWriteM = %1b", MemWriteM);
+      $display("ALUResultM = %32b", ALUResultM);
+      $display("RegWriteM = %1b", RegWriteM);
+      $display("--- ------ ----- ---");
       $display("ReadDataW = %32b", ReadDataW);
    end
 

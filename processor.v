@@ -15,7 +15,7 @@ module processor (
    wire PCSrcE;
    wire [`WORD_SIZE-1:0] PCTargetE;
    // hazard input
-   wire StallF, StallD, FlushD, CStall;
+   wire StallF, StallD, FlushD;
 
    // Decode inputs.
    wire [`WORD_SIZE-1:0] InstrD, PCPlus4D, PCD;
@@ -50,7 +50,7 @@ module processor (
    wire [1:0] ResultSrcM;
    // memory hazard outputs
    wire [4:0] RdMH;
-   wire  RegWriteMH;
+   wire  RegWriteMH, dCacheStall;
 
    // Writeback inputs.
    wire [`WORD_SIZE-1:0] ALUResultW, ReadDataW, PCPlus4W;
@@ -190,7 +190,8 @@ module processor (
 		       .ResultSrcW(ResultSrcW),
 		       // hazard outputs
 		       .RdMH(RdMH),
-		       .RegWriteMH(RegWriteMH)
+		       .RegWriteMH(RegWriteMH),
+			   .CacheStall(dCacheStall)
 		       );
 
    // Writeback Stage.

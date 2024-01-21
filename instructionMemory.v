@@ -5,13 +5,13 @@ module instructionMemory(
 			 input [`WORD_SIZE-1:0] PC,
           input Read,
           output Ready,
-			 output [`ICACHE_LINE_SIZE-1:0] Line
+			 output [`CACHE_LINE_SIZE-1:0] Line
 			 );
 
    reg [`WORD_SIZE-1:0] Memory_reg [0:`INSTR_MEM_SIZE-1];
-   reg [`ICACHE_LINE_SIZE-1:0] Line_reg;
+   reg [`CACHE_LINE_SIZE-1:0] Line_reg;
    reg F0, F1, F2, F3, F4;
-   reg Ready_reg; // Initialize to idle state
+   reg Ready_reg; 
 
    wire [`WORD_SIZE-3:0] PCLine;
 
