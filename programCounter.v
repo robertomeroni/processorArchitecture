@@ -16,6 +16,7 @@ module programCounter(
           PC_reg <= `PC_INITIAL;
 	else if (!StallF)
           PC_reg <= PCNext;
+      $display("ProgramCounter PC = %h", PC_reg);
      end
    assign PC = PC_reg;   
 endmodule

@@ -5,7 +5,7 @@ module dataMemory (
 		   input WE,
 		   input [`WORD_SIZE-1:0] A, WD,
 		   input LoadByte,
-		   output reg [`WORD_SIZE-1:0] RD
+		   output [`WORD_SIZE-1:0] RD
 		   );
 
    reg [`WORD_SIZE-1:0] mem [0:`DATA_MEM_SIZE-1];

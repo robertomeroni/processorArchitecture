@@ -15,7 +15,7 @@ module processor (
    wire PCSrcE;
    wire [`WORD_SIZE-1:0] PCTargetE;
    // hazard input
-   wire StallF, StallD, FlushD;
+   wire StallF, StallD, FlushD, CStall;
 
    // Decode inputs.
    wire [`WORD_SIZE-1:0] InstrD, PCPlus4D, PCD;
@@ -75,7 +75,8 @@ module processor (
 		     // standard outputs
 		     .InstrD(InstrD),
 		     .PCD(PCD),
-		     .PCPlus4D(PCPlus4D)
+		     .PCPlus4D(PCPlus4D),
+			 .CacheStall(CStall)
 		     );
 
    // Decode Stage.
@@ -224,6 +225,7 @@ module processor (
 		      .RdE(RdEH),
 		      .PCSrcE(PCSrcE),
 		      .ResultSrcE0(ResultSrcEH),
+			  .CacheStall(CStall),
 		      
 		      // standard outputs
 		      .StallF(StallF), 
@@ -241,3 +243,4 @@ endmodule
 
 
 
+// TODO: add CacheStall to the hazard unit

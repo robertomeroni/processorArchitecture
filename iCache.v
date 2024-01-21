@@ -18,10 +18,12 @@ reg [`WORD_SIZE-1:0] Instr_reg ;
 reg Valid_reg [0:`ICACHE_NUM_LINES-1];
 reg State;
 reg MemRead_reg;
+reg Stall;
 
 //Initialize valid bits to 0 
 initial begin
     State = 1'b0;
+    Stall = 1'b0;
     MemRead_reg = 1'b0;
 end
 
@@ -38,6 +40,7 @@ always @ (PC or MemReady) begin
         end
         else begin // miss
         $display("iCache MISS");
+            Stall <= 1'b1;
             MemRead_reg <= 1'b1;
             State <= 1'b1;
             Instr_reg <= 0;
@@ -53,6 +56,7 @@ always @ (PC or MemReady) begin
             $display("iCache WRITE");
             MemRead_reg = 1'b0;
             State = 1'b0;
+            Stall = 1'b0;
         end
     end
     endcase
@@ -60,7 +64,7 @@ end
 
 assign PCIn = PC >> 2;
 assign Instr = Instr_reg;
-assign CacheStall = State == 1'b1;
+assign CacheStall = Stall == 1'b1;
 assign PCMem = PC;
 assign MemRead = MemRead_reg;
 endmodule

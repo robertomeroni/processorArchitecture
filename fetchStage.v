@@ -1,8 +1,9 @@
-`include "constants.v"
 `include "instructionMemory.v"
 `include "programCounter.v"
 `include "mux.v"
 `include "adder.v"
+`include "iCache.v"
+
 
 module fetchStage
   (
@@ -16,14 +17,19 @@ module fetchStage
    input StallD,
    input FlushD,
    
+   // hazard outputs
    output [`WORD_SIZE-1:0] InstrD,
    output [`WORD_SIZE-1:0] PCD,
-   output [`WORD_SIZE-1:0] PCPlus4D
+   output [`WORD_SIZE-1:0] PCPlus4D,
+   output CacheStall
    );
 
    // Internal signals.
    wire [`WORD_SIZE-1:0] PCNext, PCF, PCPlus4F;
    wire [`WORD_SIZE-1:0] InstrF;
+   wire [`WORD_SIZE-1:0] PCMem;
+   wire MemRead, MemReady;
+   wire [`ICACHE_LINE_SIZE-1:0] MemLine;
 
    // Registers.
    reg [`WORD_SIZE-1:0] InstrF_reg;
@@ -46,13 +52,29 @@ module fetchStage
 				   .StallF(StallF),
 				   .PC(PCF)
 				   );
+   
+   // Instruction Cache.
+   iCache Instruction_Cache (
+              .clk(clk),
+              .rst(rst),
+              .PC(PCF),
+              .MemLine(MemLine),
+              .MemReady(MemReady),
+              .Instr(InstrF),
+              .PCMem(PCMem),
+              .MemRead(MemRead),
+              .CacheStall(CacheStall)
+              );
 
    // Instruction memory.
    instructionMemory Instruction_Memory (
-					 .rst(rst),
-					 .PC(PCF),
-					 .Instr(InstrF)
-					 );
+                .clk(clk),
+                .rst(rst),
+                .PC(PCMem),
+                .Read(MemRead),
+                .Line(MemLine),
+                .Ready(MemReady)
+                );
 
    // Go to next instruction.
    adder PC_Adder (
