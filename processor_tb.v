@@ -16,7 +16,7 @@ module tb_processor;
    initial begin
       #20;
       clk = 0; #10;
-      for (i = 1; i < 50; i = i + 1) begin
+      for (i = 1; i < 15; i = i + 1) begin
 	 $display("");
 	 clk = 1;
 	 #10;
