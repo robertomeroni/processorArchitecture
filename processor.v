@@ -77,8 +77,7 @@ module processor (
 		     // standard outputs
 		     .InstrD(InstrD),
 		     .PCD(PCD),
-		     .PCPlus4D(PCPlus4D),
-			 .iCacheStall(CStall)
+		     .PCPlus4D(PCPlus4D)
 		     );
 
    // Decode Stage.
@@ -229,7 +228,6 @@ module processor (
 		      .RdE(RdEH),
 		      .PCSrcE(PCSrcE),
 		      .ResultSrcE0(ResultSrcEH),
-			  .iCacheStall(CStall),
 		      .Mul(MulH),
 		      
 		      // standard outputs
@@ -248,5 +246,3 @@ endmodule
 
 
 
-
-// TODO: add CacheStall to the hazard unit

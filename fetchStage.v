@@ -20,8 +20,7 @@ module fetchStage
    // hazard outputs
    output [`WORD_SIZE-1:0] InstrD,
    output [`WORD_SIZE-1:0] PCD,
-   output [`WORD_SIZE-1:0] PCPlus4D,
-   output iCacheStall
+   output [`WORD_SIZE-1:0] PCPlus4D
    );
 
    // Internal signals.
@@ -30,6 +29,7 @@ module fetchStage
    wire [`WORD_SIZE-1:0] PCMem;
    wire MemRead, MemReady;
    wire [`ICACHE_LINE_SIZE-1:0] MemLine;
+   wire PCStall;
 
    // Registers.
    reg [`WORD_SIZE-1:0] InstrF_reg;
@@ -49,7 +49,7 @@ module fetchStage
 				   .clk(clk),
 				   .rst(rst),
 				   .PCNext(PCNext),
-				   .StallF(StallF),
+				   .StallF(PCStall),
 				   .PC(PCF)
 				   );
    
@@ -113,6 +113,7 @@ module fetchStage
    assign InstrD = InstrF_reg;
    assign PCD = PCF_reg;
    assign PCPlus4D = PCPlus4F_reg;
+   assign PCStall = iCacheStall | StallF;
 endmodule
 
 

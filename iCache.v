@@ -17,7 +17,7 @@ reg [`TAG_SIZE-1:0] Tag_reg [0:`ICACHE_NUM_LINES-1];
 reg [`WORD_SIZE-1:0] Instr_reg ;
 reg [`WORD_SIZE-1:0] PCStall_reg;
 reg Valid_reg [0:`ICACHE_NUM_LINES-1];
-reg [1:0] State;
+reg State;
 reg MemRead_reg;
 reg Stall;
 
@@ -29,42 +29,37 @@ initial begin
 end
 
 
-always @ (posedge clk) begin
+always @ (*) begin
   $display("iCache State = %b", State);
-            $display("PCStall_reg = %h", PCStall_reg);
+  $display("iCache PCIn = %b", PCIn);
+    $display("iCache MemLine = %b", MemLine);
+    $display("iCache Instr = %b", Instr);
+    $display("iCache PCMem = %b", PCMem);
+    $display("iCache Instr_reg = %b", Instr_reg);
     case (State)
     // idle 
-    2'b00: begin
-        $display("Valid_reg = %h", Valid_reg[PCIn[`INDEX]]);
+    1'b0: begin
         if (Valid_reg[PCIn[`INDEX]] && Tag_reg[PCIn[`INDEX]] == PCIn[`TAG]) begin // hit
             $display("iCache HIT");
             Instr_reg <= Data_reg[PCIn[`INDEX]][PCIn[`OFFSET] * 32 +: 32]; 
         end
         else begin // miss
-        $display("iCache MISS");
             Stall <= 1'b1;
             MemRead_reg <= 1'b1;
-            State <= 2'b01;
+            State <= 1'b1;
             Instr_reg <= `NOP;
-            PCStall_reg <= PCIn;
         end
     end
     // wait memory
-    2'b01: begin
+    1'b1: begin
         if (MemReady) begin
-            $display("MemLine = %h", MemLine);
             Data_reg[PCIn[`INDEX]] <= MemLine;
             Tag_reg[PCIn[`INDEX]] <= PCIn[`TAG];
             Valid_reg[PCIn[`INDEX]] <= 1'b1;
-            $display("iCache WRITE");
-            State <= 2'b10;
+            State <= 1'b0;
+            Stall <= 1'b0;
+            MemRead_reg <= 1'b0;
         end
-    end
-    2'b10: begin
-        Instr_reg <= Data_reg[PCStall_reg[`INDEX]][PCStall_reg[`OFFSET] * 32 +: 32]; 
-        MemRead_reg <= 1'b0;
-        State <= 2'b00;
-        Stall <= 1'b0;
     end
     endcase
 end
