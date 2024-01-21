@@ -5,6 +5,7 @@ module dCache(
              input [`WORD_SIZE-1:0] A,
              input [`CACHE_LINE_SIZE-1:0] MemLine,
              input MemReady,
+             input ReadEnable,
              output [`WORD_SIZE-1:0] Value,
              output [`WORD_SIZE-1:0] AMem,
              output MemRead,
@@ -44,7 +45,7 @@ always @ (*) begin
     case (State)
     // idle 
     1'b0: begin
-        if (Valid_reg[A[`DINDEX]] && Tag_reg[A[`DINDEX]] == A[`DTAG]) begin // hit
+        if (ReadEnable && Valid_reg[A[`DINDEX]] && Tag_reg[A[`DINDEX]] == A[`DTAG]) begin // hit
             Value_reg <= Data_reg[A[`DINDEX]][A[`DOFFSET] * 32 +: 32]; 
         end
         else begin // miss
