@@ -45,7 +45,8 @@ always @ (*) begin
     case (State)
     // idle 
     1'b0: begin
-        if (ReadEnable && Valid_reg[A[`DINDEX]] && Tag_reg[A[`DINDEX]] == A[`DTAG]) begin // hit
+    if (ReadEnable == 1'b1) begin
+        if  (Valid_reg[A[`DINDEX]] && Tag_reg[A[`DINDEX]] == A[`DTAG]) begin // hit
             Value_reg <= Data_reg[A[`DINDEX]][A[`DOFFSET] * 32 +: 32]; 
         end
         else begin // miss
@@ -53,6 +54,7 @@ always @ (*) begin
             MemRead_reg <= 1'b1;
             State <= 1'b1;
         end
+    end
     end
     // wait memory
     1'b1: begin
