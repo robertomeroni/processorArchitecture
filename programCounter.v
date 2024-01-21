@@ -12,11 +12,12 @@ module programCounter(
 
    always @(posedge clk or posedge rst)
      begin
-        if (rst)
+        if (rst) begin
           PC_reg <= `PC_INITIAL;
-	else if (!StallF)
+        end 
+	else if (!StallF) begin
           PC_reg <= PCNext;
-      $display("ProgramCounter PC = %h", PC_reg);
-     end
+  end
+      end
    assign PC = PC_reg;   
 endmodule

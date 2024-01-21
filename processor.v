@@ -78,7 +78,7 @@ module processor (
 		     .InstrD(InstrD),
 		     .PCD(PCD),
 		     .PCPlus4D(PCPlus4D),
-			 .CacheStall(CStall)
+			 .iCacheStall(CStall)
 		     );
 
    // Decode Stage.
@@ -229,7 +229,7 @@ module processor (
 		      .RdE(RdEH),
 		      .PCSrcE(PCSrcE),
 		      .ResultSrcE0(ResultSrcEH),
-			  .CacheStall(CStall),
+			  .iCacheStall(CStall),
 		      .Mul(MulH),
 		      
 		      // standard outputs

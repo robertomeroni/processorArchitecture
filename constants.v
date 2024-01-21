@@ -21,7 +21,7 @@
 // Initial values.
 `define PC_INITIAL   32'h00001000
 `define PC_EXCEPTION 32'h00002000
-
+`define NOP 32'b000000000000_00000_000_00000_00100_11
 // ALU operations.
 `define ADD_FUNCT3 3'b000
 `define SUB_FUNCT3 3'b001
@@ -38,4 +38,4 @@
 `define ITYPE_FUNCT7 7'b0010011
 `define JAL_FUNCT7 7'b1101111
 
-`define PROGRAM_FILENAME "mulTest.txt"
+`define PROGRAM_FILENAME "bookTest.txt"

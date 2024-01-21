@@ -15,49 +15,56 @@ module iCache(
 reg [`ICACHE_LINE_SIZE-1:0] Data_reg [0:`ICACHE_NUM_LINES-1];
 reg [`TAG_SIZE-1:0] Tag_reg [0:`ICACHE_NUM_LINES-1];
 reg [`WORD_SIZE-1:0] Instr_reg ;
+reg [`WORD_SIZE-1:0] PCStall_reg;
 reg Valid_reg [0:`ICACHE_NUM_LINES-1];
-reg State;
+reg [1:0] State;
 reg MemRead_reg;
 reg Stall;
 
 //Initialize valid bits to 0 
 initial begin
-    State = 1'b0;
+    State = 2'b00;
     Stall = 1'b0;
     MemRead_reg = 1'b0;
 end
 
 
-always @ (PC or MemReady) begin
-  
+always @ (posedge clk) begin
+  $display("iCache State = %b", State);
+            $display("PCStall_reg = %h", PCStall_reg);
     case (State)
     // idle 
-    1'b0: begin
+    2'b00: begin
         $display("Valid_reg = %h", Valid_reg[PCIn[`INDEX]]);
         if (Valid_reg[PCIn[`INDEX]] && Tag_reg[PCIn[`INDEX]] == PCIn[`TAG]) begin // hit
             $display("iCache HIT");
-            Instr_reg = Data_reg[PCIn[`INDEX]][PCIn[`OFFSET] * 32 +: 32]; 
+            Instr_reg <= Data_reg[PCIn[`INDEX]][PCIn[`OFFSET] * 32 +: 32]; 
         end
         else begin // miss
         $display("iCache MISS");
             Stall <= 1'b1;
             MemRead_reg <= 1'b1;
-            State <= 1'b1;
-            Instr_reg <= 0;
+            State <= 2'b01;
+            Instr_reg <= `NOP;
+            PCStall_reg <= PC;
         end
     end
     // wait memory
-    1'b1: begin
+    2'b01: begin
         if (MemReady) begin
             $display("MemLine = %h", MemLine);
-            Data_reg[PCIn[`INDEX]] = MemLine;
-            Tag_reg[PCIn[`INDEX]] = PCIn[`TAG];
-            Valid_reg[PCIn[`INDEX]] = 1'b1;
+            Data_reg[PCIn[`INDEX]] <= MemLine;
+            Tag_reg[PCIn[`INDEX]] <= PCIn[`TAG];
+            Valid_reg[PCIn[`INDEX]] <= 1'b1;
             $display("iCache WRITE");
-            MemRead_reg = 1'b0;
-            State = 1'b0;
-            Stall = 1'b0;
+            State <= 2'b10;
         end
+    end
+    2'b10: begin
+        Instr_reg <= Data_reg[PCStall_reg[`INDEX]][PCStall_reg[`OFFSET] * 32 +: 32]; 
+        MemRead_reg <= 1'b0;
+        State <= 2'b00;
+        Stall <= 1'b0;
     end
     endcase
 end

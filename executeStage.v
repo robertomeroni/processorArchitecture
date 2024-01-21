@@ -133,8 +133,8 @@ module executeStage
       $display("ALUResultM = %32b", ALUResultM);
       // $display("WriteDataM = %32b", WriteDataM);
       // $display("ByteAddressM = %4b", ByteAddressM);
-      $display("cnt = %d", cnt);
-      $display("MulH = %4b", MulH);
+      // $display("cnt = %d", cnt);
+      // $display("MulH = %4b", MulH);
    end
 
    // Outputs.

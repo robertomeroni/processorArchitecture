@@ -21,7 +21,7 @@ module fetchStage
    output [`WORD_SIZE-1:0] InstrD,
    output [`WORD_SIZE-1:0] PCD,
    output [`WORD_SIZE-1:0] PCPlus4D,
-   output CacheStall
+   output iCacheStall
    );
 
    // Internal signals.
@@ -63,7 +63,7 @@ module fetchStage
               .Instr(InstrF),
               .PCMem(PCMem),
               .MemRead(MemRead),
-              .CacheStall(CacheStall)
+              .CacheStall(iCacheStall)
               );
 
    // Instruction memory.
@@ -96,7 +96,7 @@ module fetchStage
          InstrF_reg <= 0;
       end else if (FlushD) begin
 	 // send a nop down the pipeline
-         InstrF_reg <= 32'b000000000000_00000_000_00000_00100_11;
+         InstrF_reg <= `NOP;
       end else if (!StallD) begin
          InstrF_reg <= InstrF;
          PCF_reg <= PCF;
