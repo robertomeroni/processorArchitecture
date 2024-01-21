@@ -19,7 +19,7 @@
 `define TAG `WORD_SIZE-1:`INDEX_SIZE+`OFFSET_SIZE
 
 // Initial values.
-`define PC_INITIAL   32'h00001000
+`define PC_INITIAL   32'h00000ffc
 `define PC_EXCEPTION 32'h00002000
 `define NOP 32'b000000000000_00000_000_00000_00100_11
 // ALU operations.
