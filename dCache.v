@@ -42,33 +42,33 @@ module dCache(
       $display("dCache: Value_reg = %h", Value_reg);
       $display("dCache: State = %b", State);
 
-    case (State)
-    // idle 
-    1'b0: begin
-    if (ReadEnable == 1'b1) begin
-        if  (Valid_reg[A[`DINDEX]] && Tag_reg[A[`DINDEX]] == A[`DTAG]) begin // hit
-            Value_reg <= Data_reg[A[`DINDEX]][A[`DOFFSET] * 32 +: 32]; 
-        end
-        else begin // miss
-            Stall <= 1'b1;
-            MemRead_reg <= 1'b1;
-            State <= 1'b1;
-        end
-    end
-    end
-    // wait memory
-    1'b1: begin
-        if (MemReady) begin
-            Data_reg[A[`DINDEX]] <= MemLine;
-            Tag_reg[A[`DINDEX]] <= A[`DTAG];
-            Valid_reg[A[`DINDEX]] <= 1'b1;
-            State <= 1'b0;
-            Stall <= 1'b0;
-            MemRead_reg <= 1'b0;
-        end
-    end
-    endcase
-end
+      case (State)
+	// idle 
+	1'b0: begin
+	   if (ReadEnable == 1'b1) begin
+              if  (Valid_reg[A[`DINDEX]] && Tag_reg[A[`DINDEX]] == A[`DTAG]) begin // hit
+		 Value_reg <= Data_reg[A[`DINDEX]][A[`DOFFSET] * 32 +: 32]; 
+              end
+              else begin // miss
+		 Stall <= 1'b1;
+		 MemRead_reg <= 1'b1;
+		 State <= 1'b1;
+              end
+	   end
+	end
+	// wait memory
+	1'b1: begin
+           if (MemReady) begin
+              Data_reg[A[`DINDEX]] <= MemLine;
+              Tag_reg[A[`DINDEX]] <= A[`DTAG];
+              Valid_reg[A[`DINDEX]] <= 1'b1;
+              State <= 1'b0;
+              Stall <= 1'b0;
+              MemRead_reg <= 1'b0;
+           end
+	end
+      endcase
+   end
 
    assign Value = Value_reg;
    assign CacheStall = Stall == 1'b1;

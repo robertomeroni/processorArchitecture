@@ -108,7 +108,7 @@ module decodeStage
          ResultSrcD_reg <= 0;
          ALUControlD_reg <= 0;
 	 ByteAddressD_reg <= 0;
-	 ReadEnable_Dreg <= 0;
+	 ReadEnableD_reg <= 0;
       end else if (!StallE) begin
          RD1D_reg <= RD1;
          RD2D_reg <= RD2;
