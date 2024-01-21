@@ -1027,4 +1027,8 @@
 06002103 // load mem[96] into r 2
 06002103 // load mem[96] into r 2
 06002103 // load mem[96] into r 2
-
+06002103 // load mem[96] into r 2
+06002103 // load mem[96] into r 2
+06002103 // load mem[96] into r 2
+06002103 // load mem[96] into r 2
+06002103 // load mem[96] into r 2

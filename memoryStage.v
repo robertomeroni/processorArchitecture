@@ -10,6 +10,7 @@ module memoryStage (
 		    input RegWriteM, MemWriteM,
 		    input [1:0] ResultSrcM,
 		    input ByteAddressM,
+		    input ReadEnableM, 
 
 		    // hazard output
 		    output [4:0] RdMH,
@@ -18,7 +19,7 @@ module memoryStage (
 		    output [4:0] RdW,
 		    output RegWriteW,
 		    output [1:0] ResultSrcW,
-          output CacheStall
+		    output CacheStall
 		    );
 
    // Internal wires and registers.
@@ -45,22 +46,23 @@ module memoryStage (
 			   .WD(WriteDataM),
 			   .A(ALUResultM),
 			   .ByteAddress(ByteAddressM),
-            .Ready(Ready),
-            .Line(MemLine),
-            .Read(MemRead)
+			   .Ready(Ready),
+			   .Line(MemLine),
+			   .Read(MemRead)
 			   );
 
    dCache Data_Cache (
-            .clk(clk),
-            .rst(rst),
-            .A(ALUResultM),
-            .AMem(AMem),
-            .MemLine(MemLine),
-            .MemReady(Ready),
-            .MemRead(MemRead),
-            .Value(ReadDataM),
-            .CacheStall(CacheStall)
-            );
+		      .clk(clk),
+		      .rst(rst),
+		      .A(ALUResultM),
+		      .ReadEnable(ReadEnableM),
+		      .AMem(AMem),
+		      .MemLine(MemLine),
+		      .MemReady(Ready),
+		      .MemRead(MemRead),
+		      .Value(ReadDataM),
+		      .CacheStall(CacheStall)
+		      );
 
    // Behavior.
    // TODO: make memory access take 5 clocks as per the project statement

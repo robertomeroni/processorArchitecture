@@ -19,7 +19,7 @@ module executeStage
    input RegWriteE, ALUSrcE, MemWriteE, JumpE, BranchE,
    input [1:0] ResultSrcE, ForwardAE, ForwardBE,
    input [2:0] ALUControlE,
-   input ByteAddressE,
+   input ByteAddressE, ReadEnableE,
 
    output [`WORD_SIZE-1:0] ALUResultM, WriteDataM, PCPlus4M, PCTargetE,
    output [4:0] RdM,
@@ -27,7 +27,7 @@ module executeStage
    output RegWriteM, MemWriteM,
    output PCSrcE, 
    output [1:0] ResultSrcM,
-   output ByteAddressM,
+   output ByteAddressM, ReadEnableM,
 
    //hazard outputs
    output [4:0] Rs1EH, Rs2EH, RdEH,
@@ -48,6 +48,8 @@ module executeStage
    reg [1:0] ResultSrcE_reg;
 
    reg ByteAddressE_reg;
+   reg ReadEnableE_reg;
+   
    reg [3:0] cnt;
 
    // Modules.
@@ -106,6 +108,7 @@ module executeStage
          MemWriteE_reg <= 0;
          ResultSrcE_reg <= 0;
 	 ByteAddressE_reg <= 0;
+	 ReadEnableE_reg <= 0;
 	 cnt <= 0;
       end else begin
          ALUResultE_reg <= ALUResultE;
@@ -116,6 +119,7 @@ module executeStage
          MemWriteE_reg <= MemWriteE;
          ResultSrcE_reg <= ResultSrcE;
 	 ByteAddressE_reg <= ByteAddressE;
+	 ReadEnableE_reg <= ReadEnableE;
 	 if (ALUControlE == 3'b100) 
 	   cnt <= cnt + 1;
 	 else cnt <= 0;
@@ -152,4 +156,5 @@ module executeStage
    assign ResultSrcM = ResultSrcE_reg;
    assign PCSrcE = (ZeroE & BranchE) | JumpE;
    assign ByteAddressM = ByteAddressE_reg;
+   assign ReadEnableM = ReadEnableE_reg;
 endmodule

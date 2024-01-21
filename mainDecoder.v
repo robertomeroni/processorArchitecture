@@ -2,7 +2,7 @@
 
 module mainDecoder (
 		    input [6:0] Op,
-		    output reg Branch, Jump, MemWrite, ALUSrc, RegWrite, 
+		    output reg Branch, Jump, MemWrite, ALUSrc, RegWrite, ReadEnable,
 		    output Op5,   
 		    output reg [1:0] ResultSrc, ImmSrc, ALUOp
 		    );
@@ -59,7 +59,12 @@ module mainDecoder (
       case (Op)
         `JAL_FUNCT7: Jump = 1'b1;
         default: Jump = 1'b0;
-      endcase
+      endcase // case (Op)
+
+      case (Op) 
+	`LOAD_FUNCT7: ReadEnable = 1'b1;
+	default: ReadEnable = 1'b0;
+      endcase	  
    end
 
 endmodule

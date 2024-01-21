@@ -113,6 +113,7 @@ module processor (
 		       .ResultSrcE(ResultSrcE),
 		       .ALUControlE(ALUControlE),
 		       .ByteAddressE(ByteAddressE),
+		       .ReadEnableE(ReadEnableE),
 		       // hazard outputs
 		       .Rs1DH(Rs1DH),
 		       .Rs2DH(Rs2DH)
@@ -141,6 +142,7 @@ module processor (
 			 .ResultSrcE(ResultSrcE),
 			 .ALUControlE(ALUControlE),
 			 .ByteAddressE(ByteAddressE),
+			 .ReadEnableE(ReadEnableE),
 			 //hazard inputs
 			 .ForwardAE(ForwardAE),
 			 .ForwardBE(ForwardBE),
@@ -157,6 +159,7 @@ module processor (
 			 .ResultSrcM(ResultSrcM),
 			 .PCSrcE(PCSrcE),
 			 .ByteAddressM(ByteAddressM),
+			 .ReadEnableM(ReadEnableM),
 			 // hazard outputs
 			 .RdEH(RdEH),
 			 .Rs1EH(Rs1EH),
@@ -179,6 +182,7 @@ module processor (
 		       .MemWriteM(MemWriteM),
 		       .ResultSrcM(ResultSrcM),
 		       .ByteAddressM(ByteAddressM),
+		       .ReadEnableM(ReadEnableM),
 		       
 		       // standard outputs
 		       .ALUResultW(ALUResultW),

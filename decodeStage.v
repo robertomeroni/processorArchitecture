@@ -23,7 +23,7 @@ module decodeStage
    output [1:0] ResultSrcE,
    output [2:0] ALUControlE,
 
-   output ByteAddressE,
+   output ByteAddressE, ReadEnableE,
    
 // hazard outputs
    output [4:0] Rs1DH, Rs2DH
@@ -49,7 +49,7 @@ module decodeStage
 
    wire ByteAddress;
    reg ByteAddressD_reg;
-
+   reg ReadEnableD_reg;
 
    // Modules.
    // Register File.
@@ -85,7 +85,8 @@ module decodeStage
 			     .ALUControl(ALUControlD),
 			     .ALUSrc(ALUSrcD),
 			     .ImmSrc(ImmSrcD),
-			     .ByteAddress(ByteAddress)
+			     .ByteAddress(ByteAddress),
+			     .ReadEnable(ReadEnable)
 			     );
 
    // Behavior.
@@ -107,6 +108,7 @@ module decodeStage
          ResultSrcD_reg <= 0;
          ALUControlD_reg <= 0;
 	 ByteAddressD_reg <= 0;
+	 ReadEnable_Dreg <= 0;
       end else if (!StallE) begin
          RD1D_reg <= RD1;
          RD2D_reg <= RD2;
@@ -124,6 +126,7 @@ module decodeStage
          ResultSrcD_reg <= ResultSrcD;
          ALUControlD_reg <= ALUControlD;
 	 ByteAddressD_reg <= ByteAddress;
+	 ReadEnableD_reg <= ReadEnable;
       end
       #2;
       $display("--- DECODE STAGE ---");
@@ -161,5 +164,6 @@ module decodeStage
    assign ResultSrcE = ResultSrcD_reg;
    assign ALUControlE = ALUControlD_reg;
    assign ByteAddressE = ByteAddressD_reg;
+   assign ReadEnableE = ReadEnableD_reg;
 endmodule
 

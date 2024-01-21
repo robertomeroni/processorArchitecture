@@ -10,7 +10,8 @@ module controlUnit (
 		    output [1:0] ResultSrc, ImmSrc,
 		    output [2:0] ALUControl,
 		    output Op5,
-		    output ByteAddress
+		    output ByteAddress,
+		    output ReadEnable
 		    );
 
    // Wires.
@@ -27,7 +28,8 @@ module controlUnit (
 			     .ResultSrc(ResultSrc),
 			     .ImmSrc(ImmSrc),
 			     .ALUOp(ALUOp),
-			     .Op5(Op5)
+			     .Op5(Op5),
+			     .ReadEnable(ReadEnable)
 			     );
 
    ALUDecoder ALU_Decoder (
