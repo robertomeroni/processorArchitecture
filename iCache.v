@@ -46,7 +46,7 @@ always @ (posedge clk) begin
             MemRead_reg <= 1'b1;
             State <= 2'b01;
             Instr_reg <= `NOP;
-            PCStall_reg <= PC;
+            PCStall_reg <= PCIn;
         end
     end
     // wait memory

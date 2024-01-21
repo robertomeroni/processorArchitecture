@@ -44,7 +44,7 @@ case (State)
       F1 <= F0;
       F2 <= F1;
       F3 <= F2;
-      if (F1) begin
+      if (F3) begin
          State <= 2'b10;
       end
    end
@@ -62,7 +62,7 @@ case (State)
       F2 <= F1;
       F3 <= F2;
 
-      if (!F1) begin
+      if (!F3) begin
          Ready_reg <= 1'b1;
          State <= 2'b00;
       end
