@@ -20,6 +20,7 @@ module ALUDecoder (
                  3'b010: ALUControl = `SLT_FUNCT3;
                  3'b110: ALUControl = `OR_FUNCT3;
                  3'b111: ALUControl = `AND_FUNCT3;
+		 3'b100: ALUControl = `MUL_FUNCT3;
                  default: ALUControl = `ADD_FUNCT3;
                endcase
         default: ALUControl = `ADD_FUNCT3;

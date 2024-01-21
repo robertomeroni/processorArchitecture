@@ -10,7 +10,7 @@ module controlUnit (
 		    output [1:0] ResultSrc, ImmSrc,
 		    output [2:0] ALUControl,
 		    output Op5,
-		    output LoadByte
+		    output ByteAddress
 		    );
 
    // Wires.
@@ -38,7 +38,7 @@ module controlUnit (
 			   .ALUControl(ALUControl)
 			   );
 
-   assign LoadByte = (((Op == `LOAD_FUNCT7) | (Op == `STORE_FUNCT7)) & (funct3 == 3'b000)) ? 1'b1 : 1'b0;
+   assign ByteAddress = (((Op == `LOAD_FUNCT7) | (Op == `STORE_FUNCT7)) & (funct3 == 3'b000)) ? 1'b1 : 1'b0;
 		     
 endmodule
 

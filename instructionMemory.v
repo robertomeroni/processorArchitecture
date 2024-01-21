@@ -17,15 +17,8 @@ module instructionMemory(
 
    // Load instructions into memory.
    initial begin
-      State = 1'b0;
-      Ready_reg = 1'b0;
-      F0 = 1'b0;
-      F1 = 1'b0;
-      F2 = 1'b0;
-      F3 = 1'b0;
-      F4 = 1'b0;
-      // $readmemb("instructions.txt", Memory_reg);
-      $readmemh("bookTest.txt", Memory_reg);
+      // $readmemb("instructions.txt", memory_reg);
+      $readmemh(`PROGRAM_FILENAME, memory_reg);
    end
 
 always @ ( posedge clk ) begin

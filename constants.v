@@ -37,3 +37,5 @@
 `define BEQ_FUNCT7 7'b1100011
 `define ITYPE_FUNCT7 7'b0010011
 `define JAL_FUNCT7 7'b1101111
+
+`define PROGRAM_FILENAME "mulTest.txt"

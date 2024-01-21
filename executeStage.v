@@ -19,19 +19,20 @@ module executeStage
    input RegWriteE, ALUSrcE, MemWriteE, JumpE, BranchE,
    input [1:0] ResultSrcE, ForwardAE, ForwardBE,
    input [2:0] ALUControlE,
-   input LoadByteE,
+   input ByteAddressE,
 
    output [`WORD_SIZE-1:0] ALUResultM, WriteDataM, PCPlus4M, PCTargetE,
    output [4:0] RdM,
-   
+  
    output RegWriteM, MemWriteM,
    output PCSrcE, 
    output [1:0] ResultSrcM,
-   output LoadByteM,
+   output ByteAddressM,
 
    //hazard outputs
    output [4:0] Rs1EH, Rs2EH, RdEH,
-   output ResultSrcEH
+   output ResultSrcEH,
+   output MulH
    );
 
    // Internal wires and registers.
@@ -46,52 +47,53 @@ module executeStage
    reg RegWriteE_reg, MemWriteE_reg;
    reg [1:0] ResultSrcE_reg;
 
-   reg [3:0] LoadByteE_reg;
+   reg ByteAddressE_reg;
+   reg [3:0] cnt;
 
    // Modules.
    // Mux 3 to 1 for source A.
    mux_3to1 SrcA_mux (
-      .a(RD1E),
-      .b(ResultW),
-      .c(ALUResultM),
-      .sel(ForwardAE),
-      .out(SrcAE)
-      );
+		      .a(RD1E),
+		      .b(ResultW),
+		      .c(ALUResultM),
+		      .sel(ForwardAE),
+		      .out(SrcAE)
+		      );
 
    // Mux 3 to 1 for source B.
    mux_3to1 SrcB_mux (
-      .a(RD2E),
-      .b(ResultW),
-      .c(ALUResultM),
-      .sel(ForwardBE),
-      .out(WriteDataE)
-      );
+		      .a(RD2E),
+		      .b(ResultW),
+		      .c(ALUResultM),
+		      .sel(ForwardBE),
+		      .out(WriteDataE)
+		      );
 
    // Mux 2 to 1 for source B.
    mux_2to1 SrcB_mux2 (
-      .a(WriteDataE),
-      .b(ImmExtE),
-      .sel(ALUSrcE),
-      .out(SrcBE)
-      );
+		       .a(WriteDataE),
+		       .b(ImmExtE),
+		       .sel(ALUSrcE),
+		       .out(SrcBE)
+		       );
 
    // Adder.
    adder Adder (
-      .a(PCE),
-      .b(ImmExtE),
-      .out(PCTargetE)
-      );
+		.a(PCE),
+		.b(ImmExtE),
+		.out(PCTargetE)
+		);
 
    // ALU.
    ALU ALU_Unit (
-      .clk(clk),
-      .rst(rst),
-      .a(SrcAE),
-      .b(SrcBE),
-      .out(ALUResultE),
-      .zeroE(ZeroE),
-      .ALUControlE(ALUControlE)
-      );
+		 .clk(clk),
+		 .rst(rst),
+		 .a(SrcAE),
+		 .b(SrcBE),
+		 .out(ALUResultE),
+		 .zeroE(ZeroE),
+		 .ALUControlE(ALUControlE)
+		 );
 
    // Behavior.
    always @(posedge clk or posedge rst) begin
@@ -103,7 +105,8 @@ module executeStage
          RegWriteE_reg <= 0;
          MemWriteE_reg <= 0;
          ResultSrcE_reg <= 0;
-	 LoadByteE_reg <= 0;
+	 ByteAddressE_reg <= 0;
+	 cnt <= 0;
       end else begin
          ALUResultE_reg <= ALUResultE;
          WriteDataE_reg <= WriteDataE;
@@ -112,8 +115,11 @@ module executeStage
          RegWriteE_reg <= RegWriteE;
          MemWriteE_reg <= MemWriteE;
          ResultSrcE_reg <= ResultSrcE;
-	 LoadByteE_reg <= LoadByteE;
-      end
+	 ByteAddressE_reg <= ByteAddressE;
+	 if (ALUControlE == 3'b100) 
+	   cnt <= cnt + 1;
+	 else cnt <= 0;
+      end 
       #3;
       $display("--- EXECUTE STAGE ---");
       //$display("RD1E =       %32b\nResultW =    %32b\nALUResultM = %32b\nALUResultE = %32b\nSrcAE =      %32b\nSrcBE =      %32b\n", RD1E, ResultW, ALUResultM, ALUResultE, SrcAE, SrcBE);
@@ -126,12 +132,15 @@ module executeStage
       $display("MemWriteM = %1b", MemWriteM);
       $display("ALUResultM = %32b", ALUResultM);
       // $display("WriteDataM = %32b", WriteDataM);
-      // $display("LoadByteM = %4b", LoadByteM);
+      // $display("ByteAddressM = %4b", ByteAddressM);
+      $display("cnt = %d", cnt);
+      $display("MulH = %4b", MulH);
    end
 
    // Outputs.
    assign Rs1EH = Rs1E;
    assign Rs2EH = Rs2E;
+   assign MulH = ((ALUControlE == 3'b100) & (cnt < 4)) ? 1'b1 : 1'b0;
    assign RdEH = RdE;
    assign ResultSrcEH = ResultSrcE[0];
    assign ALUResultM = ALUResultE_reg;
@@ -142,5 +151,5 @@ module executeStage
    assign MemWriteM = MemWriteE_reg;
    assign ResultSrcM = ResultSrcE_reg;
    assign PCSrcE = (ZeroE & BranchE) | JumpE;
-   assign LoadByteM = LoadByteE_reg;
+   assign ByteAddressM = ByteAddressE_reg;
 endmodule
