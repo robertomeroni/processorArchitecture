@@ -29,6 +29,18 @@ end
 
 
 always @ (*) begin
+    $display("dCache: A = %h", A);
+    $display("dCache: A[`DINDEX] = %h", A[`DINDEX]);
+    $display("dCache: A[`DTAG] = %h", A[`DTAG]);
+    $display("dCache: A[`DOFFSET] = %h", A[`DOFFSET]);
+    $display("dCache: Valid_reg[A[`DINDEX]] = %h", Valid_reg[A[`DINDEX]]);
+    $display("dCache: Tag_reg[A[`DINDEX]] = %h", Tag_reg[A[`DINDEX]]);
+    $display("dCache: Data_reg[A[`DINDEX]] = %h", Data_reg[A[`DINDEX]]);
+    $display("dCache: MemLine = %h", MemLine);
+    $display("dCache: MemReady = %h", MemReady);
+    $display("dCache: Value_reg = %h", Value_reg);
+    $display("dCache: State = %b", State);
+
     case (State)
     // idle 
     1'b0: begin

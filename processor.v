@@ -230,6 +230,7 @@ module processor (
 		      .PCSrcE(PCSrcE),
 		      .ResultSrcE0(ResultSrcEH),
 		      .Mul(MulH),
+			  .dCacheStall(dCacheStall),
 		      
 		      // standard outputs
 		      .StallF(StallF), 

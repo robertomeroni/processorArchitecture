@@ -12,15 +12,15 @@
 
 // iCache constants.
 `define IOFFSET_BIT_PRECISION `WORD_SIZE // we can access the memory every n bits, where n is the offset bit precision. Example: 8 means we can access the memory byte by byte.
-`define IOFFSET_SIZE $clog2 (`CACHE_LINE_SIZE / `OFFSET_BIT_PRECISION) // bits needed to represent the offset.
+`define IOFFSET_SIZE $clog2 (`CACHE_LINE_SIZE / `IOFFSET_BIT_PRECISION) // bits needed to represent the offset.
 `define ITAG_SIZE (`WORD_SIZE - `IOFFSET_SIZE - `INDEX_SIZE) // bits needed to represent the tag.
 `define IOFFSET `IOFFSET_SIZE-1:0
 `define IINDEX `INDEX_SIZE+`IOFFSET_SIZE-1:`IOFFSET_SIZE
 `define ITAG `WORD_SIZE-1:`INDEX_SIZE+`IOFFSET_SIZE
 
 //dCache constants.
-`define OFFSET_BIT_PRECISION 8 // we access the memory every byte.
-`define DOFFSET_SIZE $clog2 (`CACHE_LINE_SIZE / `OFFSET_BIT_PRECISION) // bits needed to represent the offset.
+`define DOFFSET_BIT_PRECISION 8 // we access the memory every byte.
+`define DOFFSET_SIZE $clog2 (`CACHE_LINE_SIZE / `DOFFSET_BIT_PRECISION) // bits needed to represent the offset.
 `define DTAG_SIZE (`WORD_SIZE - `DOFFSET_SIZE - `INDEX_SIZE) // bits needed to represent the tag.
 `define DOFFSET `DOFFSET_SIZE-1:0
 `define DINDEX `INDEX_SIZE+`DOFFSET_SIZE-1:`DOFFSET_SIZE
