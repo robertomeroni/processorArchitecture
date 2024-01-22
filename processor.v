@@ -37,6 +37,7 @@ module processor (
    wire [2:0] ALUControlE;
    // hazard inputs
    wire [1:0] ForwardAE, ForwardBE;
+   wire StallM;
    
    // hazard outputs
    wire   [4:0] RdEH, Rs1EH, Rs2EH;
@@ -147,6 +148,7 @@ module processor (
 			 //hazard inputs
 			 .ForwardAE(ForwardAE),
 			 .ForwardBE(ForwardBE),
+			 .StallM(StallM),
 
 			 // standard outputs
 			 .ALUResultM(ALUResultM),
@@ -236,13 +238,14 @@ module processor (
 		      .PCSrcE(PCSrcE),
 		      .ResultSrcE0(ResultSrcEH),
 		      .Mul(MulH),
-			  .dCacheStall(dCacheStall),
+		      .dCacheStall(dCacheStall),
 		      .SBStall(SBStall),
 
 		      // standard outputs
 		      .StallF(StallF), 
 		      .StallD(StallD),
 		      .StallE(StallE),
+		      .StallM(StallM),
 		      .FlushD(FlushD),
 		      .FlushE(FlushE),
 		      .ForwardAE(ForwardAE),

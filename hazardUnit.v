@@ -20,6 +20,7 @@ module hazard_unit
    output StallF, 
    output StallD,
    output StallE,
+   output StallM,
    output FlushD,
    output FlushE
    );
@@ -40,6 +41,7 @@ module hazard_unit
    assign StallD  = (rst == 1'b1) ? 1'b0 : lwStall | Mul | dCacheStall | SBStall;
    assign StallF  = (rst == 1'b1) ? 1'b0 : lwStall | Mul | dCacheStall | SBStall;
    assign StallE  = (rst == 1'b1) ? 1'b0 : Mul | dCacheStall | SBStall;
+   assign StallM = (rst == 1'b1) ? 1'b0 : SBStall;
    assign FlushD = (rst == 1'b1) ? 1'b0 : PCSrcE;
    assign FlushE  = (rst == 1'b1) ? 1'b0 : lwStall | PCSrcE;
       

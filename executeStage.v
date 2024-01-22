@@ -21,6 +21,9 @@ module executeStage
    input [2:0] ALUControlE,
    input ByteAddressE, ReadEnableE,
 
+   // hazard input
+   input StallM,
+
    output [`WORD_SIZE-1:0] ALUResultM, WriteDataM, PCPlus4M, PCTargetE,
    output [4:0] RdM,
   
@@ -110,7 +113,7 @@ module executeStage
 	 ByteAddressE_reg <= 0;
 	 ReadEnableE_reg <= 0;
 	 cnt <= 0;
-      end else begin
+      end else if (!StallM) begin
          ALUResultE_reg <= ALUResultE;
          WriteDataE_reg <= WriteDataE;
          PCPlus4E_reg <= PCPlus4E;
