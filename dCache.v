@@ -71,17 +71,11 @@ module dCache(
                 end
             end else if (WriteEnable == 1'b1) begin
                 if  (!(Valid_reg[Address[`DINDEX]]) | Tag_reg[Address[`DINDEX]] == Address[`DTAG]) begin
-                    $display("dCache: Writing to cache");
+                    $display("dCache: Writing to cache WriteDataM = %h", WriteDataM);
                     Data_reg [Address[`DINDEX]][Address[`DOFFSET] * 32 +: 32] <= WriteDataM;
                     Tag_reg [Address[`DINDEX]] <= Address[`DTAG];
                     Valid_reg [Address[`DINDEX]] <= 1'b1;
                     end else begin
-                        $display("Valid_reg[Address[`DINDEX]] = %b", Valid_reg[Address[`DINDEX]]);
-                        $display("Address[`DINDEX] = %b", Address[`DINDEX]);
-                        $display("Address = %b", Address);
-                        $display("dCache: Sending one line to memory");
-                        $display("dCache: AMem = %h", AMem);
-                        $display("dCache: WriteLine = %h", WriteLine);                        
                         Stall <= 1'b1;
                         MemWrite_reg <= 1'b1;
                         State <= 2'b10;
@@ -109,6 +103,10 @@ module dCache(
             end
         end
         endcase
+        $display ("dCache: data_reg[0] = %h", Data_reg[0]);
+        $display ("dCache: data_reg[1] = %h", Data_reg[1]);
+        $display ("dCache: data_reg[2] = %h", Data_reg[2]);
+        $display ("dCache: data_reg[3] = %h", Data_reg[3]);
    end
 
     assign Value = Value_reg;

@@ -59,21 +59,30 @@ module storeBuffer (
                     Stall <= F0;
                 end else if (Address_in == Address_reg[0]) begin
                 // check if address is already in store buffer
-                    $display("StoreBuffer: Hit = %d", Hit);
                     Hit = 1;
                     HitAddress = 0;
+                    $display ("StoreBuffer: Hit = %d", Hit);
+                    $display ("StoreBuffer: HitAddress = %h", HitAddress);
+                    $display ("Write OP = %d", WriteOP);
                 end else if (Address_in == Address_reg[1]) begin
-                    $display("StoreBuffer: Hit = %d", Hit);
                     Hit = 1;
                     HitAddress = 1;
+                    $display ("Address_reg = %h", Address_reg[1]);
+                    
+                    $display ("StoreBuffer: Hit = %d", Hit);
+                    $display ("StoreBuffer: HitAddress = %h", HitAddress);
                 end else if (Address_in == Address_reg[2]) begin
-                    $display("StoreBuffer: Hit = %d", Hit);
                     Hit = 1;
                     HitAddress = 2;
+                    $display ("Address_reg = %h", Address_reg[2]);
+                    $display ("StoreBuffer: Hit = %d", Hit);
+                    $display ("StoreBuffer: HitAddress = %h", HitAddress);
                 end else if (Address_in == Address_reg[3]) begin
-                    $display("StoreBuffer: Hit = %d", Hit);
                     Hit = 1;
                     HitAddress = 3;
+                    $display ("Address_reg THIS ONE= %h", Address_reg[3]);
+                    $display ("StoreBuffer: Hit = %d", Hit);
+                    $display ("StoreBuffer: HitAddress = %h", HitAddress);
                 end
                 // read operation.
                 if (ReadOP == 1)
@@ -114,14 +123,14 @@ module storeBuffer (
                 $display ("StoreBuffer: Data_in = %h", Data_in);
                 $display ("StoreBuffer: Address_in = %h", Address_in);
                 $display ("--------------------------------------");
-                $display("StoreBuffer: data = %h", Data_reg[0]);
-                $display("StoreBuffer: data = %h", Data_reg[1]);
-                $display("StoreBuffer: data = %h", Data_reg[2]);
-                $display("StoreBuffer: data = %h", Data_reg[3]);
-                $display("StoreBuffer: address = %h", Address_reg[0]);
-                $display("StoreBuffer: address = %h", Address_reg[1]);
-                $display("StoreBuffer: address = %h", Address_reg[2]);
-                $display("StoreBuffer: address = %h", Address_reg[3]);
+                $display("StoreBuffer[0]: data = %h", Data_reg[0]);
+                $display("StoreBuffer[1]: data = %h", Data_reg[1]);
+                $display("StoreBuffer[2]: data = %h", Data_reg[2]);
+                $display("StoreBuffer[3]: data = %h", Data_reg[3]);
+                $display("StoreBuffer[0]: address = %h", Address_reg[0]);
+                $display("StoreBuffer[1]: address = %h", Address_reg[1]);
+                $display("StoreBuffer[2]: address = %h", Address_reg[2]);
+                $display("StoreBuffer[3]: address = %h", Address_reg[3]);
       end
     
     assign Data_out = Stall ? Data_reg[3] : Data_reg[HitAddress];
