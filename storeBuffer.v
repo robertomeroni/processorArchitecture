@@ -12,7 +12,7 @@ module storeBuffer (
 
     output [`STOREBUFFER_LINE_SIZE-1:0] Data_out,
     output [`STOREBUFFER_LINE_SIZE-1:0] Address_out,
-    output Stall,
+    output SBStall,
     output ByteAddress_out,
     output CacheWrite,
     output StoreBufferMiss
@@ -26,11 +26,10 @@ module storeBuffer (
     reg Stall;
     reg CacheWrite;
     reg [`STOREBUFFER_NUM_LINES-1:0] Valid_reg;
-    integer DrainLine;
-
+    reg F0;
 
     initial begin
-        DrainLine <= 0;
+        F0 <= 0;
         Hit <= 0;
         HitAddress <= 0;
         CacheWrite <= 0;
@@ -42,16 +41,24 @@ module storeBuffer (
         Valid_reg[3] = 0;
     end
 
+    always @(*) begin
+        if (FullSB) begin
+            Stall <= 1'b1;
+        end 
+    end
+
+
     always @(posedge clk) begin
             if (Enable) begin
                 HitAddress <= 0;
                 Hit <= 0;
                 CacheWrite <= 0;
                 StoreBufferMiss <= 0;
-                Stall <= 0;
-
+                if (Stall) begin
+                    F0 <= 1'b1;
+                    Stall <= F0;
+                end else if (Address_in == Address_reg[0]) begin
                 // check if address is already in store buffer
-                if (Address_in == Address_reg[0]) begin
                     $display("StoreBuffer: Hit = %d", Hit);
                     Hit = 1;
                     HitAddress = 0;
@@ -83,7 +90,6 @@ module storeBuffer (
                         Valid_reg[HitAddress] = 1;
                     end else if ( FullSB ) begin
                             $display("StoreBuffer full"); 
-                            Stall <= 1;
                             CacheWrite <= 1;
                             Valid_reg[3] = 0;
                     end else if (Valid_reg[0] == 0) begin
@@ -105,6 +111,9 @@ module storeBuffer (
                         end
                     end
                     end
+                $display ("StoreBuffer: Data_in = %h", Data_in);
+                $display ("StoreBuffer: Address_in = %h", Address_in);
+                $display ("--------------------------------------");
                 $display("StoreBuffer: data = %h", Data_reg[0]);
                 $display("StoreBuffer: data = %h", Data_reg[1]);
                 $display("StoreBuffer: data = %h", Data_reg[2]);
@@ -118,6 +127,7 @@ module storeBuffer (
     assign Data_out = Stall ? Data_reg[3] : Data_reg[HitAddress];
     assign Address_out = Stall ? Address_reg[3] : Address_reg[HitAddress];
     assign FullSB = Valid_reg[0] & Valid_reg[1] & Valid_reg[2] & Valid_reg[3];
+    assign SBStall = Stall;
 endmodule
 
 // TODO: add LoadByte and StoreByte support

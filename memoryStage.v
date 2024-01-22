@@ -87,7 +87,7 @@ module memoryStage (
                .ReadOP(ReadEnableM),
                .Data_out(StoreBufferData),
                .Address_out(AddressSBtoCache),
-               .Stall(SBStall),
+               .SBStall(SBStall),
                .CacheWrite(CacheWriteEnable),
                .StoreBufferMiss(StoreBufferMiss)
                );

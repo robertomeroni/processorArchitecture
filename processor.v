@@ -48,6 +48,7 @@ module processor (
    wire [4:0] RdM;
    wire RegWriteM, MemWriteM;
    wire [1:0] ResultSrcM;
+   wire SBStall;
    // memory hazard outputs
    wire [4:0] RdMH;
    wire  RegWriteMH, dCacheStall;
