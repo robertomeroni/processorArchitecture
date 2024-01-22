@@ -20,7 +20,7 @@ module storeBuffer (
 
     reg [`STOREBUFFER_LINE_SIZE-1:0] Data_reg [0:`STOREBUFFER_NUM_LINES-1];
     reg [`STOREBUFFER_LINE_SIZE-1:0] Address_reg [0:`STOREBUFFER_NUM_LINES-1];
-    reg counter;
+    reg HitAddress;
     reg Hit;
     reg StoreBufferMiss;
     reg Stall;
@@ -31,7 +31,7 @@ module storeBuffer (
     initial begin
         NextLine <= 0;
         Hit <= 0;
-        counter <= 0;
+        HitAddress <= 0;
         CacheWrite <= 0;
         StoreBufferMiss <= 0;
         Stall <= 0;
@@ -39,20 +39,29 @@ module storeBuffer (
 
     always @(posedge clk) begin
             if (Enable) begin
-                counter <= 0;
+                HitAddress <= 0;
                 Hit <= 0;
                 CacheWrite <= 0;
                 StoreBufferMiss <= 0;
                 Stall <= 0;
                 // check if address is already in store buffer
-                while ((counter < NextLine) & (!Hit)) begin
-                        if (Address_in == Address_reg[counter]) begin
-                            Hit = 1;
-                            counter = counter - 1;
-                        end
-                        counter = counter + 1;
-                    end
-                
+                if (Address_in == Address_reg[0]) begin
+                    $display("StoreBuffer: Hit = %d", Hit);
+                    Hit = 1;
+                    HitAddress = 0;
+                end else if (Address_in == Address_reg[1]) begin
+                    $display("StoreBuffer: Hit = %d", Hit);
+                    Hit = 1;
+                    HitAddress = 1;
+                end else if (Address_in == Address_reg[2]) begin
+                    $display("StoreBuffer: Hit = %d", Hit);
+                    Hit = 1;
+                    HitAddress = 2;
+                end else if (Address_in == Address_reg[3]) begin
+                    $display("StoreBuffer: Hit = %d", Hit);
+                    Hit = 1;
+                    HitAddress = 3;
+                end
                 // read operation.
                 if (ReadOP == 1)
                     if (Hit == 1) begin
@@ -76,8 +85,8 @@ module storeBuffer (
     end
         
     
-    assign Data_out = Stall ? Data_reg[NextLine - 1] : Data_reg[counter];
-    assign Address_out = Stall ? Address_reg[NextLine - 1] : Address_reg[counter];
+    assign Data_out = Stall ? Data_reg[NextLine - 1] : Data_reg[HitAddress];
+    assign Address_out = Stall ? Address_reg[NextLine - 1] : Address_reg[HitAddress];
 endmodule
 
 // TODO: add LoadByte and StoreByte support
