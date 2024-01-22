@@ -67,20 +67,16 @@ module storeBuffer (
                 end else if (Address_in == Address_reg[1]) begin
                     Hit = 1;
                     HitAddress = 1;
-                    $display ("Address_reg = %h", Address_reg[1]);
-                    
                     $display ("StoreBuffer: Hit = %d", Hit);
                     $display ("StoreBuffer: HitAddress = %h", HitAddress);
                 end else if (Address_in == Address_reg[2]) begin
                     Hit = 1;
                     HitAddress = 2;
-                    $display ("Address_reg = %h", Address_reg[2]);
                     $display ("StoreBuffer: Hit = %d", Hit);
                     $display ("StoreBuffer: HitAddress = %h", HitAddress);
                 end else if (Address_in == Address_reg[3]) begin
                     Hit = 1;
                     HitAddress = 3;
-                    $display ("Address_reg THIS ONE= %h", Address_reg[3]);
                     $display ("StoreBuffer: Hit = %d", Hit);
                     $display ("StoreBuffer: HitAddress = %h", HitAddress);
                 end
