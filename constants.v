@@ -50,5 +50,5 @@
 `define ITYPE_FUNCT7 7'b0010011
 `define JAL_FUNCT7 7'b1101111
 
-`define PROGRAM_FILENAME "storeTest.txt"
-`define NUM_CYCLES 40
+`define PROGRAM_FILENAME "bookTest.txt"
+`define NUM_CYCLES 60
