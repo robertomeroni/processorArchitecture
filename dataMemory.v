@@ -38,6 +38,7 @@ end
 
 always @ ( posedge clk ) begin
 	if (Read) begin
+		$display("MEM: Trying to read.. F0 = %b, F1 = %b, F2 = %b, F3 = %b", F0, F1, F2, F3);
 		// go to memory
 		F0 <= 1'b1;
 		F1 <= F0;
@@ -46,6 +47,7 @@ always @ ( posedge clk ) begin
 		// TODO: take more cycles
 		Ready_reg <= F3;
 	end else if (Write) begin
+		$display("MEM: Trying to write.. F0 = %b, F1 = %b, F2 = %b, F3 = %b", F0, F1, F2, F3);
 		// go to memory
 		F0 <= 1'b1;
 		F1 <= F0;
