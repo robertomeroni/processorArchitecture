@@ -41,7 +41,7 @@ module dCache(
     end
 
 
-    always @ (Address or WriteDataM or ReadEnable or WriteEnable) begin
+    always @ (Address or WriteDataM or ReadEnable or WriteEnable or MemReady) begin
         // $display("dCache: Address = %h", Address);
         // $display("dCache: Address[`DINDEX] = %h", Address[`DINDEX]);
         // $display("dCache: Address[`DTAG] = %h", Address[`DTAG]);
