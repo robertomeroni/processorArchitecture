@@ -62,6 +62,7 @@ module memoryStage (
             .ByteAddress(ByteAddressM),
 		      .AMem(LineAddressCacheToMem),
 		      .MemLine(ReadLineMemToCache),
+            .WriteLine(WriteLineCacheToMem),
 		      .MemReady(Ready),
 		      .MemRead(MemRead),
             .MemWrite(MemWrite),

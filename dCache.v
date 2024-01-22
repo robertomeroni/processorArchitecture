@@ -9,7 +9,6 @@ module dCache(
               input MemReady,
               input ByteAddress,
               output [`WORD_SIZE-1:0] Value,
-              output [`WORD_SIZE-1:0] LineAddress,
               output [`CACHE_LINE_SIZE-1:0] WriteLine,
               output [`DTAG_SIZE+`INDEX_SIZE-1:0] AMem,
               output MemRead, MemWrite,
@@ -35,6 +34,9 @@ module dCache(
             Valid_reg[i] = 1'b0;
             $display("dCache: Valid_reg[%d] = %b", i, Valid_reg[i]);
         end
+        for (i = 0; i < `CACHE_NUM_LINES; i = i + 1) begin
+            Data_reg[i] = 0;
+        end 
         $display("dCache: Initialized");
     end
 
@@ -78,6 +80,8 @@ module dCache(
                         $display("Address[`DINDEX] = %b", Address[`DINDEX]);
                         $display("Address = %b", Address);
                         $display("dCache: Sending one line to memory");
+                        $display("dCache: AMem = %h", AMem);
+                        $display("dCache: WriteLine = %h", WriteLine);                        
                         Stall <= 1'b1;
                         MemWrite_reg <= 1'b1;
                         State <= 2'b10;
