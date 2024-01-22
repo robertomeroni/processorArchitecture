@@ -39,7 +39,7 @@ module dCache(
     end
 
 
-    always @ (*) begin
+    always @ (Address or WriteDataM or ReadEnable or WriteEnable) begin
         // $display("dCache: Address = %h", Address);
         // $display("dCache: Address[`DINDEX] = %h", Address[`DINDEX]);
         // $display("dCache: Address[`DTAG] = %h", Address[`DTAG]);
@@ -99,9 +99,9 @@ module dCache(
         // wait memory for write
         2'b10: begin
             if (MemReady) begin
+                MemWrite_reg <= 1'b0;
                 Stall <= 1'b0;
                 State <= 2'b00;
-                MemWrite_reg <= 1'b0;
             end
         end
         endcase

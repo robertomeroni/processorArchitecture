@@ -28,6 +28,7 @@ module dataMemory (
    end
 
 always @ (Read or Write) begin
+	$display("ALERT Read = %b, Write = %b", Read, Write);
    if (Read | Write) begin
     Ready_reg <= 1'b0;
    end
@@ -37,6 +38,8 @@ always @ (Read or Write) begin
 end
 
 always @ ( posedge clk ) begin
+	$display("Ready_reg = %b", Ready_reg);
+	$display("CHECK registers are %b, %b, %b, %b", F0, F1, F2, F3);
 	if (Read) begin
 		$display("MEM: Trying to read.. F0 = %b, F1 = %b, F2 = %b, F3 = %b", F0, F1, F2, F3);
 		// go to memory
@@ -44,7 +47,6 @@ always @ ( posedge clk ) begin
 		F1 <= F0;
 		F2 <= F1;
 		F3 <= F2;
-		// TODO: take more cycles
 		Ready_reg <= F3;
 	end else if (Write) begin
 		$display("MEM: Trying to write.. F0 = %b, F1 = %b, F2 = %b, F3 = %b", F0, F1, F2, F3);
