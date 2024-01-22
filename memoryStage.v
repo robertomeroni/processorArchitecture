@@ -25,10 +25,12 @@ module memoryStage (
    // Internal wires and registers.
    wire [`WORD_SIZE-1:0] ReadDataM;
    wire Ready;
-   wire [`CACHE_LINE_SIZE-1:0] MemLine;
+   wire [`CACHE_LINE_SIZE-1:0] ReadLineMemToCache;
    wire MemRead;
    wire CacheStall;
-   wire [`WORD_SIZE-1:0] AMem;
+   wire [`DTAG_SIZE+`INDEX_SIZE-1:0] LineAddressCacheToMem;
+   wire [`CACHE_LINE_SIZE-1:0] WriteLineCacheToMem;
+   wire MemWrite;
 
 
    reg [`WORD_SIZE-1:0] ALUResultM_reg, ReadDataM_reg, PCPlus4M_reg;
@@ -42,24 +44,27 @@ module memoryStage (
    dataMemory Data_Memory (
 			   .clk(clk),
 			   .rst(rst),
-			   .WE(MemWriteM),
-			   .WD(WriteDataM),
-			   .A(ALUResultM),
-			   .ByteAddress(ByteAddressM),
+			   .Address(LineAddressCacheToMem),
+            .Line_in(WriteLineCacheToMem),
 			   .Ready(Ready),
-			   .Line(MemLine),
-			   .Read(MemRead)
+			   .Read(MemRead),
+            .Write(MemWrite),
+            .Line_out(ReadLineMemToCache)
 			   );
 
    dCache Data_Cache (
 		      .clk(clk),
 		      .rst(rst),
-		      .A(ALUResultM),
+		      .Address(ALUResultM),
+            .WriteDataM(WriteDataM),
 		      .ReadEnable(ReadEnableM),
-		      .AMem(AMem),
-		      .MemLine(MemLine),
+            .WriteEnable(MemWriteM),
+            .ByteAddress(ByteAddressM),
+		      .AMem(LineAddressCacheToMem),
+		      .MemLine(ReadLineMemToCache),
 		      .MemReady(Ready),
 		      .MemRead(MemRead),
+            .MemWrite(MemWrite),
 		      .Value(ReadDataM),
 		      .CacheStall(CacheStall)
 		      );

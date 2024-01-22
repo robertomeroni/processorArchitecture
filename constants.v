@@ -19,13 +19,16 @@
 `define ITAG `WORD_SIZE-1:`INDEX_SIZE+`IOFFSET_SIZE
 
 //dCache constants.
-`define DOFFSET_BIT_PRECISION 8 // we access the memory every byte.
+`define DOFFSET_BIT_PRECISION `WORD_SIZE // we access the memory every byte.
 `define DOFFSET_SIZE $clog2 (`CACHE_LINE_SIZE / `DOFFSET_BIT_PRECISION) // bits needed to represent the offset.
 `define DTAG_SIZE (`WORD_SIZE - `DOFFSET_SIZE - `INDEX_SIZE) // bits needed to represent the tag.
 `define DOFFSET `DOFFSET_SIZE-1:0
 `define DINDEX `INDEX_SIZE+`DOFFSET_SIZE-1:`DOFFSET_SIZE
 `define DTAG `WORD_SIZE-1:`INDEX_SIZE+`DOFFSET_SIZE
 
+// StoreBuffer constants.
+`define STOREBUFFER_LINE_SIZE 32
+`define STOREBUFFER_NUM_LINES 4
 
 // Initial values.
 `define PC_INITIAL   32'h00001000
