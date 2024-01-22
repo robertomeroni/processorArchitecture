@@ -25,16 +25,21 @@ module storeBuffer (
     reg StoreBufferMiss;
     reg Stall;
     reg CacheWrite;
-    integer NextLine;
+    reg [`STOREBUFFER_NUM_LINES-1:0] Valid_reg;
+    integer DrainLine;
 
 
     initial begin
-        NextLine <= 0;
+        DrainLine <= 0;
         Hit <= 0;
         HitAddress <= 0;
         CacheWrite <= 0;
         StoreBufferMiss <= 0;
         Stall <= 0;
+        Valid_reg[0] = 0;
+        Valid_reg[1] = 0;
+        Valid_reg[2] = 0;
+        Valid_reg[3] = 0;
     end
 
     always @(posedge clk) begin
@@ -44,6 +49,7 @@ module storeBuffer (
                 CacheWrite <= 0;
                 StoreBufferMiss <= 0;
                 Stall <= 0;
+
                 // check if address is already in store buffer
                 if (Address_in == Address_reg[0]) begin
                     $display("StoreBuffer: Hit = %d", Hit);
@@ -71,22 +77,47 @@ module storeBuffer (
                 end
                 // write operation.
                 else if (WriteOP) begin
-                    if (!Hit) begin
-                        Data_reg[NextLine] <= Data_in;
-                        Address_reg[NextLine] <= Address_in;
-                        NextLine <= NextLine + 1;
-                    end else if (NextLine >= `STOREBUFFER_NUM_LINES) begin
+                    if (Hit == 1) begin
+                        Data_reg[HitAddress] = Data_in;
+                        Address_reg[HitAddress] = Address_in;
+                        Valid_reg[HitAddress] = 1;
+                    end else if ( FullSB ) begin
+                            $display("StoreBuffer full"); 
                             Stall <= 1;
                             CacheWrite <= 1;
-                            NextLine <= NextLine - 1;
-                        end 
+                            Valid_reg[3] = 0;
+                    end else if (Valid_reg[0] == 0) begin
+                            Data_reg[0] = Data_in;
+                            Address_reg[0] = Address_in;
+                            Valid_reg[0] = 1;
+                    end else if (Valid_reg[1] == 0) begin
+                            Data_reg[1] = Data_in;
+                            Address_reg[1] = Address_in;
+                            Valid_reg[1] = 1;
+                        end else if (Valid_reg[2] == 0) begin
+                            Data_reg[2] = Data_in;
+                            Address_reg[2] = Address_in;
+                            Valid_reg[2] = 1;
+                        end else if (Valid_reg[3] == 0) begin
+                            Data_reg[3] = Data_in;
+                            Address_reg[3] = Address_in;
+                            Valid_reg[3] = 1;
+                        end
                     end
-                end
-    end
-        
+                    end
+                $display("StoreBuffer: data = %h", Data_reg[0]);
+                $display("StoreBuffer: data = %h", Data_reg[1]);
+                $display("StoreBuffer: data = %h", Data_reg[2]);
+                $display("StoreBuffer: data = %h", Data_reg[3]);
+                $display("StoreBuffer: address = %h", Address_reg[0]);
+                $display("StoreBuffer: address = %h", Address_reg[1]);
+                $display("StoreBuffer: address = %h", Address_reg[2]);
+                $display("StoreBuffer: address = %h", Address_reg[3]);
+      end
     
-    assign Data_out = Stall ? Data_reg[NextLine - 1] : Data_reg[HitAddress];
-    assign Address_out = Stall ? Address_reg[NextLine - 1] : Address_reg[HitAddress];
+    assign Data_out = Stall ? Data_reg[3] : Data_reg[HitAddress];
+    assign Address_out = Stall ? Address_reg[3] : Address_reg[HitAddress];
+    assign FullSB = Valid_reg[0] & Valid_reg[1] & Valid_reg[2] & Valid_reg[3];
 endmodule
 
 // TODO: add LoadByte and StoreByte support
