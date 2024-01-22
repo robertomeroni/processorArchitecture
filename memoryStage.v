@@ -39,6 +39,7 @@ module memoryStage (
    wire CacheWriteEnable;
    wire EnableCacheRead;
    wire [`WORD_SIZE-1:0] CacheRead;
+   wire dCacheReady;
 
    reg [`WORD_SIZE-1:0] ALUResultM_reg, ReadDataM_reg, PCPlus4M_reg;
    reg [4:0] RdM_reg;
@@ -74,7 +75,8 @@ module memoryStage (
 		      .MemRead(MemRead),
             .MemWrite(MemWrite),
 		      .Value(CacheRead),
-		      .CacheStall(CacheStall)
+		      .CacheStall(CacheStall),
+            .CacheReady(dCacheReady)
 		      );
 
    storeBuffer Store_Buffer (
@@ -85,6 +87,7 @@ module memoryStage (
                .Enable(EnableSB),
                .WriteOP(MemWriteM),
                .ReadOP(ReadEnableM),
+               .CacheReady(dCacheReady),
                .Data_out(StoreBufferData),
                .Address_out(AddressSBtoCache),
                .SBStall(SBStall),

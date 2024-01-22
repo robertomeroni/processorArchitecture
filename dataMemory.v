@@ -56,7 +56,7 @@ always @ ( posedge clk ) begin
 		F2 <= F1;
 		F3 <= F2;
 		Ready_reg <= F3;
-		if (Ready_reg) begin
+		if (F2) begin
 			// write to memory
 			mem[Address] <= Line_in;
 			$display("Wrote line %h to mem[%d]", Line_in, Address);
@@ -73,6 +73,7 @@ always @ ( posedge clk ) begin
 		Ready_reg <= 1'b0;
 	end
 	end
+
 
 
 assign ILine = ((Address[`WORD_SIZE-1:0] >> 4) << 4);
