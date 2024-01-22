@@ -195,7 +195,8 @@ module processor (
 		       // hazard outputs
 		       .RdMH(RdMH),
 		       .RegWriteMH(RegWriteMH),
-			   .CacheStall(dCacheStall)
+			   .CacheStall(dCacheStall),
+			   .SBStall(SBStall)
 		       );
 
    // Writeback Stage.
@@ -235,7 +236,8 @@ module processor (
 		      .ResultSrcE0(ResultSrcEH),
 		      .Mul(MulH),
 			  .dCacheStall(dCacheStall),
-		      
+		      .SBStall(SBStall),
+
 		      // standard outputs
 		      .StallF(StallF), 
 		      .StallD(StallD),

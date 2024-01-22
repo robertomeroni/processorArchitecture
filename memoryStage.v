@@ -1,6 +1,7 @@
 `include "constants.v"
 `include "dataMemory.v"
 `include "dCache.v"
+`include "storeBuffer.v"
 
 module memoryStage (
 		    input clk, rst,
@@ -19,7 +20,8 @@ module memoryStage (
 		    output [4:0] RdW,
 		    output RegWriteW,
 		    output [1:0] ResultSrcW,
-		    output CacheStall
+		    output CacheStall,
+          output SBStall
 		    );
 
    // Internal wires and registers.
@@ -28,10 +30,14 @@ module memoryStage (
    wire [`CACHE_LINE_SIZE-1:0] ReadLineMemToCache;
    wire MemRead;
    wire CacheStall;
-   wire [`DTAG_SIZE+`INDEX_SIZE-1:0] LineAddressCacheToMem;
+   wire [`WORD_SIZE-3:0] LineAddressCacheToMem;
    wire [`CACHE_LINE_SIZE-1:0] WriteLineCacheToMem;
    wire MemWrite;
-
+   wire EnableSB;
+   wire [`WORD_SIZE-1:0] AddressSBtoCache, StoreBufferData;
+   wire StoreBufferMiss;
+   wire CacheWriteEnable;
+   wire EnableCacheRead;
 
    reg [`WORD_SIZE-1:0] ALUResultM_reg, ReadDataM_reg, PCPlus4M_reg;
    reg [4:0] RdM_reg;
@@ -55,10 +61,10 @@ module memoryStage (
    dCache Data_Cache (
 		      .clk(clk),
 		      .rst(rst),
-		      .Address(ALUResultM),
-            .WriteDataM(WriteDataM),
-		      .ReadEnable(ReadEnableM),
-            .WriteEnable(MemWriteM),
+		      .Address(AddressSBtoCache),
+            .WriteDataM(StoreBufferData),
+		      .ReadEnable(EnableCacheRead),
+            .WriteEnable(CacheWriteEnable),
             .ByteAddress(ByteAddressM),
 		      .AMem(LineAddressCacheToMem),
 		      .MemLine(ReadLineMemToCache),
@@ -69,6 +75,22 @@ module memoryStage (
 		      .Value(ReadDataM),
 		      .CacheStall(CacheStall)
 		      );
+
+   storeBuffer Store_Buffer (
+               .clk(clk),
+               .rst(rst),
+               .Data_in(WriteDataM),
+               .Address_in(ALUResultM),
+               .Enable(EnableSB),
+               .WriteOP(MemWriteM),
+               .ReadOP(ReadEnableM),
+               .Data_out(StoreBufferData),
+               .Address_out(AddressSBtoCache),
+               .Stall(SBStall),
+               .CacheWrite(CacheWriteEnable),
+               .StoreBufferMiss(StoreBufferMiss)
+               );
+
 
    // Behavior.
    // TODO: make memory access take 5 clocks as per the project statement
@@ -106,5 +128,7 @@ module memoryStage (
    assign RdW = RdM_reg;
    assign RegWriteW = RegWriteM_reg;
    assign ResultSrcW = ResultSrcM_reg;
+   assign EnableSB = (MemWriteM | ReadEnableM) ? 1'b1 : 1'b0;
+   assign EnableCacheRead = (ReadEnableM & StoreBufferMiss) ? 1'b1 : 1'b0;
 endmodule
 

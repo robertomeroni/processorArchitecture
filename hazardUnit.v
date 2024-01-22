@@ -14,6 +14,7 @@ module hazard_unit
    input ResultSrcE0,
    input Mul,
    input dCacheStall,
+   input SBStall,
    output [1:0] ForwardAE, 
    output [1:0] ForwardBE,
    output StallF, 
@@ -36,9 +37,9 @@ module hazard_unit
 
    // stall to deal with data hazard
    assign lwStall = (rst == 1'b1) ? 1'b0 :  ResultSrcE0 & ((Rs1D == RdE) | (Rs2D == RdE));
-   assign StallD  = (rst == 1'b1) ? 1'b0 : lwStall | Mul | dCacheStall;
-   assign StallF  = (rst == 1'b1) ? 1'b0 : lwStall | Mul | dCacheStall;
-   assign StallE  = (rst == 1'b1) ? 1'b0 : Mul | dCacheStall;
+   assign StallD  = (rst == 1'b1) ? 1'b0 : lwStall | Mul | dCacheStall | SBStall;
+   assign StallF  = (rst == 1'b1) ? 1'b0 : lwStall | Mul | dCacheStall | SBStall;
+   assign StallE  = (rst == 1'b1) ? 1'b0 : Mul | dCacheStall | SBStall;
    assign FlushD = (rst == 1'b1) ? 1'b0 : PCSrcE;
    assign FlushE  = (rst == 1'b1) ? 1'b0 : lwStall | PCSrcE;
       
