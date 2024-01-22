@@ -53,7 +53,8 @@ always @ ( posedge clk ) begin
 		F1 <= F0;
 		F2 <= F1;
 		F3 <= F2;
-		if (F2) begin
+		Ready_reg <= F3;
+		if (Ready_reg) begin
 			// write to memory
 			mem[Address] <= Line_in;
 			$display("Wrote line %h to mem[%d]", Line_in, Address);
@@ -61,7 +62,6 @@ always @ ( posedge clk ) begin
 		else begin
 			$display("Waiting to write line %h to mem[%d]", Line_in, Address);
 		end
-		Ready_reg <= F3;
 	end
 	else begin
 		F0 <= 1'b0;
