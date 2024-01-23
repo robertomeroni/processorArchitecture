@@ -55,7 +55,7 @@ module storeBuffer (
                 CacheWrite <= 0;
                 StoreBufferMiss <= 0;
                 if (Stall) begin
-                    F0 <= 1'b1;
+                    F0 <= 1'b0;
                     Stall <= F0;
                 end else if (Address_in == Address_reg[0]) begin
                 // check if address is already in store buffer
