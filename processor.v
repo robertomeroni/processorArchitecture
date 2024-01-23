@@ -96,7 +96,7 @@ module processor (
 		     .InstrD(InstrD),
 		     .PCD(PCD),
 		     .PCPlus4D(PCPlus4D),
-			 .TakingBranch(TakingBranch)
+			 .TakingBranchD(TakingBranch)
 		     );
 
    // Decode Stage.

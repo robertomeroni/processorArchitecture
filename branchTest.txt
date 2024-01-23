@@ -1027,7 +1027,8 @@
 ff708193 // addi x3, x1, -9
 fe200ae3 // beq x0, x2, begin // not taken first time, but the second yes
 04312c23 // sw x3, 88(x2)
-ff800113 // addi x2, x0, -8
+ff800113
+00020463
 05812203 // lw x4, 88(x2)
 fe0002e3 // beq x0, x0, begin // always taken
 00020463

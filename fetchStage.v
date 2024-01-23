@@ -27,7 +27,7 @@ module fetchStage
    output [`WORD_SIZE-1:0] InstrD,
    output [`WORD_SIZE-1:0] PCD,
    output [`WORD_SIZE-1:0] PCPlus4D,
-   output TakingBranch
+   output TakingBranchD
    );
 
    // Internal signals.
@@ -38,11 +38,12 @@ module fetchStage
    wire [`CACHE_LINE_SIZE-1:0] MemLine;
    wire PCStall;
    wire [`WORD_SIZE-1:0] BranchOut;
-   wire TakingBranch;
+   wire TakingBranchF;
 
    // Registers.
    reg [`WORD_SIZE-1:0] InstrF_reg;
    reg [`WORD_SIZE-1:0] PCF_reg, PCPlus4F_reg;
+   reg TakingBranch_reg;
 
    // Modules.
    // PC multiplexer.
@@ -73,7 +74,7 @@ module fetchStage
                  .PCTargetE(PCTargetE),
                  .PCPlus4F(PCPlus4F),
                  .NextInstruction(BranchOut),
-                 .TakingBranch(TakingBranch),
+                 .TakingBranch(TakingBranchF),
                  .SavedPC(SavedPC),
                    .resetBranch(resetBranch)
                  );
@@ -126,6 +127,7 @@ module fetchStage
          InstrF_reg <= InstrF;
          PCF_reg <= PCF;
          PCPlus4F_reg <= PCPlus4F;
+         TakingBranch_reg <= TakingBranchF;
       end
       #1;
       $display("--- FETCH STAGE ---");
@@ -139,6 +141,7 @@ module fetchStage
    assign PCD = PCF_reg;
    assign PCPlus4D = PCPlus4F_reg;
    assign PCStall = iCacheStall | StallF;
+   assign TakingBranchD = TakingBranch_reg;
 endmodule
 
 
