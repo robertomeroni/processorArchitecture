@@ -106,6 +106,7 @@ module processor (
 		       // hazard inputs
 		       .StallE(StallE),
 		       .FlushE(FlushE),
+			   .TakingBranch(TakingBranch),
 		       
 		       // standard outputs
 		       .RD1E(RD1E),

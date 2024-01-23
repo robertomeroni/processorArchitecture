@@ -43,7 +43,7 @@ module hazard_unit
    assign StallF  = (rst == 1'b1) ? 1'b0 : lwStall | Mul | dCacheStall | SBStall;
    assign StallE  = (rst == 1'b1) ? 1'b0 : Mul | dCacheStall | SBStall;
    assign StallM = (rst == 1'b1) ? 1'b0 : dCacheStall | SBStall;
-   assign FlushD = (rst == 1'b1) ? 1'b0 : PCSrcE;
+   assign FlushD = (rst == 1'b1) ? 1'b0 : PCSrcE | TakingBranch;
    assign FlushE  = (rst == 1'b1) ? 1'b0 : lwStall | PCSrcE;
       
 endmodule
