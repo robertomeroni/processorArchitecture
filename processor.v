@@ -39,6 +39,7 @@ module processor (
    wire [1:0] ResultSrcE;
    wire [2:0] ALUControlE;
    wire [`WORD_SIZE-1:0] PCEToBranchPredictor;
+   wire ReadEnableE;
    // hazard inputs
    wire [1:0] ForwardAE, ForwardBE;
    wire StallM;
@@ -58,6 +59,7 @@ module processor (
    wire [4:0] RdMH;
    wire  RegWriteMH, dCacheStall;
    wire BranchEToBranchPredictor;
+   wire ReadEnableM;
 
    // Writeback inputs.
    wire [`WORD_SIZE-1:0] ALUResultW, ReadDataW, PCPlus4W;
