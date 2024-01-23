@@ -51,9 +51,6 @@ module branchPredictor (
     end
 
     always @(posedge clk) begin
-        $display("ENTERING CASE BranchPredictor: PC = %h", PC);
-        $display ("BranchPredictor: Valid_reg = %b", Valid_reg[PC[`BINDEX]]);
-        $display("BranchPredictor: BranchPC = %h", BranchPC[PC[`BINDEX]]);
         if (BranchE & Valid_reg[PC[`BINDEX]] & BranchPC[PC[`BINDEX]] == PC) begin
             $display("BranchPredictor: current Prediction = %b", Prediction[PC[`BINDEX]]);
             case (Prediction[PC[`BINDEX]])

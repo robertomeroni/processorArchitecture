@@ -55,5 +55,5 @@
 `define ITYPE_FUNCT7 7'b0010011
 `define JAL_FUNCT7 7'b1101111
 
-`define PROGRAM_FILENAME "bookTest.txt"
-`define NUM_CYCLES 100
+`define PROGRAM_FILENAME "buffer_sum.txt"
+`define NUM_CYCLES 30
