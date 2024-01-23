@@ -24,8 +24,8 @@ module fetchStage
    // hazard outputs
    output [`WORD_SIZE-1:0] InstrD,
    output [`WORD_SIZE-1:0] PCD,
-   output [`WORD_SIZE-1:0] PCPlus4D
-   
+   output [`WORD_SIZE-1:0] PCPlus4D,
+   output TakingBranch
    );
 
    // Internal signals.
@@ -36,6 +36,7 @@ module fetchStage
    wire [`CACHE_LINE_SIZE-1:0] MemLine;
    wire PCStall;
    wire [`WORD_SIZE-1:0] BranchOut;
+   wire TakingBranch;
 
    // Registers.
    reg [`WORD_SIZE-1:0] InstrF_reg;
@@ -64,11 +65,13 @@ module fetchStage
                  .clk(clk),
                  .rst(rst),
                  .PC(PCEToBranchPredictor),
+                 .CurrentPC(PCF),
                  .BranchE(BranchE),
                  .ZeroE(ZeroE),
                  .PCTargetE(PCTargetE),
                  .PCPlus4F(PCPlus4F),
-                 .NextInstruction(BranchOut)
+                 .NextInstruction(BranchOut),
+                 .TakingBranch(TakingBranch)
                  );
    
    // Instruction Cache.

@@ -36,10 +36,21 @@ module storeBuffer (
         CacheWrite_reg <= 0;
         StoreBufferMiss <= 0;
         Stall <= 0;
+
         Valid_reg[0] = 0;
         Valid_reg[1] = 0;
         Valid_reg[2] = 0;
         Valid_reg[3] = 0;
+
+        Data_reg[0] = 0;
+        Data_reg[1] = 0;
+        Data_reg[2] = 0;
+        Data_reg[3] = 0;
+
+        Address_reg[0] = 0;
+        Address_reg[1] = 0;
+        Address_reg[2] = 0;
+        Address_reg[3] = 0;
     end
 
   

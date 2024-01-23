@@ -18,6 +18,7 @@ module processor (
    wire ZeroE;
    // hazard input
    wire StallF, StallD, FlushD;
+   wire TakingBranch;
 
    // Decode inputs.
    wire [`WORD_SIZE-1:0] InstrD, PCPlus4D, PCD;
@@ -87,7 +88,8 @@ module processor (
 		     // standard outputs
 		     .InstrD(InstrD),
 		     .PCD(PCD),
-		     .PCPlus4D(PCPlus4D)
+		     .PCPlus4D(PCPlus4D),
+			 .TakingBranch(TakingBranch)
 		     );
 
    // Decode Stage.
@@ -251,7 +253,7 @@ module processor (
 		      .Mul(MulH),
 		      .dCacheStall(dCacheStall),
 		      .SBStall(SBStall),
-
+			  .TakingBranch(TakingBranch),
 		      // standard outputs
 		      .StallF(StallF), 
 		      .StallD(StallD),

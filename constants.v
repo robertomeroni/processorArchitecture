@@ -56,4 +56,4 @@
 `define JAL_FUNCT7 7'b1101111
 
 `define PROGRAM_FILENAME "bookTest.txt"
-`define NUM_CYCLES 150
+`define NUM_CYCLES 70

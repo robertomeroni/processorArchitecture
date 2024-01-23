@@ -15,6 +15,7 @@ module hazard_unit
    input Mul,
    input dCacheStall,
    input SBStall,
+   input TakingBranch,
    output [1:0] ForwardAE, 
    output [1:0] ForwardBE,
    output StallF, 
