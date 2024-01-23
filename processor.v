@@ -6,6 +6,7 @@
 `include "writeBackStage.v"
 `include "hazardUnit.v"
 
+
 module processor (
 		  input clk, rst
 		  );
@@ -14,6 +15,7 @@ module processor (
    // Fetch inputs.
    wire PCSrcE;
    wire [`WORD_SIZE-1:0] PCTargetE;
+   wire ZeroE;
    // hazard input
    wire StallF, StallD, FlushD;
 
@@ -35,6 +37,7 @@ module processor (
    wire RegWriteE, ALUSrcE, MemWriteE, JumpE, BranchE, AluSrcE;
    wire [1:0] ResultSrcE;
    wire [2:0] ALUControlE;
+   wire [`WORD_SIZE-1:0] PCEToBranchPredictor;
    // hazard inputs
    wire [1:0] ForwardAE, ForwardBE;
    wire StallM;
@@ -53,6 +56,7 @@ module processor (
    // memory hazard outputs
    wire [4:0] RdMH;
    wire  RegWriteMH, dCacheStall;
+   wire BranchEToBranchPredictor;
 
    // Writeback inputs.
    wire [`WORD_SIZE-1:0] ALUResultW, ReadDataW, PCPlus4W;
@@ -71,10 +75,14 @@ module processor (
 		     .rst(rst),
 		     .PCSrcE(PCSrcE),
 		     .PCTargetE(PCTargetE),
+			 
 		     // hazard inputs
 		     .StallF(StallF),
 		     .StallD(StallD),
 		     .FlushD(FlushD),
+			 .BranchE(BranchEToBranchPredictor),
+			 .ZeroE(ZeroE),
+			 .PCEToBranchPredictor(PCEToBranchPredictor),
 		     
 		     // standard outputs
 		     .InstrD(InstrD),
@@ -141,6 +149,7 @@ module processor (
 			 .MemWriteE(MemWriteE),
 			 .JumpE(JumpE),
 			 .BranchE(BranchE),
+			 .BranchEToBranchPredictor(BranchEToBranchPredictor),
 			 .ResultSrcE(ResultSrcE),
 			 .ALUControlE(ALUControlE),
 			 .ByteAddressE(ByteAddressE),
@@ -163,6 +172,8 @@ module processor (
 			 .PCSrcE(PCSrcE),
 			 .ByteAddressM(ByteAddressM),
 			 .ReadEnableM(ReadEnableM),
+			 .ZeroE(ZeroE),
+			 .PCEToBranchPredictor(PCEToBranchPredictor),
 			 // hazard outputs
 			 .RdEH(RdEH),
 			 .Rs1EH(Rs1EH),

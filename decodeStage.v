@@ -130,6 +130,7 @@ module decodeStage
       end
       #2;
       $display("--- DECODE STAGE ---");
+      $display("PCD = %h", PCD);
       // $display("RegWriteW = %1b", RegWriteW);
       // $display("RdW = %5b", RdW);
       // $display("ResultW = %32b", ResultW);

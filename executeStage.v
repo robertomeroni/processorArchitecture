@@ -31,6 +31,9 @@ module executeStage
    output PCSrcE, 
    output [1:0] ResultSrcM,
    output ByteAddressM, ReadEnableM,
+   output [`WORD_SIZE-1:0] PCEToBranchPredictor,
+   output BranchEToBranchPredictor,
+   output ZeroE,
 
    //hazard outputs
    output [4:0] Rs1EH, Rs2EH, RdEH,
@@ -129,6 +132,7 @@ module executeStage
       end 
       #3;
       $display("--- EXECUTE STAGE ---");
+      $display("PC = %h", PCE);
       //$display("RD1E =       %32b\nResultW =    %32b\nALUResultM = %32b\nALUResultE = %32b\nSrcAE =      %32b\nSrcBE =      %32b\n", RD1E, ResultW, ALUResultM, ALUResultE, SrcAE, SrcBE);
       // $display("RD1E = %32b, RD2E = %32b, ImmExtE = %32b", RD1E, RD2E, ImmExtE);
       // $display("ForwardAE = %2b\nForwardBE = %2b", ForwardAE, ForwardBE);
@@ -160,4 +164,6 @@ module executeStage
    assign PCSrcE = (ZeroE & BranchE) | JumpE;
    assign ByteAddressM = ByteAddressE_reg;
    assign ReadEnableM = ReadEnableE_reg;
+   assign PCEToBranchPredictor = PCE;
+   assign BranchEToBranchPredictor = BranchE;
 endmodule

@@ -30,6 +30,11 @@
 `define STOREBUFFER_LINE_SIZE 32
 `define STOREBUFFER_NUM_LINES 4
 
+// Branch predictor constants.
+`define BRANCH_PREDICTOR_NUM_LINES 4
+`define BINDEX_SIZE $clog2 (`BRANCH_PREDICTOR_NUM_LINES) // bits needed to represent the index.
+`define BINDEX `BINDEX_SIZE-1:0
+
 // Initial values.
 `define PC_INITIAL   32'h00001000
 `define PC_EXCEPTION 32'h00002000
@@ -50,5 +55,5 @@
 `define ITYPE_FUNCT7 7'b0010011
 `define JAL_FUNCT7 7'b1101111
 
-`define PROGRAM_FILENAME "storeTest.txt"
-`define NUM_CYCLES 200
+`define PROGRAM_FILENAME "bookTest.txt"
+`define NUM_CYCLES 150

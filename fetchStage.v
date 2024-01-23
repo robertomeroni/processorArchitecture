@@ -3,6 +3,8 @@
 `include "mux.v"
 `include "adder.v"
 `include "iCache.v"
+`include "branchPredictor.v"
+`include "constants.v"
 
 
 module fetchStage
@@ -11,6 +13,8 @@ module fetchStage
    input rst,
    input PCSrcE,
    input [`WORD_SIZE-1:0] PCTargetE,
+   input [`WORD_SIZE-1:0] PCEToBranchPredictor,
+   input ZeroE, BranchE,
    
    // hazard inputs
    input StallF,
@@ -21,6 +25,7 @@ module fetchStage
    output [`WORD_SIZE-1:0] InstrD,
    output [`WORD_SIZE-1:0] PCD,
    output [`WORD_SIZE-1:0] PCPlus4D
+   
    );
 
    // Internal signals.
@@ -30,6 +35,7 @@ module fetchStage
    wire MemRead, MemReady;
    wire [`CACHE_LINE_SIZE-1:0] MemLine;
    wire PCStall;
+   wire [`WORD_SIZE-1:0] BranchOut;
 
    // Registers.
    reg [`WORD_SIZE-1:0] InstrF_reg;
@@ -38,7 +44,7 @@ module fetchStage
    // Modules.
    // PC multiplexer.
    mux_2to1 PC_mux (
-		    .a(PCPlus4F),
+		    .a(BranchOut),
 		    .b(PCTargetE),
 		    .sel(PCSrcE),
 		    .out(PCNext)
@@ -52,6 +58,18 @@ module fetchStage
 				   .StallF(PCStall),
 				   .PC(PCF)
 				   );
+
+   // Branch Predictor.
+   branchPredictor Branch_Predictor (
+                 .clk(clk),
+                 .rst(rst),
+                 .PC(PCEToBranchPredictor),
+                 .BranchE(BranchE),
+                 .ZeroE(ZeroE),
+                 .PCTargetE(PCTargetE),
+                 .PCPlus4F(PCPlus4F),
+                 .NextInstruction(BranchOut)
+                 );
    
    // Instruction Cache.
    iCache Instruction_Cache (

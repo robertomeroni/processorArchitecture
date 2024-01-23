@@ -76,8 +76,10 @@ module storeBuffer (
                 // read operation.
                 if (ReadOP == 1)
                     if (Hit == 1) begin
+                        $display("StoreBuffer: Read hit, Address = %h", Address_in);
                         StoreBufferMiss <= 0;
                     end else begin
+                        $display("StoreBuffer: Read miss, Address = %h", Address_in);
                         StoreBufferMiss <= 1;
                 end
                 // write operation.

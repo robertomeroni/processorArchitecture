@@ -28,7 +28,6 @@ module dataMemory (
    end
 
 always @ (Read or Write) begin
-	$display("ALERT Read = %b, Write = %b", Read, Write);
    if (Read | Write) begin
     Ready_reg <= 1'b0;
    end
