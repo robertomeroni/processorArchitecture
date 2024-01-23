@@ -18,7 +18,6 @@ module branchPredictor (
     reg [1:0] Prediction [0:`BRANCH_PREDICTOR_NUM_LINES-1];
     reg Valid_reg [0:`BRANCH_PREDICTOR_NUM_LINES-1];
     wire taken;
-    reg [`WORD_SIZE-1:0] NextInstruction_reg;
 
     initial begin
 
@@ -79,31 +78,7 @@ module branchPredictor (
         end
     end
 
-    // always @(*) begin
-    //     NextInstruction_reg <= PCPlus4F;
-    //     if (PC == BranchPC[PC[`BINDEX]] ) begin
-    //         if (Prediction[PC[`BINDEX]] == 2'b10 | Prediction[PC[`BINDEX]] == 2'b11) begin
-    //             NextInstruction_reg <= TargetPC[PC[`BINDEX]];
-    //             $display("BranchPredictor: predicting branch for PC = %h", PC);
-    //         end
-    //     end
-    // end
 
-    always @(posedge clk) begin
-        $display (".......................................");
-        $display ("BranchPredictor: BranchPC = %h", BranchPC[0]);
-        $display ("BranchPredictor: BranchPC = %h", BranchPC[1]);
-        $display ("BranchPredictor: BranchPC = %h", BranchPC[2]);
-        $display ("BranchPredictor: BranchPC = %h", BranchPC[3]);
-        $display (".......................................");
-        if (Prediction[PC[`BINDEX]] == 2'b11) begin
-            $display("BranchPredictor: Prediction = %b", Prediction[PC[`BINDEX]]);
-            $display("BranchPredictor: TargetPC = %b", TargetPC[PC[`BINDEX]]);
-        end else begin
-            $display("BranchPredictor: Prediction = %b", Prediction[PC[`BINDEX]]);
-            $display("BranchPredictor: PCPlus4F = %b", PCPlus4F);
-        end
-    end
     assign TakingBranch = ((Prediction[CurrentPC[`BINDEX]] == 2'b10 | Prediction[CurrentPC[`BINDEX]] == 2'b11) & Valid_reg[CurrentPC[`BINDEX]] & BranchPC[CurrentPC[`BINDEX]] == CurrentPC) ? 1 : 0;
     assign NextInstruction = TakingBranch ? TargetPC[CurrentPC[`BINDEX]] : PCPlus4F;
     assign taken = BranchE & ZeroE;
