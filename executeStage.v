@@ -19,7 +19,7 @@ module executeStage
    input RegWriteE, ALUSrcE, MemWriteE, JumpE, BranchE,
    input [1:0] ResultSrcE, ForwardAE, ForwardBE,
    input [2:0] ALUControlE,
-   input ByteAddressE, ReadEnableE,
+   input ByteAddressE, ReadEnableE, TakingBranchE,
 
    // hazard input
    input StallM,
@@ -34,11 +34,14 @@ module executeStage
    output [`WORD_SIZE-1:0] PCEToBranchPredictor,
    output BranchEToBranchPredictor,
    output ZeroE,
+   output wire [`WORD_SIZE-1:0] SavedPC,
+
 
    //hazard outputs
    output [4:0] Rs1EH, Rs2EH, RdEH,
    output ResultSrcEH,
-   output MulH
+   output MulH,
+   output wire BranchHazard
    );
 
    // Internal wires and registers.
@@ -148,6 +151,7 @@ module executeStage
       // $display("MulH = %4b", MulH);
    end
 
+         
    // Outputs.
    assign Rs1EH = Rs1E;
    assign Rs2EH = Rs2E;
@@ -166,4 +170,6 @@ module executeStage
    assign ReadEnableM = ReadEnableE_reg;
    assign PCEToBranchPredictor = PCE;
    assign BranchEToBranchPredictor = BranchE;
+   assign BranchHazard = (TakingBranchE & !ZeroE) ? 1'b1 : 1'b0;
+   assign SavedPC = BranchHazard ? PCPlus4E : 0;
 endmodule

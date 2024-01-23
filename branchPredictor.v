@@ -9,6 +9,8 @@ module branchPredictor (
     input ZeroE,
     input [`WORD_SIZE-1:0] PCTargetE,
     input wire [`WORD_SIZE-1:0] PCPlus4F,
+    input wire [`WORD_SIZE-1:0] SavedPC,
+    input resetBranch,
     output wire [`WORD_SIZE-1:0] NextInstruction,
     output wire TakingBranch
     );
@@ -17,6 +19,7 @@ module branchPredictor (
     reg [`WORD_SIZE-1:0] TargetPC [0:`BRANCH_PREDICTOR_NUM_LINES-1];
     reg [1:0] Prediction [0:`BRANCH_PREDICTOR_NUM_LINES-1];
     reg Valid_reg [0:`BRANCH_PREDICTOR_NUM_LINES-1];
+    wire [`WORD_SIZE-1:0] NextPC;
     wire taken;
 
     initial begin
@@ -79,7 +82,9 @@ module branchPredictor (
     end
 
 
+
     assign TakingBranch = ((Prediction[CurrentPC[`BINDEX]] == 2'b10 | Prediction[CurrentPC[`BINDEX]] == 2'b11) & Valid_reg[CurrentPC[`BINDEX]] & BranchPC[CurrentPC[`BINDEX]] == CurrentPC) ? 1 : 0;
-    assign NextInstruction = TakingBranch ? TargetPC[CurrentPC[`BINDEX]] : PCPlus4F;
+    assign NextPC = TakingBranch ? TargetPC[CurrentPC[`BINDEX]] : PCPlus4F;
+    assign NextInstruction = resetBranch ? SavedPC : NextPC;
     assign taken = BranchE & ZeroE;
 endmodule

@@ -56,4 +56,4 @@
 `define JAL_FUNCT7 7'b1101111
 
 `define PROGRAM_FILENAME "branchTest.txt"
-`define NUM_CYCLES 70
+`define NUM_CYCLES 100

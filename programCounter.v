@@ -20,7 +20,4 @@ module programCounter(
   end
       end
    assign PC = PC_reg;   
-
-
-
 endmodule

@@ -40,6 +40,7 @@ module processor (
    wire [2:0] ALUControlE;
    wire [`WORD_SIZE-1:0] PCEToBranchPredictor;
    wire ReadEnableE;
+   wire TakingBranchE;
    // hazard inputs
    wire [1:0] ForwardAE, ForwardBE;
    wire StallM;
@@ -48,6 +49,8 @@ module processor (
    wire   [4:0] RdEH, Rs1EH, Rs2EH;
    wire   ResultSrcEH;
    wire   MulH;
+   wire   BranchHazard;
+   wire [`WORD_SIZE-1:0] SavedPC;
    
    // Memory inputs.
    wire [`WORD_SIZE-1:0] ALUResultM, WriteDataM, PCPlus4M;
@@ -86,7 +89,9 @@ module processor (
 			 .BranchE(BranchEToBranchPredictor),
 			 .ZeroE(ZeroE),
 			 .PCEToBranchPredictor(PCEToBranchPredictor),
-		     
+		     .SavedPC(SavedPC),
+			 .resetBranch(BranchHazard),
+
 		     // standard outputs
 		     .InstrD(InstrD),
 		     .PCD(PCD),
@@ -129,6 +134,7 @@ module processor (
 		       .ALUControlE(ALUControlE),
 		       .ByteAddressE(ByteAddressE),
 		       .ReadEnableE(ReadEnableE),
+			   .TakingBranchE(TakingBranchE),
 		       // hazard outputs
 		       .Rs1DH(Rs1DH),
 		       .Rs2DH(Rs2DH)
@@ -159,10 +165,12 @@ module processor (
 			 .ALUControlE(ALUControlE),
 			 .ByteAddressE(ByteAddressE),
 			 .ReadEnableE(ReadEnableE),
+			 .TakingBranchE(TakingBranchE),
 			 //hazard inputs
 			 .ForwardAE(ForwardAE),
 			 .ForwardBE(ForwardBE),
 			 .StallM(StallM),
+			 .BranchHazard(BranchHazard),
 
 			 // standard outputs
 			 .ALUResultM(ALUResultM),
@@ -179,6 +187,7 @@ module processor (
 			 .ReadEnableM(ReadEnableM),
 			 .ZeroE(ZeroE),
 			 .PCEToBranchPredictor(PCEToBranchPredictor),
+			 .SavedPC(SavedPC),
 			 // hazard outputs
 			 .RdEH(RdEH),
 			 .Rs1EH(Rs1EH),
@@ -257,6 +266,7 @@ module processor (
 		      .dCacheStall(dCacheStall),
 		      .SBStall(SBStall),
 			  .TakingBranch(TakingBranch),
+			  .BranchHazard(BranchHazard),
 		      // standard outputs
 		      .StallF(StallF), 
 		      .StallD(StallD),

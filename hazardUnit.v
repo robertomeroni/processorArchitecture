@@ -16,6 +16,7 @@ module hazard_unit
    input dCacheStall,
    input SBStall,
    input TakingBranch,
+   input BranchHazard,
    output [1:0] ForwardAE, 
    output [1:0] ForwardBE,
    output StallF, 
@@ -23,7 +24,8 @@ module hazard_unit
    output StallE,
    output StallM,
    output FlushD,
-   output FlushE
+   output FlushE,
+   output wire resetBranch
    );
 
    wire lwStall;
@@ -43,7 +45,6 @@ module hazard_unit
    assign StallF  = (rst == 1'b1) ? 1'b0 : lwStall | Mul | dCacheStall | SBStall;
    assign StallE  = (rst == 1'b1) ? 1'b0 : Mul | dCacheStall | SBStall;
    assign StallM = (rst == 1'b1) ? 1'b0 : dCacheStall | SBStall;
-   assign FlushD = (rst == 1'b1) ? 1'b0 : PCSrcE | TakingBranch;
-   assign FlushE  = (rst == 1'b1) ? 1'b0 : lwStall | PCSrcE;
-      
+   assign FlushD = (rst == 1'b1) ? 1'b0 : PCSrcE | TakingBranch | BranchHazard;
+   assign FlushE  = (rst == 1'b1) ? 1'b0 : lwStall | PCSrcE | BranchHazard;
 endmodule

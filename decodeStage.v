@@ -13,6 +13,7 @@ module decodeStage
    // hazard input
    input  FlushE,
    input  StallE,
+   input TakingBranch,
 
    output [`WORD_SIZE-1:0] RD1E, RD2E, PCE,
    output [4:0] Rs1E, Rs2E, RdE,
@@ -22,6 +23,7 @@ module decodeStage
    output RegWriteE, MemWriteE, JumpE, BranchE, ALUSrcE,
    output [1:0] ResultSrcE,
    output [2:0] ALUControlE,
+   output TakingBranchE,
 
    output ByteAddressE, ReadEnableE,
    
@@ -46,6 +48,7 @@ module decodeStage
    reg RegWriteD_reg, MemWriteD_reg, JumpD_reg, BranchD_reg, ALUSrcD_reg;
    reg [1:0] ResultSrcD_reg;
    reg [2:0] ALUControlD_reg;
+   reg TakingBranch_reg;
 
    wire ByteAddress;
    reg ByteAddressD_reg;
@@ -107,8 +110,9 @@ module decodeStage
          ALUSrcD_reg <= 0;
          ResultSrcD_reg <= 0;
          ALUControlD_reg <= 0;
-	 ByteAddressD_reg <= 0;
-	 ReadEnableD_reg <= 0;
+	      ByteAddressD_reg <= 0;
+	      ReadEnableD_reg <= 0;
+         TakingBranch_reg <= 0;
       end else if (!StallE) begin
          RD1D_reg <= RD1;
          RD2D_reg <= RD2;
@@ -125,8 +129,9 @@ module decodeStage
          ALUSrcD_reg <= ALUSrcD;
          ResultSrcD_reg <= ResultSrcD;
          ALUControlD_reg <= ALUControlD;
-	 ByteAddressD_reg <= ByteAddress;
-	 ReadEnableD_reg <= ReadEnable;
+	      ByteAddressD_reg <= ByteAddress;
+	      ReadEnableD_reg <= ReadEnable;
+         TakingBranch_reg <= TakingBranch;
       end
       #2;
       $display("--- DECODE STAGE ---");
@@ -166,5 +171,6 @@ module decodeStage
    assign ALUControlE = ALUControlD_reg;
    assign ByteAddressE = ByteAddressD_reg;
    assign ReadEnableE = ReadEnableD_reg;
+   assign TakingBranchE = TakingBranch_reg;
 endmodule
 

@@ -15,6 +15,8 @@ module fetchStage
    input [`WORD_SIZE-1:0] PCTargetE,
    input [`WORD_SIZE-1:0] PCEToBranchPredictor,
    input ZeroE, BranchE,
+   input wire [`WORD_SIZE-1:0] SavedPC,
+   input wire resetBranch,
    
    // hazard inputs
    input StallF,
@@ -71,7 +73,9 @@ module fetchStage
                  .PCTargetE(PCTargetE),
                  .PCPlus4F(PCPlus4F),
                  .NextInstruction(BranchOut),
-                 .TakingBranch(TakingBranch)
+                 .TakingBranch(TakingBranch),
+                 .SavedPC(SavedPC),
+                   .resetBranch(resetBranch)
                  );
    
    // Instruction Cache.
