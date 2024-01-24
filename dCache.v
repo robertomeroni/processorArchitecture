@@ -8,9 +8,10 @@ module dCache(
               input [`CACHE_LINE_SIZE-1:0] MemLine,
               input MemReady,
               input ByteAddress,
+              input [`WORD_SIZE-1:0] CacheReadAddress,
               output [`WORD_SIZE-1:0] Value,
               output [`CACHE_LINE_SIZE-1:0] WriteLine,
-              output [`DTAG_SIZE+`INDEX_SIZE-1:0] AMem,
+              output [`WORD_SIZE-3:0] AMem,
               output MemRead, MemWrite,
               output CacheStall,
               output wire CacheReady            
@@ -51,13 +52,12 @@ module dCache(
         2'b00: begin
             Ready_reg <= 1'b0;
             if (ReadEnable == 1'b1) begin
-                if  (Valid_reg[Address[`DINDEX]] && Tag_reg[Address[`DINDEX]] == Address[`DTAG]) begin // hit
-                    if (ByteAddress) begin
-                        Value_reg <= Data_reg[Address[`DINDEX]][Address[`DOFFSET] * 32 +: 8]; // TODO: make it work, maybe use an offset in the instruction when you need a byte, do not change address structure 
-                    end else begin
-                        Value_reg <= Data_reg[Address[`DINDEX]][Address[`DOFFSET] * 32 +: 32]; 
-                    end
-                end else begin // miss
+                if  ((!Valid_reg[CacheReadAddress[`DINDEX]]) | Tag_reg[CacheReadAddress[`DINDEX]] != CacheReadAddress[`DTAG]) begin 
+                    // miss
+                    $display("dCache: Miss");
+                    $display("dCache: CacheReadAddress[`DTAG] = %h", CacheReadAddress[`DTAG]);
+                    $display("dCache: Tag_reg[%d] = %h", CacheReadAddress[`DINDEX], Tag_reg[CacheReadAddress[`DINDEX]]);
+                    $display("dCache: Valid_reg[%d] = %h", CacheReadAddress[`DINDEX], Valid_reg[CacheReadAddress[`DINDEX]]);
                     Stall <= 1'b1;
                     MemRead_reg <= 1'b1;
                     State <= 2'b01;
@@ -67,21 +67,21 @@ module dCache(
                     Data_reg [Address[`DINDEX]][Address[`DOFFSET] * 32 +: 32] <= WriteDataM;
                     Tag_reg [Address[`DINDEX]] <= Address[`DTAG];
                     Valid_reg [Address[`DINDEX]] <= 1'b1;
-                    $display("dCache: Wrote WriteDataM = %h into memory", WriteDataM);
+                    $display("dCache: Wrote WriteDataM = %h into the cache", WriteDataM);
                     Ready_reg <= 1'b1;
-                    end else begin
-                        Stall <= 1'b1;
-                        MemWrite_reg <= 1'b1;
-                        State <= 2'b10;
-                    end
+                end else begin
+                    Stall <= 1'b1;
+                    MemWrite_reg <= 1'b1;
+                    State <= 2'b10;
+                end
             end
         end
         // wait memory for read
         2'b01: begin
             if (MemReady) begin
-                Data_reg[Address[`DINDEX]] <= MemLine;
-                Tag_reg[Address[`DINDEX]] <= Address[`DTAG];
-                Valid_reg[Address[`DINDEX]] <= 1'b1;
+                Data_reg[CacheReadAddress[`DINDEX]] <= MemLine;
+                Tag_reg[CacheReadAddress[`DINDEX]] <= CacheReadAddress[`DTAG];
+                Valid_reg[CacheReadAddress[`DINDEX]] <= 1'b1;
 
                 Stall <= 1'b0;
                 State <= 2'b00;
@@ -102,13 +102,23 @@ module dCache(
         $display("Data_reg[1] = %h", Data_reg[1]);
         $display("Data_reg[2] = %h", Data_reg[2]);
         $display("Data_reg[3] = %h", Data_reg[3]);
+
+        $display("Tag_reg[0] = %h", Tag_reg[0]);
+        $display("Tag_reg[1] = %h", Tag_reg[1]);
+        $display("Tag_reg[2] = %h", Tag_reg[2]);
+        $display("Tag_reg[3] = %h", Tag_reg[3]);
+
+        $display("Valid_reg[0] = %h", Valid_reg[0]);
+        $display("Valid_reg[1] = %h", Valid_reg[1]);
+        $display("Valid_reg[2] = %h", Valid_reg[2]);
+        $display("Valid_reg[3] = %h", Valid_reg[3]);
    end
 
     
-    assign Value = Value_reg;
+    assign Value = Data_reg[CacheReadAddress[`DINDEX]][CacheReadAddress[`DOFFSET] * 32 +: 32];
     assign CacheStall = Stall == 1'b1;
-    assign AMem[`DTAG_SIZE+`INDEX_SIZE-1:`INDEX_SIZE] = Tag_reg[Address[`DINDEX]];
-    assign AMem[`INDEX_SIZE-1:0] = Address[`DINDEX];
+    assign AMem[`DTAG_SIZE+`INDEX_SIZE-1:`INDEX_SIZE] = ReadEnable ? Tag_reg[CacheReadAddress[`DINDEX]]: Address[`DTAG];
+    assign AMem[`INDEX_SIZE-1:0] = ReadEnable ? CacheReadAddress[`DINDEX] : Address[`DINDEX];
     assign WriteLine = Data_reg[Address[`DINDEX]];
     assign MemRead = MemRead_reg;
     assign MemWrite = MemWrite_reg;

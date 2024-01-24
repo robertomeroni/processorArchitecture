@@ -76,7 +76,8 @@ module memoryStage (
             .MemWrite(MemWrite),
 		      .Value(CacheRead),
 		      .CacheStall(CacheStall),
-            .CacheReady(dCacheReady)
+            .CacheReady(dCacheReady),
+            .CacheReadAddress(ALUResultM)
 		      );
 
    storeBuffer Store_Buffer (

@@ -32,7 +32,7 @@ module storeBuffer (
     initial begin
         F0 <= 0;
         Hit <= 0;
-        HitAddress <= 0;
+        HitAddress <= `STOREBUFFER_NUM_LINES;
         CacheWrite_reg <= 0;
         StoreBufferMiss <= 0;
         Stall <= 0;
@@ -58,69 +58,35 @@ module storeBuffer (
 
     always @(posedge clk) begin
             if (Enable) begin
-                HitAddress <= 0;
-                Hit <= 0;
-                StoreBufferMiss <= 0;
-                if (Address_in == Address_reg[0]) begin
-                // check if address is already in store buffer
-                    Hit = 1;
-                    HitAddress = 0;
-                    $display ("StoreBuffer: Hit = %d", Hit);
-                    $display ("StoreBuffer: HitAddress = %h", HitAddress);
-                    $display ("Write OP = %d", WriteOP);
-                end else if (Address_in == Address_reg[1]) begin
-                    Hit = 1;
-                    HitAddress = 1;
-                    $display ("StoreBuffer: Hit = %d", Hit);
-                    $display ("StoreBuffer: HitAddress = %h", HitAddress);
-                end else if (Address_in == Address_reg[2]) begin
-                    Hit = 1;
-                    HitAddress = 2;
-                    $display ("StoreBuffer: Hit = %d", Hit);
-                    $display ("StoreBuffer: HitAddress = %h", HitAddress);
-                end else if (Address_in == Address_reg[3]) begin
-                    Hit = 1;
-                    HitAddress = 3;
-                    $display ("StoreBuffer: Hit = %d", Hit);
-                    $display ("StoreBuffer: HitAddress = %h", HitAddress);
-                end
-                // read operation.
-                if (ReadOP == 1)
-                    if (Hit == 1) begin
-                        $display("StoreBuffer: Read hit, Address = %h", Address_in);
-                        StoreBufferMiss <= 0;
-                    end else begin
-                        $display("StoreBuffer: Read miss, Address = %h", Address_in);
-                        StoreBufferMiss <= 1;
-                end
+                
                 // write operation.
-                else if (WriteOP) begin
+                if (WriteOP) begin
                     if (Hit == 1) begin
-                        Data_reg[HitAddress] = Data_in;
-                        Address_reg[HitAddress] = Address_in;
-                        Valid_reg[HitAddress] = 1;
+                        Data_reg[HitAddress] <= Data_in;
+                        Address_reg[HitAddress] <= Address_in;
+                        Valid_reg[HitAddress] <= 1;
                     end else if (Valid_reg[0] == 0) begin
-                            Data_reg[0] = Data_in;
-                            Address_reg[0] = Address_in;
-                            Valid_reg[0] = 1;
+                            Data_reg[0] <= Data_in;
+                            Address_reg[0] <= Address_in;
+                            Valid_reg[0] <= 1;
                     end else if (Valid_reg[1] == 0) begin
-                            Data_reg[1] = Data_in;
-                            Address_reg[1] = Address_in;
-                            Valid_reg[1] = 1;
+                            Data_reg[1] <= Data_in;
+                            Address_reg[1] <= Address_in;
+                            Valid_reg[1] <= 1;
                         end else if (Valid_reg[2] == 0) begin
-                            Data_reg[2] = Data_in;
-                            Address_reg[2] = Address_in;
-                            Valid_reg[2] = 1;
+                            Data_reg[2] <= Data_in;
+                            Address_reg[2] <= Address_in;
+                            Valid_reg[2] <= 1;
                         end else if (Valid_reg[3] == 0) begin
-                            Data_reg[3] = Data_in;
-                            Address_reg[3] = Address_in;
-                            Valid_reg[3] = 1;
+                            Data_reg[3] <= Data_in;
+                            Address_reg[3] <= Address_in;
+                            Valid_reg[3] <= 1;
                         end
                     end
                     end
                 $display ("StoreBuffer: Data_in = %h", Data_in);
                 $display ("StoreBuffer: Address_in = %h", Address_in);
-                $display ("--------------------------------------");
+                $display ("......................................");
                 $display("StoreBuffer[0]: data = %h", Data_reg[0]);
                 $display("StoreBuffer[1]: data = %h", Data_reg[1]);
                 $display("StoreBuffer[2]: data = %h", Data_reg[2]);
@@ -129,6 +95,7 @@ module storeBuffer (
                 $display("StoreBuffer[1]: address = %h", Address_reg[1]);
                 $display("StoreBuffer[2]: address = %h", Address_reg[2]);
                 $display("StoreBuffer[3]: address = %h", Address_reg[3]);
+                $display ("......................................");
       end
 
       always @(posedge clk) begin
@@ -140,13 +107,49 @@ module storeBuffer (
             CacheWrite_reg <= 0;
         end
       end
-
-      always @(*) begin
-        if (FullSB) begin
-            Stall <= 1;
-            CacheWrite_reg <= 1;
+   
+   always @(*) begin
+    Hit=0;
+    if (Address_in == Address_reg[0]) begin
+                // check if address is already in store buffer
+                    Hit = 1;
+                    HitAddress = 0;
+                    $display ("StoreBuffer: Hit = %d", Hit);
+                    $display ("StoreBuffer: Hit at register = %d", HitAddress);
+                    $display ("Write OP = %d", WriteOP);
+                end else if (Address_in == Address_reg[1]) begin
+                    Hit = 1;
+                    HitAddress = 1;
+                    $display ("StoreBuffer: Hit = %d", Hit);
+                    $display ("StoreBuffer: Hit at register = %d", HitAddress);
+                end else if (Address_in == Address_reg[2]) begin
+                    Hit = 1;
+                    HitAddress = 2;
+                    $display ("StoreBuffer: Hit = %d", Hit);
+                    $display ("StoreBuffer: Hit at register = %d", HitAddress);
+                end else if (Address_in == Address_reg[3]) begin
+                    Hit = 1;
+                    HitAddress = 3;
+                    $display ("StoreBuffer: Hit = %d", Hit);
+                    $display ("StoreBuffer: Hit at register = %d", HitAddress);
+                end
+                // read operation.
+                if (ReadOP == 1)
+                    if (Hit == 1) begin
+                        $display("StoreBuffer: Read hit, Address = %h", Address_in);
+                        StoreBufferMiss = 0;
+                    end else begin
+                        $display("StoreBuffer: Read miss, Address = %h", Address_in);
+                        StoreBufferMiss = 1;
+                end
+   end
+    
+    always @(*) begin
+        if (FullSB & (~ReadOP)) begin
+            Stall = 1;
+            CacheWrite_reg = 1;
         end
-      end
+    end
 
 
                            

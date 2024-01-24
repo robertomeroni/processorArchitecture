@@ -2,7 +2,7 @@
 
 module dataMemory (
 		   input clk, rst,
-		   input [`WORD_SIZE-`INDEX_SIZE-1:0] Address,
+		   input [`WORD_SIZE-3:0] Address,
 		   input [`CACHE_LINE_SIZE-1:0] Line_in,
 		   input Read, Write,
 		   output Ready,
@@ -75,7 +75,7 @@ always @ ( posedge clk ) begin
 
 
 
-assign ILine = ((Address[`WORD_SIZE-1:0] >> 4) << 4);
+assign ILine = Address[`WORD_SIZE-3:0] << 2;
 assign Ready = Ready_reg;
-assign Line = {mem[ILine + 3], mem[ILine + 2], mem[ILine + 1], mem[ILine]};
+assign Line_out = mem[Address];
 endmodule
