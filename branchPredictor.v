@@ -43,11 +43,6 @@ module branchPredictor (
         BranchPC[1] = 0;
         BranchPC[2] = 0;
         BranchPC[3] = 0;
-        $display("BranchPredictor: Initialized");
-        $display("BranchPredictor: Prediction = %b", Prediction[0]);
-        $display("BranchPredictor: Prediction = %b", Prediction[1]);
-        $display("BranchPredictor: Prediction = %b", Prediction[2]);
-        $display("BranchPredictor: Prediction = %b", Prediction[3]);
     end
 
     always @(posedge clk) begin
@@ -55,16 +50,16 @@ module branchPredictor (
             $display("BranchPredictor: current Prediction = %b", Prediction[PC[`BINDEX]]);
             case (Prediction[PC[`BINDEX]])
                 2'b00: begin
-                    Prediction[PC[`BINDEX]] = (taken) ? 2'b01 : 2'b00;
+                    Prediction[PC[`BINDEX]] <= (taken) ? 2'b01 : 2'b00;
                 end
                 2'b01: begin
-                    Prediction[PC[`BINDEX]] = (taken) ? 2'b10 : 2'b00;
+                    Prediction[PC[`BINDEX]] <= (taken) ? 2'b10 : 2'b00;
                 end
                 2'b10: begin
-                    Prediction[PC[`BINDEX]] = (taken) ? 2'b11 : 2'b01;
+                    Prediction[PC[`BINDEX]] <= (taken) ? 2'b11 : 2'b01;
                 end
                 2'b11: begin
-                    Prediction[PC[`BINDEX]] = (taken) ? 2'b11 : 2'b10;
+                    Prediction[PC[`BINDEX]] <= (taken) ? 2'b11 : 2'b10;
                 end
             endcase
             $display("BranchPredictor: after Prediction = %b", Prediction[PC[`BINDEX]]);

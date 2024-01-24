@@ -62,11 +62,6 @@ module registerFile(
    end
 
 
-   always @ (posedge clk) begin
-      $display ("AAAAAAAAAAAAAAAA r[14] = %d", r[14]);
-   end
-   
-   
    // Assigning the output.
    assign RD1 = (rst) ? 0 : r[A1];
    assign RD2 = (rst) ? 0 : r[A2];

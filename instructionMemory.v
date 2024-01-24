@@ -10,7 +10,7 @@ module instructionMemory(
 
    reg [`WORD_SIZE-1:0] Memory_reg [0:`INSTR_MEM_SIZE-1];
    reg [`CACHE_LINE_SIZE-1:0] Line_reg;
-   reg F0, F1, F2, F3, F4;
+   reg F0, F1, F2, F3, F4, F5, F6, F7, F8;
    reg Ready_reg; 
 
    wire [`WORD_SIZE-3:0] PCLine;
@@ -23,6 +23,11 @@ module instructionMemory(
       F2 = 1'b0;
       F3 = 1'b0;
       F4 = 1'b0;
+      F5 = 1'b0;
+      F6 = 1'b0;
+      F7 = 1'b0;
+      F8 = 1'b0;
+      Line_reg = 0;
       $readmemh(`PROGRAM_FILENAME, Memory_reg);
    end
 
@@ -39,13 +44,23 @@ if (Read) begin
       F1 <= F0;
       F2 <= F1;
       F3 <= F2;
-      Ready_reg <= F3;
+      F4 <= F3;
+      F5 <= F4;
+      F6 <= F5;
+      F7 <= F6;
+      F8 <= F7;
+      Ready_reg <= F8;
    end
    else begin
       F0 <= 1'b0;
       F1 <= 1'b0;
       F2 <= 1'b0;
       F3 <= 1'b0;
+      F4 <= 1'b0;
+      F5 <= 1'b0;
+      F6 <= 1'b0;
+      F7 <= 1'b0;
+      F8 <= 1'b0;
       Ready_reg <= 1'b0;
    end
 end
