@@ -39,6 +39,7 @@ module fetchStage
    wire PCStall;
    wire [`WORD_SIZE-1:0] BranchOut;
    wire TakingBranchF;
+   wire iCacheStall;
 
    // Registers.
    reg [`WORD_SIZE-1:0] InstrF_reg;
