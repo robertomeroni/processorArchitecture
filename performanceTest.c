@@ -1,20 +1,20 @@
 /* Type your code here, or load an example. */
-void buffer_sum()
-{
-     int a[128], sum = 0;
-     int i;
-     for (i=0; i<128; i++) { sum += a[i]; }
-}
+/* void _start() */
+/* { */
+/*      int a[128], sum = 0; */
+/*      int i; */
+/*      for (i=0; i<128; i++) { sum += a[i]; } */
+/* } */
 
-void mem_copy()
-{
-     int a[128], b[128];
-     int i;
-     for (i=0; i<128; i++) { a[i] = 5; }
-     for (i=0; i<128; i++) { b[i] = a[i]; }
-}
+/* void _start() */
+/* { */
+/*      int a[128], b[128]; */
+/*      int i; */
+/*      for (i=0; i<128; i++) { a[i] = 5; } */
+/*      for (i=0; i<128; i++) { b[i] = a[i]; } */
+/* } */
 
-void matrix_multiply()
+void _start()
 {
      int a[128][128], b[128][128], c[128][128];
      int i, j, k;

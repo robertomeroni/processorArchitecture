@@ -51,6 +51,7 @@ module decodeStage
    reg TakingBranch_reg;
 
    wire ByteAddress;
+   wire ReadEnable;
    reg ByteAddressD_reg;
    reg ReadEnableD_reg;
 
