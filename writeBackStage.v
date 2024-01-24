@@ -33,9 +33,9 @@ module writeBackStage (
    always @ ( posedge clk or posedge rst ) begin
       #5;
       $display("--- WRITEBACK STAGE ---");
-      // $display("ALUResultW = %32b", ALUResultW);
-      // $display("ResultSrcW = %2b", ResultSrcW);
-      // $display("RdW = %5b", RdW);
+      $display("ALUResultW = %32b", ALUResultW);
+      $display("ResultSrcW = %2b", ResultSrcW);
+      $display("RdW = %5b", RdW);
       $display("ResultW = %32b", ResultW);
    end
 

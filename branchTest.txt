@@ -1022,26 +1022,53 @@
 00000000
 00000000
 00000000
-00500093 // addi x1, x0, 5
-00400113 // addi x2, x0, 4
-ff708193 // addi x3, x1, -9
-fe200ae3 // beq x0, x2, begin // not taken first time, but the second yes
-04312c23 // sw x3, 88(x2)
-ff800113
-00020463
-05812203 // lw x4, 88(x2)
-fe0002e3 // beq x0, x0, begin // always taken
-00020463
-00020463
-00020463
-00020463
-00020463
+001c8c93
+06400513
+00a02523
+00300193
+003c8e63
+00210113
+00210113
+00210113
+00210113
+fc000ee3
+00a02a83
+015a0a63
+00108093
+00108093
+00108093
+00108093
+00000063
+001c8c93
+001c8c93
+001c8c93
 
-00500093
-00400113
-ff708193
-fe200ae3
-04312c23
-ff800113
-05812203
-fe0002e3
+
+
+
+
+
+
+
+
+
+// begin: addi x25,x25,1
+// addi x10,x0,100
+// sw x10, 10(x0)
+// addi x3,x0,3
+// beq x25,x3,first  SHOULD NOT BE TAKEN FIRST TIMES
+// addi x2,x2,2
+// addi x2,x2,2
+// addi x2,x2,2
+// addi x2,x2,2
+// beq x0,x0, begin  ALWAYS TAKEN
+// lw x21, 10(x0)    SHOULD BE NEVER EXECUTED
+// first: beq x20,x21, loop
+// addi x1,x1,1
+// addi x1,x1,1
+// addi x1,x1,1
+// addi x1,x1,1
+// loop: beq x0, x0, loop FIRST TIME PREDICT NO, THAN LOOP
+addi x25,x25,1
+addi x25,x25,1
+addi x25,x25,1

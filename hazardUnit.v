@@ -17,6 +17,7 @@ module hazard_unit
    input SBStall,
    input TakingBranch,
    input BranchHazard,
+   input BranchTakenCorrectly,
    output [1:0] ForwardAE, 
    output [1:0] ForwardBE,
    output StallF, 
@@ -25,6 +26,7 @@ module hazard_unit
    output StallM,
    output FlushD,
    output FlushE,
+   output FlushM,
    output wire resetBranch
    );
 
@@ -32,12 +34,12 @@ module hazard_unit
 
    // forwarding to solve RAW hazard
    assign ForwardAE = (rst == 1'b1) ? 2'b00 : 
-		      ((RegWriteM == 1'b1) & (RdM != 5'h00) & (RdM == Rs1E)) ? 2'b10 :
-		      ((RegWriteW == 1'b1) & (RdW != 5'h00) & (RdW == Rs1E)) ? 2'b01 : 2'b00;
+		      ((RegWriteM == 1'b1) & (RdM != 5'b00) & (RdM == Rs1E)) ? 2'b10 :
+		      ((RegWriteW == 1'b1) & (RdW != 5'b00) & (RdW == Rs1E)) ? 2'b01 : 2'b00;
    
    assign ForwardBE = (rst == 1'b1) ? 2'b00 : 
-		      ((RegWriteM == 1'b1) & (RdM != 5'h00) & (RdM == Rs2E)) ? 2'b10 :
-		      ((RegWriteW == 1'b1) & (RdW != 5'h00) & (RdW == Rs2E)) ? 2'b01 : 2'b00;
+		      ((RegWriteM == 1'b1) & (RdM != 5'b00) & (RdM == Rs2E)) ? 2'b10 :
+		      ((RegWriteW == 1'b1) & (RdW != 5'b00) & (RdW == Rs2E)) ? 2'b01 : 2'b00;
 
    // stall to deal with data hazard
    assign lwStall = (rst == 1'b1) ? 1'b0 :  ResultSrcE0 & ((Rs1D == RdE) | (Rs2D == RdE));
@@ -45,6 +47,6 @@ module hazard_unit
    assign StallF  = (rst == 1'b1) ? 1'b0 : lwStall | Mul | dCacheStall | SBStall;
    assign StallE  = (rst == 1'b1) ? 1'b0 : Mul | dCacheStall | SBStall;
    assign StallM = (rst == 1'b1) ? 1'b0 : dCacheStall | SBStall;
-   assign FlushD = (rst == 1'b1) ? 1'b0 : PCSrcE | TakingBranch | BranchHazard;
+   assign FlushD = (rst == 1'b1) ? 1'b0 : PCSrcE | BranchHazard;
    assign FlushE  = (rst == 1'b1) ? 1'b0 : lwStall | PCSrcE | BranchHazard;
 endmodule

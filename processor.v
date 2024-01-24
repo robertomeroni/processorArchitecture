@@ -44,12 +44,14 @@ module processor (
    // hazard inputs
    wire [1:0] ForwardAE, ForwardBE;
    wire StallM;
+   wire FlushM;
    
    // hazard outputs
    wire   [4:0] RdEH, Rs1EH, Rs2EH;
    wire   ResultSrcEH;
    wire   MulH;
    wire   BranchHazard;
+   wire   BranchTakenCorrectly;
    wire [`WORD_SIZE-1:0] SavedPC;
    
    // Memory inputs.
@@ -171,6 +173,7 @@ module processor (
 			 .ForwardBE(ForwardBE),
 			 .StallM(StallM),
 			 .BranchHazard(BranchHazard),
+			 .FlushM(FlushM),
 
 			 // standard outputs
 			 .ALUResultM(ALUResultM),
@@ -193,7 +196,8 @@ module processor (
 			 .Rs1EH(Rs1EH),
 			 .Rs2EH(Rs2EH),
 			 .ResultSrcEH(ResultSrcEH),
-			 .MulH(MulH)
+			 .MulH(MulH),
+			 .BranchTakenCorrectly(BranchTakenCorrectly)
 			 );
 
    // Memory Stage.
@@ -267,6 +271,7 @@ module processor (
 		      .SBStall(SBStall),
 			  .TakingBranch(TakingBranch),
 			  .BranchHazard(BranchHazard),
+			  .BranchTakenCorrectly(BranchTakenCorrectly),
 		      // standard outputs
 		      .StallF(StallF), 
 		      .StallD(StallD),
@@ -274,6 +279,7 @@ module processor (
 		      .StallM(StallM),
 		      .FlushD(FlushD),
 		      .FlushE(FlushE),
+			  .FlushM(FlushM),
 		      .ForwardAE(ForwardAE),
 		      .ForwardBE(ForwardBE)
 		      );

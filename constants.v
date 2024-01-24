@@ -55,5 +55,5 @@
 `define ITYPE_FUNCT7 7'b0010011
 `define JAL_FUNCT7 7'b1101111
 
-`define PROGRAM_FILENAME "mem_copy.txt"
+`define PROGRAM_FILENAME "branchTest.txt"
 `define NUM_CYCLES 250

@@ -22,7 +22,7 @@ module executeStage
    input ByteAddressE, ReadEnableE, TakingBranchE,
 
    // hazard input
-   input StallM,
+   input StallM, FlushM,
 
    output [`WORD_SIZE-1:0] ALUResultM, WriteDataM, PCPlus4M, PCTargetE,
    output [4:0] RdM,
@@ -37,11 +37,12 @@ module executeStage
    output wire [`WORD_SIZE-1:0] SavedPC,
 
 
+
    //hazard outputs
    output [4:0] Rs1EH, Rs2EH, RdEH,
    output ResultSrcEH,
    output MulH,
-   output wire BranchHazard
+   output wire BranchHazard, BranchTakenCorrectly
    );
 
    // Internal wires and registers.
@@ -108,7 +109,7 @@ module executeStage
 
    // Behavior.
    always @(posedge clk or posedge rst) begin
-      if(rst) begin
+      if(rst | FlushM) begin
          ALUResultE_reg <= 0;
          WriteDataE_reg <= 0;
          PCPlus4E_reg <= 0;
@@ -165,11 +166,12 @@ module executeStage
    assign RegWriteM = RegWriteE_reg;
    assign MemWriteM = MemWriteE_reg;
    assign ResultSrcM = ResultSrcE_reg;
-   assign PCSrcE = (ZeroE & BranchE) | JumpE;
+   assign PCSrcE = ((ZeroE & BranchE) | JumpE) & !TakingBranchE; 
    assign ByteAddressM = ByteAddressE_reg;
    assign ReadEnableM = ReadEnableE_reg;
    assign PCEToBranchPredictor = PCE;
    assign BranchEToBranchPredictor = BranchE;
    assign BranchHazard = (TakingBranchE & !ZeroE) ? 1'b1 : 1'b0;
    assign SavedPC = BranchHazard ? PCPlus4E : 0;
+   assign BranchTakenCorrectly = (TakingBranchE & ZeroE) ? 1'b1 : 1'b0;
 endmodule

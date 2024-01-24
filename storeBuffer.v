@@ -58,7 +58,6 @@ module storeBuffer (
 
     always @(posedge clk) begin
             if (Enable) begin
-                
                 // write operation.
                 if (WriteOP) begin
                     if (Hit == 1) begin
@@ -83,7 +82,7 @@ module storeBuffer (
                             Valid_reg[3] <= 1;
                         end
                     end
-                    end
+                end
                 $display ("StoreBuffer: Data_in = %h", Data_in);
                 $display ("StoreBuffer: Address_in = %h", Address_in);
                 $display ("......................................");
@@ -114,24 +113,15 @@ module storeBuffer (
                 // check if address is already in store buffer
                     Hit = 1;
                     HitAddress = 0;
-                    $display ("StoreBuffer: Hit = %d", Hit);
-                    $display ("StoreBuffer: Hit at register = %d", HitAddress);
-                    $display ("Write OP = %d", WriteOP);
                 end else if (Address_in == Address_reg[1]) begin
                     Hit = 1;
                     HitAddress = 1;
-                    $display ("StoreBuffer: Hit = %d", Hit);
-                    $display ("StoreBuffer: Hit at register = %d", HitAddress);
                 end else if (Address_in == Address_reg[2]) begin
                     Hit = 1;
                     HitAddress = 2;
-                    $display ("StoreBuffer: Hit = %d", Hit);
-                    $display ("StoreBuffer: Hit at register = %d", HitAddress);
                 end else if (Address_in == Address_reg[3]) begin
                     Hit = 1;
                     HitAddress = 3;
-                    $display ("StoreBuffer: Hit = %d", Hit);
-                    $display ("StoreBuffer: Hit at register = %d", HitAddress);
                 end
                 // read operation.
                 if (ReadOP == 1)

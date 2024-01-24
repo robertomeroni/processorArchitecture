@@ -27,7 +27,7 @@ module fetchStage
    output [`WORD_SIZE-1:0] InstrD,
    output [`WORD_SIZE-1:0] PCD,
    output [`WORD_SIZE-1:0] PCPlus4D,
-   output TakingBranchD
+   output wire TakingBranchD
    );
 
    // Internal signals.
