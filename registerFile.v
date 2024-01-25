@@ -66,7 +66,5 @@ module registerFile(
    assign RD1 = (rst) ? 0 : r[A1];
    assign RD2 = (rst) ? 0 : r[A2];
 
-
-   // TODO: implementation of special registers 
 endmodule
 

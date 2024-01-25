@@ -77,7 +77,7 @@ module fetchStage
                  .NextInstruction(BranchOut),
                  .TakingBranch(TakingBranchF),
                  .SavedPC(SavedPC),
-                   .resetBranch(resetBranch)
+                 .resetBranch(resetBranch)
                  );
    
    // Instruction Cache.

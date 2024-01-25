@@ -46,6 +46,8 @@
 `define OR_FUNCT3  3'b011
 `define MUL_FUNCT3 3'b100
 `define SLT_FUNCT3 3'b101
+`define SLL_FUNCT3 3'b110
+`define SGT_FUNCT3 3'b111
 
 // funct7 operational codes.
 `define LOAD_FUNCT7 7'b0000011
@@ -55,8 +57,5 @@
 `define ITYPE_FUNCT7 7'b0010011
 `define JAL_FUNCT7 7'b1101111
 
-`define PROGRAM_FILENAME "store_test.txt"
-`define NUM_CYCLES 120
-
-
-
+`define PROGRAM_FILENAME "branchTest.txt"
+`define NUM_CYCLES 100

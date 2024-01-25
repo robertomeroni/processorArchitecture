@@ -126,5 +126,3 @@ module dCache(
 
 endmodule
 
-// TODO cache eviction
-// TODO load byte and store byte

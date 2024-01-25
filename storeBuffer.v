@@ -29,6 +29,7 @@ module storeBuffer (
     reg [`STOREBUFFER_NUM_LINES-1:0] Valid_reg;
     reg F0;
 
+    // initialization.
     initial begin
         F0 <= 0;
         Hit <= 0;
@@ -52,7 +53,6 @@ module storeBuffer (
         Address_reg[2] = 0;
         Address_reg[3] = 0;
     end
-
   
 
 
@@ -107,32 +107,32 @@ module storeBuffer (
         end
       end
    
-   always @(*) begin
-    Hit=0;
-    if (Address_in == Address_reg[0]) begin
-                // check if address is already in store buffer
-                    Hit = 1;
-                    HitAddress = 0;
-                end else if (Address_in == Address_reg[1]) begin
-                    Hit = 1;
-                    HitAddress = 1;
-                end else if (Address_in == Address_reg[2]) begin
-                    Hit = 1;
-                    HitAddress = 2;
-                end else if (Address_in == Address_reg[3]) begin
-                    Hit = 1;
-                    HitAddress = 3;
-                end
-                // read operation.
-                if (ReadOP == 1)
-                    if (Hit == 1) begin
-                        $display("StoreBuffer: Read hit, Address = %h", Address_in);
-                        StoreBufferMiss = 0;
-                    end else begin
-                        $display("StoreBuffer: Read miss, Address = %h", Address_in);
-                        StoreBufferMiss = 1;
-                end
-   end
+    always @(*) begin
+        Hit=0;
+        if (Address_in == Address_reg[0]) begin
+            // check if address is already in store buffer
+                Hit = 1;
+                HitAddress = 0;
+            end else if (Address_in == Address_reg[1]) begin
+                Hit = 1;
+                HitAddress = 1;
+            end else if (Address_in == Address_reg[2]) begin
+                Hit = 1;
+                HitAddress = 2;
+            end else if (Address_in == Address_reg[3]) begin
+                Hit = 1;
+                HitAddress = 3;
+            end
+            // read operation.
+            if (ReadOP == 1)
+                if (Hit == 1) begin
+                    $display("StoreBuffer: Read hit, Address = %h", Address_in);
+                    StoreBufferMiss = 0;
+                end else begin
+                    $display("StoreBuffer: Read miss, Address = %h", Address_in);
+                    StoreBufferMiss = 1;
+            end
+        end
     
     always @(*) begin
         if (FullSB & (~ReadOP)) begin
@@ -141,17 +141,13 @@ module storeBuffer (
         end
     end
 
-
-                           
-      
-    
     assign Data_out = Stall ? Data_reg[3] : Data_reg[HitAddress];
     assign Address_out = Stall ? Address_reg[3] : Address_reg[HitAddress];
     assign FullSB = Valid_reg[0] & Valid_reg[1] & Valid_reg[2] & Valid_reg[3];
     assign SBStall = Stall;
     assign CacheWrite = CacheWrite_reg;
+
 endmodule
 
-// TODO: add LoadByte and StoreByte support
           
                     
