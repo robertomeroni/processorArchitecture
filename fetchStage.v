@@ -135,6 +135,7 @@ module fetchStage
       $display("PC = %h", PCF_reg);
       // $display("PCSrcE = %32b", PCSrcE);
       $display("InstrD = %8h", InstrD);
+      $display("--------------------");
    end
 
    // Trasmitting the values to the output ports.

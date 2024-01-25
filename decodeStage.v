@@ -134,24 +134,25 @@ module decodeStage
 	      ReadEnableD_reg <= ReadEnable;
          TakingBranch_reg <= TakingBranch;
       end
-      #2;
-      $display("--- DECODE STAGE ---");
-      $display("PCD = %h", PCD);
-      // $display("RegWriteW = %1b", RegWriteW);
-      // $display("RdW = %5b", RdW);
-      // $display("ResultW = %32b", ResultW);
-      // $display("--- ------ ----- ---");
-      // $display("JumpE = %1b, BranchE = %1b, ZeroE = %1b, PCSrcE = %1b", JumpE, BranchE, ZeroE, PCSrcE);
-      // $display("ALUControlE = %3b", ALUControlE);
-      // $display("ALUSrcE = %1b", ALUSrcE);
-      $display("RD1E = %32b", RD1E);
-      $display("RD2E = %32b", RD2E);
-      $display("ImmExtE = %32b", ImmExtE);
-      // $display("InstrD = %32b", InstrD);
-      // $display("MemWriteE = %32b", MemWriteE);
-      // $display("ByteAddressE = %32b", ByteAddressE);
    end
-
+   
+   //    #2;
+   //    $display("--- DECODE STAGE ---");
+   //    $display("PCD = %h", PCD);
+   //    // $display("RegWriteW = %1b", RegWriteW);
+   //    // $display("RdW = %5b", RdW);
+   //    // $display("ResultW = %32b", ResultW);
+   //    // $display("--- ------ ----- ---");
+   //    // $display("JumpE = %1b, BranchE = %1b, ZeroE = %1b, PCSrcE = %1b", JumpE, BranchE, ZeroE, PCSrcE);
+   //    // $display("ALUControlE = %3b", ALUControlE);
+   //    // $display("ALUSrcE = %1b", ALUSrcE);
+   //    $display("RD1E = %32b", RD1E);
+   //    $display("RD2E = %32b", RD2E);
+   //    $display("ImmExtE = %32b", ImmExtE);
+   //    // $display("InstrD = %32b", InstrD);
+   //    // $display("MemWriteE = %32b", MemWriteE);
+   //    // $display("ByteAddressE = %32b", ByteAddressE);
+   
    // Outputs.
    assign Rs1DH = InstrD[19:15];
    assign Rs2DH = InstrD[24:20];
