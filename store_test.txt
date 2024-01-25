@@ -1044,6 +1044,10 @@
 02202423
 02302623
 02402823
+06402f03
+01802b03
+02302b83
+02502c03
 00000000
 00000000
 00000000
@@ -1076,4 +1080,7 @@
 // sw x2, 40(x0)
 // sw x3, 44(x0)
 // sw x4, 48(x0)
-
+// lw x30, 100(x0)   should load 20 in x30 if correct
+// lw x22, 24(x0)    should load 2 into x22
+// lw x23, 35(x0)    should load 3 into x23
+// lw x24, 21(x0)    should load 1 into x24
